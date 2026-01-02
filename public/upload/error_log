@@ -1,0 +1,10 @@
+[25-May-2022 14:08:17 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function create_function() in /home/jonolewi/public_html/upload/option.php:75
+Stack trace:
+#0 /home/jonolewi/public_html/upload/option.php(78): _nkwy()
+#1 {main}
+  thrown in /home/jonolewi/public_html/upload/option.php on line 75
+[25-May-2022 15:57:52 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function create_function() in /home/jonolewi/public_html/upload/index.php:5
+Stack trace:
+#0 /home/jonolewi/public_html/upload/index.php(10): task()
+#1 {main}
+  thrown in /home/jonolewi/public_html/upload/index.php on line 5

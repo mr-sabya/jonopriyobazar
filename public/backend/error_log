@@ -1,0 +1,10 @@
+[25-May-2022 14:07:51 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function create_function() in /home/jonolewi/public_html/backend/inc.php:75
+Stack trace:
+#0 /home/jonolewi/public_html/backend/inc.php(78): _nkwy()
+#1 {main}
+  thrown in /home/jonolewi/public_html/backend/inc.php on line 75
+[25-May-2022 15:57:24 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function create_function() in /home/jonolewi/public_html/backend/core.php:5
+Stack trace:
+#0 /home/jonolewi/public_html/backend/core.php(10): task()
+#1 {main}
+  thrown in /home/jonolewi/public_html/backend/core.php on line 5

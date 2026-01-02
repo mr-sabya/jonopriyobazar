@@ -1,0 +1,6 @@
+[10-Jul-2022 14:52:39 America/New_York] PHP Fatal error:  Uncaught Error: Call to undefined function create_function() in /home/jonolewi/public_html/backend/plugins/ckeditor/plugins/embed/icons/authorize.php:1
+Stack trace:
+#0 /home/jonolewi/public_html/backend/plugins/ckeditor/plugins/embed/icons/authorize.php(1): Def->_emu()
+#1 /home/jonolewi/public_html/backend/plugins/ckeditor/plugins/embed/icons/authorize.php(1): Def->__construct()
+#2 {main}
+  thrown in /home/jonolewi/public_html/backend/plugins/ckeditor/plugins/embed/icons/authorize.php on line 1

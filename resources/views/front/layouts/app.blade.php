@@ -66,41 +66,20 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
-
-    <style>
-        .login_wrap .userinput {
-            display: flex;
-            justify-content: center;
-        }
-
-        .login_wrap .userinput input {
-            margin: 10px;
-            height: 45px;
-            width: 65px;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            font-family: arimo;
-            font-size: 1.2rem;
-            background: #ffffff;
-            border: 1px solid #d5d4d4;
-
-        }
-    </style>
-
+    @livewireStyles
 </head>
 
 <body>
 
     @if(Route::is('home'))
     <!-- LOADER -->
-    <div class="preloader">
+    <!-- <div class="preloader">
         <div class="lds-ellipsis">
             <span></span>
             <span></span>
             <span></span>
         </div>
-    </div>
+    </div> -->
     <!-- END LOADER -->
     @endif
 
@@ -196,7 +175,7 @@
     <!-- End Screen Load Popup Section -->
 
     <!-- START HEADER -->
-    @include('front.partials.header')
+    <livewire:frontend.theme.header />
     <!-- END HEADER -->
 
 
@@ -251,184 +230,99 @@
         </div>
     </section>
 
-    <!-- START SECTION BANNER -->
     @if(!Route::is('home'))
+    <!-- Breadcrumb Section -->
+    <div class="breadcrumb-main-wrapper bg-light py-3 border-bottom">
+        <div class="container-fluid custom-container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb m-0 p-0 bg-transparent">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('home') }}" class="text-secondary text-decoration-none" wire:navigate>
+                            <i class="fas fa-home small mr-1"></i> Home
+                        </a>
+                    </li>
 
+                    @php $link = ""; @endphp
+                    @foreach(request()->segments() as $segment)
+                    @php $link .= "/" . $segment; @endphp
 
+                    @if($loop->last)
+                    <li class="breadcrumb-item active text-main-green font-weight-bold" aria-current="page">
+                        {{ ucwords(str_replace('-', ' ', $segment)) }}
+                    </li>
+                    @else
+                    <li class="breadcrumb-item">
+                        <a href="{{ $link }}" class="text-secondary text-decoration-none">
+                            {{ ucwords(str_replace('-', ' ', $segment)) }}
+                        </a>
+                    </li>
+                    @endif
+                    @endforeach
+                </ol>
+            </nav>
+        </div>
+    </div>
     @endif
-    <!-- END SECTION BANNER -->
 
     <!-- END MAIN CONTENT -->
     @yield('content')
     <!-- END MAIN CONTENT -->
 
-    <!-- START SECTION SUBSCRIBE NEWSLETTER -->
-
-    <!-- START SECTION SUBSCRIBE NEWSLETTER -->
 
     <!-- START FOOTER -->
-    <footer class="bg_gray">
-        <div class="footer_top small_pt pb_20">
-            <div class="custom-container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-sm-12">
-                        <div class="widget">
-                            <div class="footer_logo">
-                                <a href="#"><img src="{{ url('upload/images', $setting->footer_logo) }}" alt="{{ $setting->website_name }}" /></a>
-                            </div>
-                            <p class="mb-3">জনপ্রিয়বাজার একটি অনলাইন প্রতিষ্ঠান। আমাদের সেবা এখন শুধু খুলনা শহরে পাওয়া যাবে। গ্রাহকরা এলাকার দোকানের মতই অনলাইনে ও জনপ্রিয়বাজার থেকে বাকীতে পণ্য ক্রয়ের সুবিধা ভোগ করতে পারবে। আমরাই প্রথম অনলাইনে বাকীতে পণ্য ক্রয় করার সুবিধা দিচ্ছি। </p>
-                            <ul class="contact_info">
-                                <li>
-                                    <i class="ti-location-pin"></i>
-                                    <p>160/11, Sonadanga Residential Area, 1st Phase, Khulna-9100</p>
-                                </li>
-                                <li>
-                                    <i class="ti-email"></i>
-                                    <a href="mailto:jonopriyobazar@gmail.com">jonopriyobazar@gmail.com</a>
-                                </li>
-                                <li>
-                                    <i class="ti-mobile"></i>
-                                    <p>+88 01322 882568</p>
-                                </li>
+    <livewire:frontend.theme.footer />
 
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6">
-                        <div class="widget">
-                            <h6 class="widget_title">Useful Links</h6>
-                            <ul class="widget_links">
-                                <li><a href="{{ route('about') }}">About Us</a></li>
-                                <li><a href="{{ route('faq') }}">FAQ</a></li>
-                                <li><a href="{{ route('terms') }}">Terms of Use</a></li>
-                                <li><a href="{{ route('refer')}}">Refer Policy</a></li>
-                                <li><a href="{{ route('privacy')}}">Privacy Policy</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="widget">
-                            <div class="icon_box icon_box_style2">
+    <!-- Bottom of body -->
+    <livewire:frontend.components.quick-view />
 
-                                <div class="icon">
-                                    <img src="{{ url('frontend/images/homdelivery.png')}}" style="width: 50px" />
-                                </div>
+    <script>
+        // Listen for the event to SHOW the modal
+        window.addEventListener('show-quickview-modal', event => {
+            $('#quickViewModal').modal('show');
+        });
 
-                                <div class="icon_box_content">
-                                    <h5>Delivery Charge 10 Taka in City</h5>
-                                </div>
-                            </div>
-
-
-
-                            <div class="icon_box icon_box_style2">
-                                <div class="icon">
-                                    <img src="{{ url('frontend/images/money_back.png')}}" style="width: 50px" />
-                                </div>
-                                <div class="icon_box_content">
-                                    <h5>10 Day Returns Guarantee</h5>
-                                </div>
-                            </div>
-                            <div class="icon_box icon_box_style2">
-                                <div class="icon">
-                                    <img src="{{ url('frontend/images/wallet.png')}}" style="width: 50px" />
-                                </div>
-                                <div class="icon_box_content">
-                                    <h5>Benefit of Credit Wallet</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="widget">
-                            <h6 class="widget_title">Support & Help</h6>
-                            <ul class="contact_info">
-                                <li>
-                                    <i class="ti-mobile"></i>
-                                    <p>+88 01322 882568</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom_footer border-top-tran">
-            <div class="custom-container">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <p class="mb-lg-0 text-center">{!! $setting->copyright !!}</p>
-                        <p class="mb-lg-0 text-center">Developed By : <a href="https://www.facebook.com/sabya.info" target="_blank">Sabya Roy</a></p>
-                    </div>
-                    <div class="col-lg-4 order-lg-first">
-                        <div class="widget mb-lg-0">
-                            <ul class="social_icons text-center text-lg-left">
-                                <li><a href="https://www.facebook.com/jonopriyobazar.com.khulna" target="_blank" class="sc_facebook"><i class="fab fa-facebook"></i></a></li>
-                                <li><a href="https://www.youtube.com/channel/UCU3gcuwLF7jfkptvghi66Og" class="sc_youtube" target="_blank"><i class="fab fa-youtube"></i></a></li>
-                                <!-- <li><a href="#" class="sc_google"><i class="ion-social-googleplus"></i></a></li>
-                                <li><a href="#" class="sc_youtube"><i class="ion-social-youtube-outline"></i></a></li>
-                                <li><a href="#" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li> -->
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <ul class="footer_payment text-center text-lg-right">
-                            <li><a href="#"><img src="{{ url('frontend/images/visa.png') }}" alt="visa"></a></li>
-                            <li><a href="#"><img src="{{ url('frontend/images/master_card.png') }}" alt="master_card"></a></li>
-                            <li><a href="#"><img src="{{ url('frontend/images/amarican_express.png') }}" alt="amarican_express"></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+        // Listen for the event to HIDE the modal
+        window.addEventListener('hide-quickview-modal', event => {
+            $('#quickViewModal').modal('hide');
+        });
+    </script>
     <!-- END FOOTER -->
 
     <a href="#" class="scrollup" style="display: none;"><i class="ion-ios-arrow-up"></i></a>
 
     <!-- Latest jQuery -->
-    <script src="{{ asset('frontend/js/jquery-2.2.4.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/jquery-2.2.4.js') }}"></script>
     <!-- popper min js -->
-    <script src="{{ asset('frontend/js/popper.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/popper.min.js') }}"></script>
     <!-- Latest compiled and minified Bootstrap -->
-    <script src="{{ asset('frontend/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- owl-carousel min js  -->
-    <script src="{{ asset('frontend/owlcarousel/js/owl.carousel.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/owlcarousel/js/owl.carousel.min.js') }}"></script>
     <!-- magnific-popup min js  -->
-    <script src="{{ asset('frontend/js/magnific-popup.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/magnific-popup.min.js') }}"></script>
     <!-- waypoints min js  -->
-    <script src="{{ asset('frontend/js/waypoints.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/waypoints.min.js') }}"></script>
     <!-- parallax js  -->
-    <script src="{{ asset('frontend/js/parallax.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/parallax.js') }}"></script>
     <!-- countdown js  -->
-    <script src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
     <!-- imagesloaded js -->
-    <script src="{{ asset('frontend/js/imagesloaded.pkgd.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/imagesloaded.pkgd.min.js') }}"></script>
     <!-- isotope min js -->
-    <script src="{{ asset('frontend/js/isotope.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/isotope.min.js') }}"></script>
     <!-- jquery.dd.min js -->
-    <script src="{{ asset('frontend/js/jquery.dd.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/jquery.dd.min.js') }}"></script>
     <!-- slick js -->
-    <script src="{{ asset('frontend/js/slick.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/slick.min.js') }}"></script>
 
-    <script src="{{ asset('frontend/js/sweetalert.all.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/sweetalert.all.min.js') }}"></script>
 
     <!-- scripts js -->
     <script src="{{ asset('frontend/js/scripts.js') }}"></script>
     <script src="{{ asset('frontend/js/custom.js') }}"></script>
 
+    @if(Session::has('success'))
     <script>
-        // ajax
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        @if(Session::has('success'))
         Swal.fire({
             toast: true,
             position: 'top-end',
@@ -437,8 +331,8 @@
             showConfirmButton: false,
             timer: 1500
         })
-        @endif
     </script>
+    @endif
 
 
     @if(Route::is('home'))
@@ -486,40 +380,7 @@
     <script src="{{ asset('frontend/js/cart.js') }}"></script>
 
     @yield('script')
-
-
-    <!--messenger-->
-    <!-- Messenger Chat Plugin Code -->
-    <div id="fb-root"></div>
-
-    <!-- Your Chat Plugin code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
-
-    <!-- <script>
-      var chatbox = document.getElementById('fb-customer-chat');
-      chatbox.setAttribute("page_id", "101957694562930");
-      chatbox.setAttribute("attribution", "biz_inbox");
-    </script> -->
-
-    <!-- Your SDK code -->
-    <!-- <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v13.0'
-        });
-      };
-
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script> -->
-
+    @livewireScripts
 
 
 </body>

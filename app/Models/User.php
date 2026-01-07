@@ -11,7 +11,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
-    use \Rackbeat\UIAvatars\HasAvatar;
 
     /**
      * The attributes that are mass assignable.

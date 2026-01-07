@@ -2,7 +2,7 @@
     <div align="center" id="profile_image">
         <div class="image">
             @if(Auth::user()->image == '')
-            <img class="img-fluid w-100" src="{{ Auth::user()->getUrlfriendlyAvatar($size=400) }}" alt="">
+            <img class="img-fluid w-100" src="{{ Avatar::create('John Doe')->toBase64() }}" alt="">
             @else
             <img class="img-fluid w-100" src="{{ url('upload/profile_pic', Auth::user()->image) }}" alt="">
             @endif

@@ -53,10 +53,7 @@ Route::get('privacy-policy', [PageController::class, 'privacy'])->name('privacy'
 
 // Authentication
 Route::get('login', [LoginController::class, 'showForm'])->name('login');
-Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterController::class, 'showForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register'])->name('register.submit');
 
 // Forgot Password / Reset
 Route::get('forgot-password', [ResetController::class, 'forgot'])->name('forgot.password');
@@ -66,7 +63,7 @@ Route::post('user-verify', [ResetController::class, 'verify'])->name('user.verif
 Route::get('reset-password/{phone}', [ResetController::class, 'resetPasswordForm'])->name('reset.password.form');
 Route::post('reset-password', [ResetController::class, 'reset'])->name('reset.password.submit');
 
-Route::get('verify', [LoginController::class, 'verifyForm'])->name('verify.form');
+Route::get('verify', [LoginController::class, 'verifyForm'])->name('otp.verify');
 Route::post('verify', [LoginController::class, 'verify'])->name('verify.submit');
 
 // Profile Management

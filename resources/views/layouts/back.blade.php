@@ -288,9 +288,9 @@
 
 
             @can('report')
-            <li class="{{ Route::is('sale.report.index') ? 'active open' : '' }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-puzzle-piece"></i><span>Report</span></a>
+            <li class="{{ Route::is('admin.sale.report.index') ? 'active open' : '' }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-puzzle-piece"></i><span>Report</span></a>
                 <ul class="ml-menu">
-                    <li class="{{ Route::is('sale.report.index') ? 'active' : '' }}"><a href="{{ route('sale.report.index') }}">Sale Report</a></li>
+                    <li class="{{ Route::is('admin.sale.report.index') ? 'active' : '' }}"><a href="{{ route('admin.sale.report.index') }}">Sale Report</a></li>
                 </ul>
             </li>
             @endcan

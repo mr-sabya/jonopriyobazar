@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('front.layouts.app')
 
 @section('title', 'Profile')
 
@@ -39,8 +39,6 @@
                                                             {{ $shipping_address->phone }}<br>
                                                             <span style="font-size: 13px; line-height: 12px">{{ $shipping_address->street }}, {{ $shipping_address->city['name'] }} - {{ $shipping_address->post_code }}, {{ $shipping_address->thana['name']}}, {{ $shipping_address->district['name']}}</span>
                                                         </p>
-
-
 
                                                         <span class="badge badge-warning">
                                                             @if($shipping_address->type == 'home')

@@ -16,7 +16,12 @@
                     @foreach($categories as $category)
                     <div class="col-lg-2 col-md-3 col-6">
                         <div class="category-card mb-4">
-                            <a href="{{ route('category.sub', $category->slug)}}" class="category-anchor">
+                            @php
+                            $targetUrl = ($category->sub->count() > 0)
+                            ? route('category.sub', $category->slug)
+                            : url('/shop?category=' . $category->slug);
+                            @endphp
+                            <a href="{{ $targetUrl }}" class="category-anchor" wire:navigate>
                                 <div class="cat-img-container">
                                     @if($category->icon == null)
                                     <img src="{{ url('frontend/images/demo.png')}}" alt="demo">

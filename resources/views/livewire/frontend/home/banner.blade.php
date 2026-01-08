@@ -1,4 +1,4 @@
-<div class="staggered-animation-wrap" style="margin-top: 20px;">
+<div class="staggered-animation-wrap" style="margin-top: 20px;" wire:ignore>
     <div class="custom-container">
         <div class="row">
             <div class="col-lg-9 offset-lg-3">

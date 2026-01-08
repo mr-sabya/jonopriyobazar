@@ -252,7 +252,7 @@
                     </li>
                     @else
                     <li class="breadcrumb-item">
-                        <a href="{{ $link }}" class="text-secondary text-decoration-none">
+                        <a href="{{ $link }}" class="text-secondary text-decoration-none" wire:navigate>
                             {{ ucwords(str_replace('-', ' ', $segment)) }}
                         </a>
                     </li>
@@ -318,7 +318,7 @@
     <script data-navigate-once src="{{ asset('frontend/js/sweetalert.all.min.js') }}"></script>
 
     <!-- scripts js -->
-    <script src="{{ asset('frontend/js/scripts.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/scripts.js') }}"></script>
     <script src="{{ asset('frontend/js/custom.js') }}"></script>
 
     @if(Session::has('success'))

@@ -802,6 +802,10 @@
 }
 
 /* Image Container */
+.categories.category-page .cat-img-container {
+	height: 180px;
+}
+
 .categories .cat-img-container {
 	height: 140px;
 	display: flex;
@@ -840,7 +844,7 @@
 .categories .cat-explore {
 	font-size: 10px;
 	text-transform: uppercase;
-	color: #2e3192;
+	color: var(--shwapno-green);
 	/* Branded color */
 	letter-spacing: 1px;
 	font-weight: 700;
@@ -849,7 +853,7 @@
 /* Hover States */
 .categories .category-card:hover {
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-	border-color: #2e3192;
+	border-color: var(--shwapno-green);
 }
 
 .categories .category-card:hover .cat-img-container {

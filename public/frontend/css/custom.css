@@ -1082,3 +1082,89 @@
 .pr_desc p:empty {
 	display: none;
 }
+
+/* Fix for Bootstrap 4 Radios & Design */
+.br-15 {
+	border-radius: 15px !important;
+}
+
+.br-10 {
+	border-radius: 10px !important;
+}
+
+/* Address Type Selection */
+.select-box {
+	display: block;
+	padding: 15px;
+	text-align: center;
+	border: 2px solid #eee;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: 0.3s;
+	margin-bottom: 0;
+}
+
+.select-box i {
+	display: block;
+	font-size: 20px;
+	margin-bottom: 5px;
+}
+
+.select-box.active {
+	border-color: #28a745;
+	background: #f8fff9;
+	color: #28a745;
+}
+
+/* Payment Selection */
+.payment-box {
+	padding: 15px;
+	border: 1px solid #eee;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.payment-box.active {
+	border-color: #28a745;
+	background: #f8fff9;
+}
+
+.payment-box.disabled {
+	background: #fafafa;
+	cursor: not-allowed;
+	opacity: 0.7;
+}
+
+/* File Upload container */
+.custom-file-upload {
+	border: 2px dashed #ddd;
+	background: #fdfdfd;
+}
+
+.custom-file-upload:hover {
+	border-color: #28a745;
+}
+
+/* Hide standard radio circles where we use custom boxes */
+.custom-selection input[type="radio"] {
+	display: none;
+}
+
+.payment_option i.fa-question-circle {
+	font-size: 14px;
+	opacity: 0.7;
+	transition: opacity 0.3s;
+}
+
+.payment_option i.fa-question-circle:hover {
+	opacity: 1;
+	color: #007bff;
+}
+
+/* Ensure disabled labels don't block tooltip hover */
+.form-check-input[disabled]+.form-check-label {
+	pointer-events: none;
+	color: #6c757d;
+}

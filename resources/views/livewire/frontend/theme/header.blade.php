@@ -57,7 +57,7 @@
                                 <a class="dropdown-item" href="{{ route('user.wallet') }}">My Wallet</a>
                                 <a class="dropdown-item" href="{{ route('wishlist.index')}}">Wishlist ({{ Auth::user()->wishlist->count()}})</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <livewire:frontend.auth.logout />
                             </div>
                         </div>
                         @endguest

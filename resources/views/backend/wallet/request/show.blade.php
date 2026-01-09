@@ -15,7 +15,7 @@
                             <div class="text-center">
                                 <div class="avatar">
                                     @if($user->image == null)
-                                    <img src="{{ $user->getUrlfriendlyAvatar($size=400)}}" alt="{{ $user->name }}">
+                                    <img src="{{ Avatar::create('John Doe')->toBase64() }}" alt="{{ $user->name }}">
                                     @else
                                     <img src="{{ url('upload/profile_pic', $user->image)}}" alt="{{ $user->name }}">
                                     @endif

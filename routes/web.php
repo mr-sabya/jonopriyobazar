@@ -137,9 +137,7 @@ Route::middleware('auth')->group(function () {
 
     // Wallet & Points
     Route::get('wallet', [WalletController::class, 'index'])->name('user.wallet');
-    Route::post('apply-wallet', [WalletController::class, 'store'])->name('user.wallet.apply');
     Route::get('wallet/details', [WalletController::class, 'show'])->name('user.wallet.show');
-    Route::get('wallet/package/apply/{id}', [WalletController::class, 'apply'])->name('wallet.package.apply');
 
     Route::get('refers', [ReferController::class, 'index'])->name('user.refer.index');
     Route::get('refer/history', [ReferController::class, 'balance'])->name('user.refer.balance');

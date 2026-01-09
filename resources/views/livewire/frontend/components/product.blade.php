@@ -35,10 +35,9 @@
             <!-- Title & Quantity -->
             <h6 class="product-name mb-1">
                 <a href="javascript:void(0)" wire:click="$dispatch('loadQuickView', { productId: {{ $product->id }} })" class="text-dark text-decoration-none">
-                    {{ $product->name }}
+                    {{ str($product->name)->limit(15) }} ({{ $product->quantity }})
                 </a>
             </h6>
-            <p class="product-unit text-muted small mb-2">{{ $product->quantity }}</p>
 
             <!-- Pricing -->
             <div class="product-pricing mb-3">

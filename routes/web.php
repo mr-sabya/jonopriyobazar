@@ -36,13 +36,8 @@ use App\Http\Controllers\Front\CommonController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('category/{slug}', [CategoryController::class, 'sub'])->name('category.sub');
-Route::get('fetch-category-product', [CategoryController::class, 'fetch']);
 
-Route::get('quick-view/{id}', [ProductController::class, 'quick'])->name('product.quick');
 Route::get('shop', [ProductController::class, 'index'])->name('product.index');
-Route::get('shop/fetch-product', [ProductController::class, 'fetch']);
-
-Route::post('search', [SearchController::class, 'search'])->name('search.index');
 
 // Static Pages
 Route::get('about', [PageController::class, 'about'])->name('about');
@@ -64,7 +59,6 @@ Route::get('reset-password/{phone}', [ResetController::class, 'resetPasswordForm
 Route::post('reset-password', [ResetController::class, 'reset'])->name('reset.password.submit');
 
 Route::get('verify', [LoginController::class, 'verifyForm'])->name('otp.verify');
-Route::post('verify', [LoginController::class, 'verify'])->name('verify.submit');
 
 // Profile Management
 Route::get('profile', [ProfileController::class, 'index'])->name('user.profile');

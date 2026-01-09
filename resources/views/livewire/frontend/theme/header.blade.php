@@ -26,16 +26,7 @@
                 </div>
 
                 <!-- Central Search Bar -->
-                <div class="flex-grow-1 mx-3 mx-lg-5 search-wrapper">
-                    <form action="{{ route('search.index')}}" method="post" class="position-relative">
-                        @csrf
-                        <input type="text" name="search" class="form-control rounded-pill-custom" placeholder="Search your products">
-                        <button type="submit" class="search-btn-custom">
-                            <i class="lnr lnr-magnifier d-md-none"></i>
-                            <span class="d-none d-md-block">SEARCH</span>
-                        </button>
-                    </form>
-                </div>
+                <livewire:frontend.theme.search />
 
                 <!-- Right Side Actions -->
                 <div class="d-flex align-items-center">
@@ -90,6 +81,7 @@
                             <li><a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home')}}" wire:navigate>Home</a></li>
                             <li><a class="nav-link {{ Route::is('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}" wire:navigate>Category</a></li>
                             <li><a class="nav-link {{ Route::is('product.index') ? 'active' : '' }}" href="{{ route('product.index') }}" wire:navigate>Shop</a></li>
+                            <li><a class="nav-link {{ Route::is('custom.order') ? 'active' : '' }}" href="{{ route('custom.order') }}" wire:navigate>Custom Order</a></li>
                             <li><a class="nav-link {{ Route::is('medicine.index') ? 'active' : '' }}" href="{{ route('medicine.index')}}" wire:navigate>Medicine</a></li>
                         </ul>
                         <div class="ml-auto">

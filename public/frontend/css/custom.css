@@ -917,7 +917,7 @@
 }
 
 .product-card .product-img-wrapper {
-	background: #fdfdfd;
+	background: #f3f3f3;
 	min-height: 180px;
 	display: flex;
 	align-items: center;
@@ -939,20 +939,21 @@
 	background-color: #ef233c;
 	/* Shwapno Red */
 	border-radius: 4px;
-	font-size: 11px;
+	font-size: 13px;
+	padding: 5px;
 }
 
 .product-card .point-badge {
 	background-color: #ffb703;
 	color: #000;
-	font-size: 10px;
+	font-size: 13px;
+	padding: 5px;
 }
 
 /* Titles */
 .product-card .product-name {
 	font-size: 15px;
 	line-height: 1.3;
-	height: 40px;
 	/* Force 2 lines max */
 	overflow: hidden;
 }

@@ -78,7 +78,6 @@
 }
 
 .bottom_header .nav-link {
-	color: #333 !important;
 	font-weight: 500;
 	font-size: 14px;
 }
@@ -1111,9 +1110,9 @@
 }
 
 .select-box.active {
-	border-color: #28a745;
+	border-color: var(--shwapno-green);
 	background: #f8fff9;
-	color: #28a745;
+	color: var(--shwapno-green);
 }
 
 /* Payment Selection */
@@ -1127,7 +1126,7 @@
 }
 
 .payment-box.active {
-	border-color: #28a745;
+	border-color: var(--shwapno-green);
 	background: #f8fff9;
 }
 
@@ -1144,7 +1143,7 @@
 }
 
 .custom-file-upload:hover {
-	border-color: #28a745;
+	border-color: var(--shwapno-green);
 }
 
 /* Hide standard radio circles where we use custom boxes */
@@ -1167,4 +1166,37 @@
 .form-check-input[disabled]+.form-check-label {
 	pointer-events: none;
 	color: #6c757d;
+}
+
+.company-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, .1) !important;
+	background: #f8fff9;
+}
+
+.payment-item {
+	cursor: pointer;
+	transition: 0.2s;
+	border-width: 2px !important;
+}
+
+.payment-item.active {
+	border-color: var(--shwapno-green) !important;
+	background: #f0f7ff;
+}
+
+.payment-item.disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	background: #f8f9fa;
+}
+
+.rules-box li {
+	margin-bottom: 8px;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 8px;
+}
+
+.rules-box li:last-child {
+	border-bottom: 0;
 }

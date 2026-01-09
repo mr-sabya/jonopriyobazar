@@ -78,11 +78,13 @@
                 <div class="col-lg-9">
                     <nav class="navbar navbar-expand-lg p-0">
                         <ul class="navbar-nav">
-                            <li><a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home')}}" wire:navigate>Home</a></li>
-                            <li><a class="nav-link {{ Route::is('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}" wire:navigate>Category</a></li>
-                            <li><a class="nav-link {{ Route::is('product.index') ? 'active' : '' }}" href="{{ route('product.index') }}" wire:navigate>Shop</a></li>
-                            <li><a class="nav-link {{ Route::is('custom.order') ? 'active' : '' }}" href="{{ route('custom.order') }}" wire:navigate>Custom Order</a></li>
-                            <li><a class="nav-link {{ Route::is('medicine.index') ? 'active' : '' }}" href="{{ route('medicine.index')}}" wire:navigate>Medicine</a></li>
+                            <li><a class="nav-link nav_item {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home')}}" wire:navigate>Home</a></li>
+                            <li><a class="nav-link nav_item {{ Route::is('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}" wire:navigate>Category</a></li>
+                            <li><a class="nav-link nav_item {{ Route::is('product.index') ? 'active' : '' }}" href="{{ route('product.index') }}" wire:navigate>Shop</a></li>
+                            <li><a class="nav-link nav_item {{ Route::is('custom.order') ? 'active' : '' }}" href="{{ route('custom.order') }}" wire:navigate>Custom Order</a></li>
+                            <li><a class="nav-link nav_item {{ Route::is('electricity.index') ? 'active' : '' }}" href="{{ route('electricity.index') }}" wire:navigate>Electricity Bill Payment</a></li>
+
+                            <li><a class="nav-link nav_item {{ Route::is('medicine.index') ? 'active' : '' }}" href="{{ route('medicine.index')}}" wire:navigate>Medicine</a></li>
                         </ul>
                         <div class="ml-auto">
                             <a href="{{ route('user.wallet') }}" class="text-success font-weight-bold"><i class="fas fa-wallet mr-1"></i> My Wallet</a>

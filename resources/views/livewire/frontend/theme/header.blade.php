@@ -87,7 +87,7 @@
                             <li><a class="nav-link nav_item {{ Route::is('medicine.index') ? 'active' : '' }}" href="{{ route('medicine.index')}}" wire:navigate>Medicine</a></li>
                         </ul>
                         <div class="ml-auto">
-                            <a href="{{ route('user.wallet') }}" class="text-success font-weight-bold"><i class="fas fa-wallet mr-1"></i> My Wallet</a>
+                            <a href="{{ route('user.wallet') }}" class="text-success font-weight-bold" wire:navigate><i class="fas fa-wallet mr-1"></i> My Wallet</a>
                         </div>
                     </nav>
                 </div>

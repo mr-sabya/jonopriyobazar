@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('front.layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('frontend/dropify/css/dropify.min.css') }}">

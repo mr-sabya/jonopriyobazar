@@ -118,15 +118,14 @@ Route::middleware('auth')->group(function () {
     Route::post('order', [OrderController::class, 'order'])->name('user.order');
 
     // Other Orders
+    // Custom Order
     Route::get('custom-order', [CustomOrderController::class, 'index'])->name('custom.order');
 
-
+    // Electricity Bill
     Route::get('electricity-bill', [ElectricitybillController::class, 'index'])->name('electricity.index');
-    Route::post('electricity-bill/order', [UserElectricitybillController::class, 'order'])->name('electricity.order');
 
-
+    // Medicine Order
     Route::get('medicine-order', [MedicineController::class, 'index'])->name('medicine.index');
-    Route::post('medicine-order/submit', [MedicineController::class, 'store'])->name('medicine.store');
 
     Route::get('order-complete', [OrderController::class, 'complete'])->name('order.complete');
 

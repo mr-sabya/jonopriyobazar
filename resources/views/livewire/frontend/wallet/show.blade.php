@@ -1,4 +1,4 @@
-<div class="section bg-light py-4">
+<div class="section py-4">
     <div class="container">
         <!-- Back Button & Page Title -->
         <div class="d-flex align-items-center justify-content-between mb-4">

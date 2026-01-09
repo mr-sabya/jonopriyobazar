@@ -1,4 +1,4 @@
-<div class="section bg-light py-5">
+<div class="section py-5">
     <div class="container">
         <div class="row">
             <!-- LEFT SIDE: WALLET STATS DASHBOARD -->

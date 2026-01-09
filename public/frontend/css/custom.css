@@ -9,6 +9,13 @@
 }
 
 
+.card{
+	border: 1px solid #e3e3e3 !important;
+	box-shadow: none !important;
+	overflow: hidden !important;
+}
+
+
 .bg-main-green {
 	background-color: var(--shwapno-green) !important;
 }
@@ -851,7 +858,7 @@
 
 /* Hover States */
 .categories .category-card:hover {
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+	box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
 	border-color: var(--shwapno-green);
 }
 
@@ -859,10 +866,6 @@
 	transform: scale(1.05);
 }
 
-.categories .category-card:hover .cat-explore {
-	display: block;
-	animation: fadeIn 0.3s forwards;
-}
 
 .categories .category-card:hover .cat-name {
 	color: #2e3192;
@@ -912,7 +915,7 @@
 }
 
 .product-card:hover {
-	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+	box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1) !important;
 }
 
 .product-card .product-img-wrapper {
@@ -1335,8 +1338,8 @@
 }
 
 .transition-hover:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 .5rem 2rem rgba(0, 0, 0, .12) !important;
+    transform: translateY(-3px); /* Slightly less lift */
+    box-shadow: 0 8px 10px rgba(0, 0, 0, .15) !important; /* Lighter and tighter shadow */
 }
 
 .border-dashed {

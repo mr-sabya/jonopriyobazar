@@ -55,7 +55,7 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="{{ route('user.dashboard')}}" wire:navigate>Dashboard</a>
                                 <a class="dropdown-item" href="{{ route('user.profile')}}" wire:navigate>Profile</a>
-                                <a class="dropdown-item" href="{{ route('user.wallet.index') }}" wire:navigate>My Wallet</a>
+                                <a class="dropdown-item" href="{{ route('user.notification.index')}}" wire:navigate>Notifications({{ Auth::user()->unreadNotifications->count() }})</a>
                                 <a class="dropdown-item" href="{{ route('wishlist.index')}}" wire:navigate>Wishlist ({{ Auth::user()->wishlist->count()}})</a>
                                 <div class="dropdown-divider"></div>
                                 <livewire:frontend.auth.logout />

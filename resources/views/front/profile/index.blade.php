@@ -3,7 +3,7 @@
 @section('title', 'My Profile')
 
 @section('content')
-<div class="main_content bg-light py-5">
+<div class="main_content py-5">
     <div class="custom-container">
         <div class="row">
 

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\CategoryController;
 use App\Http\Controllers\Front\ProductController;
-use App\Http\Controllers\Front\SearchController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\Auth\LoginController;
 use App\Http\Controllers\Front\Auth\RegisterController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\Front\Auth\CustomOrderController as UserCustomOrderCont
 use App\Http\Controllers\Front\Auth\MedicineController as UserMedicineController;
 use App\Http\Controllers\Front\Auth\ElectricitybillController as UserElectricitybillController;
 use App\Http\Controllers\Front\Auth\CancelController;
-use App\Http\Controllers\Front\Auth\ReferController as UserReferController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CuponController;
 use App\Http\Controllers\Front\CheckoutController;
@@ -27,10 +25,8 @@ use App\Http\Controllers\Front\MedicineController;
 use App\Http\Controllers\Front\WishlistController;
 use App\Http\Controllers\Front\WalletController;
 use App\Http\Controllers\Front\ReferController;
-use App\Http\Controllers\Front\WithdrawController;
 use App\Http\Controllers\Front\Auth\PointController;
 use App\Http\Controllers\Front\NotificationController;
-use App\Http\Controllers\Front\CommonController;
 
 // Home & General Shop
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -63,27 +59,7 @@ Route::post('reset-password', [ResetController::class, 'reset'])->name('reset.pa
 Route::middleware('auth')->group(function () {
 
 
-    // User Orders in Profile
-    Route::get('customer/order', [UserOrderController::class, 'index'])->name('profile.order.index');
-    Route::get('customer/order/{invoice}', [UserOrderController::class, 'show'])->name('profile.order.show');
-    Route::get('customer/custom-order', [UserCustomOrderController::class, 'index'])->name('profile.customorder.index');
-    Route::get('customer/custom-order/{invoice}', [UserCustomOrderController::class, 'show'])->name('profile.customorder.show');
-    Route::get('customer/medicine-order', [UserMedicineController::class, 'index'])->name('profile.medicine.index');
-    Route::get('customer/medicine-order/{invoice}', [UserMedicineController::class, 'show'])->name('profile.medicine.show');
-    Route::get('customer/electricity-bill', [UserElectricitybillController::class, 'index'])->name('profile.electricity.index');
-    Route::get('customer/electricity-bill/{id}', [UserElectricitybillController::class, 'show'])->name('profile.electricity.show');
 
-    // Cancel Orders
-    Route::get('customer/order/cancel/{invoice}', [UserOrderController::class, 'cancelOrder'])->name('profile.order.cencel');
-    Route::post('customer/order/cancel/submit', [UserOrderController::class, 'cancelOrderSubmit'])->name('profile.order.cencel.submit');
-    Route::get('customer/order-cancel/success', [UserOrderController::class, 'cancelSuccess'])->name('profile.order.cencel.success');
-
-    Route::get('customer/cancel/product-orders', [CancelController::class, 'product'])->name('profile.product.cancel');
-    Route::get('customer/cancel/custom-orders', [CancelController::class, 'custom'])->name('profile.custom.cancel');
-    Route::get('customer/cancel/medicine-orders', [CancelController::class, 'medicine'])->name('profile.medicine.cancel');
-    Route::get('customer/cancel/electricity-bill', [CancelController::class, 'electricity'])->name('profile.electricity.cancel');
-
-    Route::get('customer/refers', [UserReferController::class, 'index'])->name('profile.refer.index');
 
     // Cart & Checkout
     Route::get('get-cart', [CartController::class, 'index'])->name('cart.store');
@@ -154,11 +130,28 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [PointController::class, 'index'])->name('index');
             Route::get('/prize/apply/{id}', [PointController::class, 'apply'])->name('prize.apply');
         });
-    });
 
-    // Notifications
-    Route::get('notifications', [NotificationController::class, 'index'])->name('user.notification.index');
-    Route::get('fetch/notifications', [NotificationController::class, 'fetch']);
-    Route::get('notifications/{id}', [NotificationController::class, 'show'])->name('user.notification.show');
-    Route::get('notifications/mark/read', [NotificationController::class, 'markRead'])->name('user.notification.read');
+        Route::get('notifications', [NotificationController::class, 'index'])->name('notification.index');
+
+
+        // User Orders in Profile
+        Route::get('order', [UserOrderController::class, 'index'])->name('order.index');
+        Route::get('order/{invoice}', [UserOrderController::class, 'show'])->name('order.show');
+        Route::get('custom-order', [UserCustomOrderController::class, 'index'])->name('customorder.index');
+        Route::get('custom-order/{invoice}', [UserCustomOrderController::class, 'show'])->name('customorder.show');
+        Route::get('medicine-order', [UserMedicineController::class, 'index'])->name('medicine.index');
+        Route::get('medicine-order/{invoice}', [UserMedicineController::class, 'show'])->name('medicine.show');
+        Route::get('electricity-bill', [UserElectricitybillController::class, 'index'])->name('electricity.index');
+        Route::get('electricity-bill/{id}', [UserElectricitybillController::class, 'show'])->name('electricity.show');
+
+        // Cancel Orders
+        Route::get('order/cancel/{invoice}', [UserOrderController::class, 'cancelOrder'])->name('order.cencel');
+        Route::post('order/cancel/submit', [UserOrderController::class, 'cancelOrderSubmit'])->name('order.cencel.submit');
+        Route::get('order-cancel/success', [UserOrderController::class, 'cancelSuccess'])->name('order.cencel.success');
+
+        Route::get('cancel/product-orders', [CancelController::class, 'product'])->name('product.cancel');
+        Route::get('cancel/custom-orders', [CancelController::class, 'custom'])->name('custom.cancel');
+        Route::get('cancel/medicine-orders', [CancelController::class, 'medicine'])->name('medicine.cancel');
+        Route::get('cancel/electricity-bill', [CancelController::class, 'electricity'])->name('electricity.cancel');
+    });
 });

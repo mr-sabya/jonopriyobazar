@@ -93,7 +93,7 @@
     <div class="card border-0 shadow-sm br-15">
         <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
             <h5 class="font-weight-bold mb-0">Recent Orders</h5>
-            <a href="{{ route('profile.order.index') }}" class="btn btn-sm btn-light br-10 px-3 font-weight-bold" wire:navigate>View All</a>
+            <a href="{{ route('user.order.index') }}" class="btn btn-sm btn-light br-10 px-3 font-weight-bold" wire:navigate>View All</a>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">

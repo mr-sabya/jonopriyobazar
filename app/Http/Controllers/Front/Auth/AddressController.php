@@ -12,27 +12,11 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
 
     public function index()
     {
-        $addresses = Address::where('user_id', Auth::user()->id)->get();
-        return view('front.profile.pages.address.index', compact('addresses'));
-    }
-
-    public function create()
-    {
-        $districts = District::orderBy('name', 'ASC')->get();
-        return view('front.profile.pages.address.create', compact('districts'));
+        return view('front.profile.pages.address.index');
     }
 
     public function showForm()

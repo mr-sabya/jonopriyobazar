@@ -1,25 +1,35 @@
 <div class="col-lg-4 col-xl-3 mb-4">
     <div class="card profile-nav-card br-15 mb-4">
         <div class="card-body text-center pt-5">
-            <div class="profile-img-wrapper mb-3">
-                @if(Auth::user()->image == '')
-                <img src="{{ Avatar::create(Auth::user()->name)->toBase64() }}" alt="Avatar">
-                @else
-                <img src="{{ url('upload/profile_pic', Auth::user()->image) }}" alt="Avatar">
-                @endif
-                <div class="edit-avatar-btn" id="edit_image"><i class="fas fa-camera"></i></div>
-            </div>
+            <div class="profile-img-wrapper mb-4 position-relative d-inline-block">
+                <label for="profile_image_input" class="mb-0" style="cursor: pointer; position: relative; display: block;">
 
-            <!-- Image Upload Form (Hidden initially) -->
-            <div id="image_upload_section" style="display:none;" class="mt-3">
-                <form id="image_form" action="{{ route('user.image.update')}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <input type="file" name="image" id="image" class="form-control form-control-sm mb-2">
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success btn-sm mr-2">Update</button>
-                        <button type="button" id="close_edit" class="btn btn-light btn-sm">Cancel</button>
+                    @if ($image)
+                    <!-- 1. Show the temporary preview while uploading/saving -->
+                    <img src="{{ $image->temporaryUrl() }}"
+                        class="rounded-circle border shadow-sm"
+                        style="width: 120px; height: 120px; object-fit: cover; opacity: 0.6;">
+                    @elseif(!empty($current_image))
+                    <!-- 2. Show the newly saved image from the public property -->
+                    <img src="{{ asset('upload/profile_pic/'.$current_image) }}?t={{ time() }}"
+                        class="rounded-circle border shadow-sm"
+                        style="width: 120px; height: 120px; object-fit: cover;">
+                    @else
+                    <!-- 3. Fallback to Avatar if current_image is empty -->
+                    <img src="{{ Avatar::create(Auth::user()->name)->toBase64() }}"
+                        class="rounded-circle border shadow-sm"
+                        style="width: 120px; height: 120px;">
+                    @endif
+
+                    <!-- Camera Icon Overlay -->
+                    <div class="edit-avatar-btn" style="position: absolute; bottom: 5px; right: 5px; background: #28a745; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff;">
+                        <i class="fas fa-camera" wire:loading.remove wire:target="image"></i>
+                        <i class="fas fa-spinner fa-spin" wire:loading wire:target="image"></i>
                     </div>
-                </form>
+
+                    <!-- Hidden Input -->
+                    <input type="file" wire:model="image" id="profile_image_input" class="d-none" accept="image/*">
+                </label>
             </div>
 
             <h5 class="font-weight-bold mb-1">{{ Auth::user()->name }}</h5>
@@ -53,10 +63,10 @@
                 <h6 class="text-uppercase small font-weight-bold text-muted mb-0">My Orders</h6>
             </div>
             <ul class="nav-list px-2 pb-2">
-                <li><a href="{{ route('profile.order.index')}}" class="{{ Route::is('profile.order.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-shopping-bag"></i> Product Orders</a></li>
-                <li><a href="{{ route('profile.customorder.index')}}" class="{{ Route::is('profile.customorder.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-shopping-cart"></i> Custom Orders</a></li>
-                <li><a href="{{ route('profile.medicine.index')}}" class="{{ Route::is('profile.medicine.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-prescription"></i> Medicine Orders</a></li>
-                <li><a href="{{ route('profile.electricity.index')}}" class="{{ Route::is('profile.electricity.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-bolt"></i> Electricity Bills</a></li>
+                <li><a href="{{ route('user.order.index')}}" class="{{ Route::is('user.order.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-shopping-bag"></i> Product Orders</a></li>
+                <li><a href="{{ route('user.customorder.index')}}" class="{{ Route::is('user.customorder.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-shopping-cart"></i> Custom Orders</a></li>
+                <li><a href="{{ route('user.medicine.index')}}" class="{{ Route::is('user.medicine.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-prescription"></i> Medicine Orders</a></li>
+                <li><a href="{{ route('user.electricity.index')}}" class="{{ Route::is('user.electricity.index') ? 'active' : '' }}" wire:navigate><i class="fas fa-bolt"></i> Electricity Bills</a></li>
             </ul>
 
             <!-- THE CANCELLATION SECTION YOU REQUESTED -->
@@ -66,7 +76,7 @@
             <ul class="nav-list px-2 pb-2">
                 <!-- Main Cancellations Link -->
                 <li>
-                    <a href="{{ route('profile.product.cancel') }}" class="{{ Request::is('profile/cancel*') ? 'active' : '' }}">
+                    <a href="{{ route('user.product.cancel') }}" class="{{ Request::is('user/cancel*') ? 'active' : '' }}">
                         <i class="fas fa-times-circle text-danger"></i>
                         <span class="text-danger font-weight-bold">My Cancellations</span>
                     </a>

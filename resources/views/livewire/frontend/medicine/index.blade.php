@@ -115,6 +115,7 @@
                                         <div class="col-md-6 pl-md-4">
                                             <h6 class="small font-weight-bold text-muted mb-2 text-uppercase">Billing To</h6>
                                             <p class="mb-1 font-weight-bold">{{ $billing_address->name ?? $shipping_address->name }}</p>
+                                            <p class="small text-muted mb-0">{{ $billing_address->street }}, {{ $billing_address->city->name ?? '' }}</p>
                                             <p class="small text-muted">{{ $billing_address->phone ?? $shipping_address->phone }}</p>
                                         </div>
                                     </div>
@@ -202,7 +203,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-success btn-block py-3 shadow font-weight-bold br-10" wire:loading.attr="disabled">
+                            <button type="submit" class="btn btn-success btn-block shadow font-weight-bold br-10" wire:loading.attr="disabled">
                                 <span wire:loading.remove><i class="fas fa-check-circle mr-1"></i> Order Now</span>
                                 <span wire:loading><i class="fas fa-spinner fa-spin mr-1"></i> Processing Order...</span>
                             </button>

@@ -61,20 +61,7 @@ Route::post('reset-password', [ResetController::class, 'reset'])->name('reset.pa
 
 
 Route::middleware('auth')->group(function () {
-    // Profile Management
-    Route::get('profile', [ProfileController::class, 'index'])->name('user.profile');
-    Route::post('profile/image', [ProfileController::class, 'updateImage'])->name('user.image.update');
-    Route::post('profile/info/update', [ProfileController::class, 'updateInfo'])->name('user.info.update');
-    Route::post('profile/password/update', [ProfileController::class, 'updatePassword'])->name('user.password.update');
 
-    // Address Management
-    Route::get('customer/address', [AddressController::class, 'index'])->name('user.address.index');
-    Route::get('customer/address/create', [AddressController::class, 'create'])->name('user.address.create');
-    Route::post('address/store', [AddressController::class, 'store'])->name('user.address.store');
-    Route::get('customer/address/{id}/edit', [AddressController::class, 'edit'])->name('user.address.edit');
-    Route::post('address/update', [AddressController::class, 'update'])->name('user.address.update');
-    Route::get('customer/set-billing-address/{id}', [AddressController::class, 'setBilling'])->name('user.address.setbilling');
-    Route::get('customer/set-shipping-address/{id}', [AddressController::class, 'setShipping'])->name('user.address.setshipping');
 
     // User Orders in Profile
     Route::get('customer/order', [UserOrderController::class, 'index'])->name('profile.order.index');
@@ -135,18 +122,39 @@ Route::middleware('auth')->group(function () {
     Route::get('wishlist/add-cart/{id}', [WishlistController::class, 'addCart'])->name('wishlist.addcart');
     Route::delete('wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
-    // Wallet & Points
-    Route::get('wallet', [WalletController::class, 'index'])->name('user.wallet');
-    Route::get('wallet/details', [WalletController::class, 'show'])->name('user.wallet.show');
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
-    Route::get('refers', [ReferController::class, 'index'])->name('user.refer.index');
-    Route::get('refer/history', [ReferController::class, 'balance'])->name('user.refer.balance');
+        // user menu redirect to profile
+        Route::get('/', [ProfileController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('withdraw-list', [WithdrawController::class, 'index'])->name('user.withdraw.index');
-    Route::post('withdraw/request', [WithdrawController::class, 'store'])->name('user.withdraw.store');
+        // Profile Management
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+        Route::post('profile/image', [ProfileController::class, 'updateImage'])->name('image.update');
+        Route::post('profile/info/update', [ProfileController::class, 'updateInfo'])->name('info.update');
+        Route::post('profile/password/update', [ProfileController::class, 'updatePassword'])->name('password.update');
 
-    Route::get('my-point', [PointController::class, 'index'])->name('user.point.index');
-    Route::get('prize/apply/{id}', [PointController::class, 'apply'])->name('user.prize.apply');
+        // Address Management
+        Route::get('address', [AddressController::class, 'index'])->name('address.index');
+
+        // Wallet Routes (user.wallet.index, user.wallet.show)
+        Route::prefix('wallet')->as('wallet.')->group(function () {
+            Route::get('/', [WalletController::class, 'index'])->name('index');
+            Route::get('/details', [WalletController::class, 'show'])->name('show');
+        });
+
+        // Refer Routes (user.refer.index, user.refer.balance)
+        Route::prefix('refer')->as('refer.')->group(function () {
+            Route::get('/', [ReferController::class, 'index'])->name('index');
+            Route::get('/history', [ReferController::class, 'balance'])->name('balance');
+        });
+
+
+        // Point Routes (user.point.index, user.point.apply)
+        Route::prefix('point')->as('point.')->group(function () {
+            Route::get('/', [PointController::class, 'index'])->name('index');
+            Route::get('/prize/apply/{id}', [PointController::class, 'apply'])->name('prize.apply');
+        });
+    });
 
     // Notifications
     Route::get('notifications', [NotificationController::class, 'index'])->name('user.notification.index');

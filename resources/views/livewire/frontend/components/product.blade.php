@@ -15,7 +15,7 @@
 
             <!-- Image -->
             <a href="javascript:void(0)" wire:click="$dispatch('loadQuickView', { productId: {{ $product->id }} })" class="d-block">
-                <img src="{{ url('upload/images', $product->image) }}"
+                <img src="{{ $product->image_url }}"
                     alt="{{ $product->name }}"
                     class="img-fluid main-img">
             </a>
@@ -26,7 +26,7 @@
                     <i class="lnr lnr-heart"></i>
                 </button>
                 <button wire:click="$dispatch('loadQuickView', { productId: {{ $product->id }} })"class="action-btn mt-2">
-                    <i class="lnr lnr-magnifier"></i>
+                    <i class="lnr lnr-eye"></i>
                 </button>
             </div>
         </div>

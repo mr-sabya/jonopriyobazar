@@ -319,7 +319,7 @@
 
     <!-- scripts js -->
     <script data-navigate-once src="{{ asset('frontend/js/scripts.js') }}"></script>
-    <script src="{{ asset('frontend/js/custom.js') }}"></script>
+    <script data-navigate-once src="{{ asset('frontend/js/custom.js') }}"></script>
 
     @if(Session::has('success'))
     <script>
@@ -374,11 +374,19 @@
     </script>
     @endif
 
-    @if(!Route::is('login'))
-    <script src="{{ asset('frontend/js/login.js') }}"></script>
-    @endif
-    <script src="{{ asset('frontend/js/cart.js') }}"></script>
-
+    <script>
+        // Integration with Swal if needed for toasts
+        window.addEventListener('toast', event => {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: event.detail[0].type,
+                title: event.detail[0].message,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>
     @yield('script')
     @livewireScripts
 

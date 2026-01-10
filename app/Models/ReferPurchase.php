@@ -15,6 +15,6 @@ class ReferPurchase extends Model
     
     public function order()
     {
-    	return $this->belongsTo('App\Models\Order', 'order_id');
+    	return $this->belongsTo(Order::class);
     }
 }

@@ -1,17 +1,16 @@
 @extends('front.layouts.app')
-
-@section('title', 'My Profile')
+@section('title', 'Dashboard')
 
 @section('content')
 <div class="main_content bg-light py-5">
     <div class="custom-container">
         <div class="row">
 
-            <!-- LEFT SIDEBAR: PROFILE OVERVIEW -->
+            <!-- LEFT SIDEBAR (Reuse the same structure as Profile) -->
             <livewire:frontend.user.sidebar />
 
-            <!-- MAIN CONTENT AREA -->
-            <livewire:frontend.user.profile />
+            <!-- RIGHT CONTENT: DASHBOARD STATS -->
+            <livewire:frontend.user.dashboard />
         </div>
     </div>
 </div>

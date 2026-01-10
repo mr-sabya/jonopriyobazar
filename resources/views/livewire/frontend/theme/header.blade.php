@@ -53,9 +53,10 @@
                                 <i class="lnr lnr-user mr-2"></i> <span>{{ Auth::user()->name }}</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{ route('user.profile')}}">Profile</a>
-                                <a class="dropdown-item" href="{{ route('user.wallet') }}">My Wallet</a>
-                                <a class="dropdown-item" href="{{ route('wishlist.index')}}">Wishlist ({{ Auth::user()->wishlist->count()}})</a>
+                                <a class="dropdown-item" href="{{ route('user.dashboard')}}" wire:navigate>Dashboard</a>
+                                <a class="dropdown-item" href="{{ route('user.profile')}}" wire:navigate>Profile</a>
+                                <a class="dropdown-item" href="{{ route('user.wallet.index') }}" wire:navigate>My Wallet</a>
+                                <a class="dropdown-item" href="{{ route('wishlist.index')}}" wire:navigate>Wishlist ({{ Auth::user()->wishlist->count()}})</a>
                                 <div class="dropdown-divider"></div>
                                 <livewire:frontend.auth.logout />
                             </div>
@@ -87,7 +88,7 @@
                             <li><a class="nav-link nav_item {{ Route::is('medicine.index') ? 'active' : '' }}" href="{{ route('medicine.index')}}" wire:navigate>Medicine</a></li>
                         </ul>
                         <div class="ml-auto">
-                            <a href="{{ route('user.wallet') }}" class="text-success font-weight-bold" wire:navigate><i class="fas fa-wallet mr-1"></i> My Wallet</a>
+                            <a href="{{ route('user.wallet.index') }}" class="text-success font-weight-bold" wire:navigate><i class="fas fa-wallet mr-1"></i> My Wallet</a>
                         </div>
                     </nav>
                 </div>

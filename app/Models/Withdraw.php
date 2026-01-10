@@ -6,8 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Withdraw extends Model
 {
+
+    protected $fillable = [
+    	'user_id',
+    	'amount',
+    	'status',
+    ];
+    
     public function user()
     {
-    	return $this->belongsTo('App\Models\User', 'user_id');
+    	return $this->belongsTo(User::class);
     }
 }

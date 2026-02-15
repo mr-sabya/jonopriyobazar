@@ -179,56 +179,10 @@
     <!-- END HEADER -->
 
 
-    <div id="cart" class="shopping_cart">
-        <div class="cart_close_btn">
-            <a href="javascript:void(0)" style="">Close</a>
-        </div>
-        <div class="shopping_cart_inner">
-            <div class="cart-quantiry">
-                @guest
-                <i class="lnr lnr-cart"></i> <span id="view_cart_top">0</span> ITEMS
-                @else
-                <i class="lnr lnr-cart"></i> <span id="view_cart_top">{{ Auth::user()->cartItems->sum('quantity') }}</span> ITEMS
-                @endguest
-            </div>
-
-            @guest
-            <div class="cart_product">
-
-                <span style="font-size: 48px;color: #ddd;text-align: center;display: block;margin-top: 200px; line-height: 60px;">Nothing to show</span>
-            </div>
-            @else
-            <div id="cart_product" class="cart_product">
-
-            </div>
-            <div class="cart_footer">
-                <p id="subtotal" class="cart-total">
-                    <strong>Subtotal:</strong><span class="float-right"><span class="price_symbole">৳</span><span class="cart_price" id="cart_price"> {{ Auth::user()->cartItems->sum('price') }}</span></span>
-                </p>
-
-                <a href="{{ route('checkout.index') }}" class="btn btn-success checkout w-100">Checkout</a>
-
-            </div>
-            @endguest
-        </div>
-    </div>
+    <livewire:frontend.theme.sidecart />
 
     <!-- cart button -->
-    <section class="stickyCart" id="get_cart">
-        <div class="cartItem">
-            <div class="cart-icon" style="padding: 4px 0; font-size: 20px">
-                <i class="fas fa-shopping-cart"></i>
-            </div>
-            @guest
-            <span>0 ITEMS</span>
-            @else
-            <span><span id="view_cart">{{ Auth::user()->cartItems->sum('quantity') }}</span> ITEMS</span>
-            @endguest
-        </div>
-        <div class="total">
-            <p> ৳ <span id="view_subtotal" class="odometer-value">@guest 0 @else {{ Auth::user()->cartItems->sum('price') }} @endguest</span></p>
-        </div>
-    </section>
+    <livewire:frontend.theme.cart-button />
 
     @if(!Route::is('home'))
     <!-- Breadcrumb Section -->
@@ -387,6 +341,7 @@
             });
         });
     </script>
+    
     @yield('script')
     @livewireScripts
 

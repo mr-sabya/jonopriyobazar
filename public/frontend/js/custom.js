@@ -17,6 +17,7 @@ document.addEventListener('livewire:navigated', (event) => {
 	//cart menu
 	$('.stickyCart').on('click', function () {
 		$('#cart').addClass('shopping_cart_on');
+		$('.side-cart-container').addClass('active');
 		$('.overlay').addClass('is-visible');
 
 	});

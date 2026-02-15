@@ -10,49 +10,65 @@ use Illuminate\Support\Facades\Auth;
 class Product extends Component
 {
     public $product;
-    public $showModal = false; // Controls Modal Visibility
-    public $quantity = 1;      // Local state for modal quantity
+    public $showModal = false;
+    public $quantity = 1;
 
     public function mount($productId)
     {
         $this->product = ProductModel::findOrFail($productId);
     }
 
-    // Toggle Modal
     public function openModal()
     {
         $this->showModal = true;
     }
+
     public function closeModal()
     {
         $this->showModal = false;
         $this->quantity = 1;
     }
 
-    // Quantity Controls
     public function increment()
     {
-        $this->quantity++;
+        if ($this->quantity < $this->product->quantity) {
+            $this->quantity++;
+        } else {
+            session()->flash('error', 'Maximum available stock reached.');
+        }
     }
+
     public function decrement()
     {
-        if ($this->quantity > 1) $this->quantity--;
+        if ($this->quantity > 1) {
+            $this->quantity--;
+        }
     }
 
     public function addToCart()
     {
-        Cart::add([
-            'id' => $this->product->id,
-            'name' => $this->product->name,
-            'qty' => $this->quantity,
-            'price' => $this->product->sale_price,
-            'weight' => 0,
-            'options' => ['image' => $this->product->image]
-        ]);
+        // 1. Check if user is logged in
+        if (!Auth::check()) {
+            session()->flash('error', 'Please login to add items to cart');
+            return;
+        }
 
-        $this->closeModal();
-        $this->dispatch('cartUpdated');
-        $this->dispatch('notify', ['type' => 'success', 'message' => 'Product added to bag!']);
+        // 2. Call the Cart Model logic
+        $result = Cart::add($this->product->id, $this->quantity);
+
+        // 3. Handle results with Session Flash
+        if ($result === 'out_of_stock') {
+            session()->flash('error', 'Not enough stock available!');
+        } elseif ($result) {
+            $this->closeModal();
+
+            // Still dispatching this so your Navbar/Header can refresh the count
+            $this->dispatch('cartUpdated');
+
+            session()->flash('success', 'Product added to bag!');
+        } else {
+            session()->flash('error', 'Something went wrong while adding to cart.');
+        }
     }
 
     public function render()

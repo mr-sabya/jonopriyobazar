@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('front.layouts.app')
 
 @section('title')
 Order#{{ $order->invoice }}
@@ -28,7 +28,7 @@ Order#{{ $order->invoice }}
                             </div>
                             
                             <div class="col-6 text-right">
-                                <a class="btn btn-warning {{ $order->status < 2 ? '' : 'disabled' }}" href="{{ route('profile.order.cencel', $order->invoice)}}">Cancel</a>
+                                <a class="btn btn-warning {{ $order->status < 2 ? '' : 'disabled' }}" href="{{ route('user.order.cencel', $order->invoice)}}">Cancel</a>
                             </div>
                             
                         </div>

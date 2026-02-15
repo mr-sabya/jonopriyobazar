@@ -35,7 +35,7 @@
                             <p class="small text-muted mb-0">{{ $order->created_at->diffForHumans() }}</p>
                         </td>
                         <td>
-                            <a href="{{ route('profile.order.show', $order->invoice)}}" class="font-weight-bold text-primary">
+                            <a href="{{ route('user.order.show', $order->invoice)}}" class="font-weight-bold text-primary">
                                 #{{ $order->invoice }}
                             </a>
                         </td>
@@ -71,7 +71,7 @@
                             </span>
                         </td>
                         <td class="text-right px-4">
-                            <a href="{{ route('profile.order.show', $order->invoice)}}" class="btn btn-sm btn-outline-primary br-10">
+                            <a href="{{ route('user.order.show', $order->invoice)}}" class="btn btn-sm btn-outline-primary br-10">
                                 <i class="fas fa-eye"></i>
                             </a>
                         </td>

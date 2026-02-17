@@ -25,7 +25,7 @@
                 <button wire:click="addToWishlist" class="action-btn" title="Add to Wishlist">
                     <i class="lnr lnr-heart"></i>
                 </button>
-                <button wire:click="$dispatch('loadQuickView', { productId: {{ $product->id }} })"class="action-btn mt-2">
+                <button wire:click="$dispatch('loadQuickView', { productId: {{ $product->id }} })" class="action-btn mt-2">
                     <i class="lnr lnr-eye"></i>
                 </button>
             </div>
@@ -47,6 +47,7 @@
                 @endif
             </div>
 
+            @if($product->is_stock == 1)
             <!-- Add to Cart Button -->
             <button wire:click="addToCart"
                 wire:loading.attr="disabled"
@@ -56,6 +57,11 @@
                 </span>
                 <span wire:loading wire:target="addToCart">Adding...</span>
             </button>
+            @else
+            <button class="btn btn-add-cart-disable btn-block rounded-pill-custom" disabled>
+                Out of Stock
+            </button>
+            @endif
         </div>
 
 

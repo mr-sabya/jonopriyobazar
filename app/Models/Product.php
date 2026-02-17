@@ -19,6 +19,7 @@ class Product extends Model
         'point',
         'image',
         'description',
+        'is_stock',
         'added_by'
     ];
 

@@ -289,45 +289,72 @@
     @endif
 
 
-    @if(Route::is('home'))
     <script>
-        window.onscroll = function() {
-            stickyHeader()
-        };
+        document.addEventListener("livewire:navigated", function() {
+            var header = document.getElementById("myHeader");
 
-        var header = document.getElementById("myHeader");
-        var sticky = header.offsetTop;
-
-        function stickyHeader() {
-            if (window.pageYOffset > sticky) {
-                header.classList.add("sticky");
-                $('#navCatContent').addClass('sub-menu');
-            } else {
-                header.classList.remove("sticky");
-
-                $('#navCatContent').removeClass('sub-menu');
+            // Check if header exists to prevent errors
+            if (!header) {
+                console.error("Element #myHeader not found");
+                return;
             }
-        }
-    </script>
-    @else
-    <script>
-        window.onscroll = function() {
-            stickyHeader()
-        };
 
-        var header = document.getElementById("myHeader");
-        var sticky = header.offsetTop;
+            var sticky = header.offsetTop;
 
-        function stickyHeader() {
-            if (window.pageYOffset > sticky) {
-                header.classList.add("sticky");
-            } else {
-                header.classList.remove("sticky");
+            window.onscroll = function() {
+                // Sticky Logic
+                if (window.pageYOffset > sticky) {
+                    header.classList.add("sticky");
+                    @if(Route::is('home'))
+                    var navCat = document.getElementById('navCatContent');
+                    if (navCat) navCat.classList.add('sub-menu');
+                    @endif
+                } else {
+                    header.classList.remove("sticky");
+                    @if(Route::is('home'))
+                    var navCat = document.getElementById('navCatContent');
+                    if (navCat) navCat.classList.remove('sub-menu');
+                    @endif
+                }
+            };
+        });
+
+        /**
+         * SMOOTH SCROLL FUNCTION
+         * @param {string} target - The ID or selector (e.g. '#top')
+         * @param {number} duration - Time in milliseconds
+         */
+        function scrollToElement(target, duration) {
+            const targetEl = document.querySelector(target);
+            if (!targetEl) return;
+
+            const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
             }
-        }
-    </script>
-    @endif
 
+            // Easing function for a "smooth" feel
+            function ease(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
+                t--;
+                return -c / 2 * (t * (t - 2) - 1) + b;
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        // Example usage: To scroll to top in 1.5 seconds (1500ms)
+        // scrollToElement('body', 1500);
+    </script>
     <script>
         // Integration with Swal if needed for toasts
         window.addEventListener('toast', event => {
@@ -341,7 +368,7 @@
             });
         });
     </script>
-    
+
     @yield('script')
     @livewireScripts
 

@@ -3,7 +3,7 @@
         <!-- Back Button & Page Title -->
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
-                <a href="{{ route('user.wallet.index') }}" wire:navigate class="btn btn-white shadow-sm btn-sm br-10 text-dark px-3">
+                <a href="{{ route('user.wallet.index') }}" wire:navigate class="btn btn-success shadow-sm btn-sm br-10 text-white px-3">
                     <i class="fas fa-arrow-left mr-2"></i> Go Back
                 </a>
             </div>

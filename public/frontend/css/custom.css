@@ -6,6 +6,12 @@
 	--shwapno-green: #43a047;
 	/* Replace with #43a047 if you want Shwapno's specific green */
 	--shwapno-yellow: #ffc107;
+	--shwapno-red: #ef233c;
+}
+
+/* Native smooth scroll for browsers (basic) */
+html {
+	scroll-behavior: smooth;
 }
 
 
@@ -981,6 +987,21 @@
 	color: #fff;
 }
 
+.product-card .btn-add-cart-disable {
+	border: 1px solid var(--shwapno-red);
+	color: var(--shwapno-red);
+	background: transparent;
+	font-weight: 700;
+	font-size: 13px;
+	text-transform: uppercase;
+	transition: 0.3s;
+}
+
+.product-card .btn-add-cart-disable:hover {
+	background: var(--shwapno-red);
+	color: #fff;
+}
+
 /* Hover Actions UI */
 .product-card .product-hover-actions {
 	position: absolute;
@@ -1690,4 +1711,41 @@
 
 .custom-switch .custom-control-input:checked~.custom-control-label::after {
 	transform: translateX(1rem);
+}
+
+
+
+/* Add this to your main header class (not the sticky one) */
+#myHeader {
+	transition: all 0.4s ease-in-out;
+	/* This makes the movement/height change smooth */
+	position: relative;
+	width: 100%;
+	z-index: 1000;
+}
+
+/* Styles for when header is sticky */
+#myHeader.sticky {
+	position: fixed !important;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+	/* Optional: add a smooth transition when it appears */
+	animation: smoothScrollIn 0.3s forwards;
+}
+
+@keyframes smoothScrollIn {
+	from {
+		transform: translateY(-100%);
+	}
+
+	to {
+		transform: translateY(0);
+	}
+}
+
+/* Make sure your page doesn't "jump" up when header becomes fixed */
+.sticky+.content-wrapper {
+	padding-top: 60px;
+	/* Adjust this to your header height */
 }

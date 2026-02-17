@@ -321,7 +321,7 @@
 
     <!-- 3. JAVASCRIPT FOR TOGGLE -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('livewire:navigated', function() {
             const cartContainer = document.querySelector('.side-cart-container');
             const overlay = document.querySelector('.side-cart-overlay');
             const closeBtn = document.querySelector('.cart_close_btn_new');

@@ -2,7 +2,7 @@
     <div class="container">
         <!-- Header -->
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <a href="{{ route('user.wallet.index') }}" class="btn btn-white shadow-sm btn-sm br-10 text-dark px-3" wire:navigate>
+            <a href="{{ route('user.wallet.index') }}" class="btn btn-success shadow-sm btn-sm br-10 text-white px-3" wire:navigate>
                 <i class="fas fa-arrow-left mr-2"></i> Go Back
             </a>
             <h4 class="font-weight-bold mb-0">Reward Points</h4>

@@ -22,12 +22,14 @@
                             : url('/shop?category=' . $category->slug);
                             @endphp
                             <a href="{{ $targetUrl }}" class="category-anchor" wire:navigate>
-                                <div class="cat-img-container">
-                                    @if($category->icon == null)
-                                    <img src="{{ url('frontend/images/demo.png')}}" alt="demo">
-                                    @else
-                                    <img src="{{ url('upload/images', $category->icon) }}" alt="{{ $category->name }}">
-                                    @endif
+                                <div  style="background-color: #f3f3f3;" class="p-3">
+                                    <div class="cat-img-container" style="background-color: #fff;">
+                                        @if($category->icon == null)
+                                        <img src="{{ url('frontend/images/demo.png')}}" alt="demo">
+                                        @else
+                                        <img src="{{ url('upload/images', $category->icon) }}" alt="{{ $category->name }}">
+                                        @endif
+                                    </div>
                                 </div>
                                 <div class="cat-details">
                                     <span class="cat-name">{{ $category->name }}</span>

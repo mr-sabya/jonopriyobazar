@@ -31,5 +31,6 @@ document.addEventListener('livewire:navigated', (event) => {
 		$('#cart').removeClass('shopping_cart_on');
 		$('.overlay').removeClass('is-visible');
 	});
+	
 
 });

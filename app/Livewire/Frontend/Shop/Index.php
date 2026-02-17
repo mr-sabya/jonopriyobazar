@@ -54,8 +54,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = Product::with('categories')
-            ->where('is_stock', 1);
+        $query = Product::with('categories');
 
         // Filter by Category Slug
         if ($this->category) {

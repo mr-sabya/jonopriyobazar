@@ -1,4 +1,4 @@
-<header class="header_wrap fixed-top">
+<header class="header_wrap">
     <!-- Main Top Header -->
     <div class="middle-header bg-main-green py-2" id="myHeader">
         <div class="container-fluid custom-container">
@@ -31,13 +31,11 @@
                 <!-- Right Side Actions -->
                 <div class="d-flex align-items-center">
                     <!-- App Download (Desktop) -->
-                    <a href="#" class="d-none d-lg-block mr-3">
-                        <img src="https://d2t8nl1y0ie1km.cloudfront.net/public/app-download.png" alt="app" width="140">
-                    </a>
+                    
 
                     <!-- Language Switcher -->
                     <div class="lang-switch d-none d-md-block mr-3">
-                        <button class="btn btn-sm btn-outline-light">বাংলা</button>
+                        <button class="btn btn-sm btn-outline-light">English</button>
                     </div>
 
                     <!-- User Account -->

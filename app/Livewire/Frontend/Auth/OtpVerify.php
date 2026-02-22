@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Auth;
 class OtpVerify extends Component
 {
     public $phone;
+     public $type; // 'reset' or null (for normal registration)
     public $code_1, $code_2, $code_3, $code_4;
 
     public function mount()
     {
         // Get phone from query string ?phone=...
         $this->phone = request()->query('phone');
+        $this->type = request()->query('type');
     }
 
     public function verify()
@@ -40,11 +42,18 @@ class OtpVerify extends Component
             $user->code = null;
             $user->is_varified = 1;
             $user->save();
-
-            Auth::login($user);
+            // dd($this->type);
 
             session()->flash('success', 'Phone verified successfully!');
-            return $this->redirect(route('home'), navigate:true); // Adjust redirect route as needed
+            if ($this->type === 'reset') {
+                // REDIRECT TO RESET PASSWORD PAGE
+                // dd($this->phone);
+                return $this->redirect(route('reset.password', ['phone' => $this->phone]), navigate: true);
+            } else {
+                // NORMAL FLOW: Login and go to profile
+                Auth::login($user);
+                return $this->redirect(route('home'), navigate: true);
+            }
         } else {
             // Failure Logic
             $this->addError('otp_error', 'OTP code does not match! Please try again.');

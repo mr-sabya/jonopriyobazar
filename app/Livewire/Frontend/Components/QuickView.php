@@ -6,13 +6,13 @@ use App\Models\Cart;
 use Livewire\Component;
 use App\Models\Product;
 use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Auth;
 
 class QuickView extends Component
 {
     public $product;
     public $quantity = 1;
 
-    // Listen for the "loadQuickView" event from any other component
     #[On('loadQuickView')]
     public function loadProduct($productId)
     {
@@ -25,27 +25,62 @@ class QuickView extends Component
 
     public function increment()
     {
-        $this->quantity++;
+        // Check stock availability before incrementing
+        if ($this->quantity < $this->product->quantity) {
+            $this->quantity++;
+        } else {
+            $this->dispatch('swal', [
+                'icon' => 'error',
+                'title' => 'Maximum available stock reached.'
+            ]);
+        }
     }
+
     public function decrement()
     {
-        if ($this->quantity > 1) $this->quantity--;
+        if ($this->quantity > 1) {
+            $this->quantity--;
+        }
     }
 
     public function addToCart()
     {
-        Cart::add([
-            'id' => $this->product->id,
-            'name' => $this->product->name,
-            'qty' => $this->quantity,
-            'price' => $this->product->sale_price,
-            'weight' => 0,
-            'options' => ['image' => $this->product->image]
-        ]);
+        // 1. Check if user is logged in
+        if (!Auth::check()) {
+            $this->dispatch('swal', [
+                'icon' => 'error',
+                'title' => 'Please login to add items to cart'
+            ]);
+            return;
+        }
 
-        $this->dispatch('hide-quickview-modal');
-        $this->dispatch('cartUpdated');
-        $this->dispatch('notify', ['type' => 'success', 'message' => 'Product added to bag!']);
+        // 2. Call the Cart Model logic (Matches your Product component)
+        $result = Cart::add($this->product->id, $this->quantity);
+
+        // 3. Handle results
+        if ($result === 'out_of_stock') {
+            $this->dispatch('swal', [
+                'icon' => 'error',
+                'title' => 'Not enough stock available!'
+            ]);
+        } elseif ($result) {
+            // Success logic
+            $this->dispatch('hide-quickview-modal');
+            $this->dispatch('cartUpdated');
+
+            // Optional: Open the side cart automatically
+            // $this->dispatch('openSideCart');
+
+            $this->dispatch('swal', [
+                'icon' => 'success',
+                'title' => 'Product added to bag!'
+            ]);
+        } else {
+            $this->dispatch('swal', [
+                'icon' => 'error',
+                'title' => 'Failed to add product to bag!'
+            ]);
+        }
     }
 
     public function render()

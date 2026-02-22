@@ -34,7 +34,7 @@ class Product extends Component
         if ($this->quantity < $this->product->quantity) {
             $this->quantity++;
         } else {
-            session()->flash('error', 'Maximum available stock reached.');
+            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Maximum available stock reached.']);
         }
     }
 
@@ -49,7 +49,7 @@ class Product extends Component
     {
         // 1. Check if user is logged in
         if (!Auth::check()) {
-            session()->flash('error', 'Please login to add items to cart');
+            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Please login to add items to cart']);
             return;
         }
 
@@ -64,10 +64,9 @@ class Product extends Component
 
             // Still dispatching this so your Navbar/Header can refresh the count
             $this->dispatch('cartUpdated');
-
-            session()->flash('success', 'Product added to bag!');
+            $this->dispatch('swal', ['icon' => 'success', 'title' => 'Product added to bag!']);
         } else {
-            session()->flash('error', 'Something went wrong while adding to cart.');
+            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Failed to add product to bag!']);
         }
     }
 

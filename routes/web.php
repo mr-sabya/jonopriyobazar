@@ -49,16 +49,10 @@ Route::get('verify', [LoginController::class, 'verifyForm'])->name('otp.verify')
 
 // Forgot Password / Reset
 Route::get('forgot-password', [ResetController::class, 'forgot'])->name('forgot.password');
-Route::post('find-phone', [ResetController::class, 'sendCode'])->name('phone.find');
-Route::get('user-verify/{phone}', [ResetController::class, 'verifyForm'])->name('user.verify');
-Route::post('user-verify', [ResetController::class, 'verify'])->name('user.verify.submit');
-Route::get('reset-password/{phone}', [ResetController::class, 'resetPasswordForm'])->name('reset.password.form');
-Route::post('reset-password', [ResetController::class, 'reset'])->name('reset.password.submit');
+Route::get('reset-password/{phone}', [ResetController::class, 'resetPasswordForm'])->name('reset.password');
 
 
 Route::middleware('auth')->group(function () {
-
-
 
 
     // Cart & Checkout
@@ -78,7 +72,9 @@ Route::middleware('auth')->group(function () {
     Route::post('address/default/store', [AddressController::class, 'addAddress'])->name('address.default.store');
 
     Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('order', [OrderController::class, 'order'])->name('user.order');
+
+    // order success
+    Route::get('order-success/{order_id}', [CheckoutController::class, 'orderSuccess'])->name('order.success');
 
     // Other Orders
     // Custom Order

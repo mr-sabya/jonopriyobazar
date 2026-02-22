@@ -7,6 +7,9 @@
 	/* Replace with #43a047 if you want Shwapno's specific green */
 	--shwapno-yellow: #ffc107;
 	--shwapno-red: #ef233c;
+	--main-green: #28a745;
+	--main-green-dark: #218838;
+	--soft-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Native smooth scroll for browsers (basic) */
@@ -520,10 +523,7 @@ html {
 	padding: 0;
 }
 
-.default-address .point .text p span {
-	font-size: 22px;
-	font-weight: bold;
-}
+
 
 .added-cupon {
 	background: #43A047;
@@ -1748,4 +1748,159 @@ html {
 .sticky+.content-wrapper {
 	padding-top: 60px;
 	/* Adjust this to your header height */
+}
+
+
+/* Entrance Animation */
+.animate-up {
+	animation: fadeInUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Card Design */
+.login_wrap {
+	border: none !important;
+	border-radius: 20px !important;
+	box-shadow: var(--soft-shadow) !important;
+	background: #ffffff;
+	overflow: hidden;
+}
+
+/* Input Interaction */
+.form-control {
+	height: 52px;
+	border-radius: 12px;
+	border: 1.5px solid #eef0f2;
+	padding-left: 18px;
+	font-size: 15px;
+	transition: all 0.3s ease;
+}
+
+.form-control:focus {
+	border-color: var(--main-green);
+	box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1);
+	outline: none;
+}
+
+/* Button Styling */
+.btn-login {
+	height: 52px;
+	font-weight: 600;
+	font-size: 16px;
+	letter-spacing: 0.5px;
+	border-radius: 12px;
+	transition: all 0.4s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--main-green) !important;
+	border: none;
+}
+
+.btn-login:hover {
+	background-color: var(--main-green-dark) !important;
+	transform: translateY(-2px);
+	box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-login:active {
+	transform: translateY(0);
+}
+
+/* Divider Design */
+.different_login {
+	position: relative;
+	text-align: center;
+	margin: 30px 0;
+}
+
+.different_login::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background: #ebebeb;
+}
+
+.different_login span {
+	background: #fff;
+	padding: 0 20px;
+	position: relative;
+	color: #999;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+/* Error Text Animation */
+.text-danger {
+	font-size: 0.8rem;
+	font-weight: 500;
+	display: block;
+	margin-top: 5px;
+	animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+
+	25% {
+		transform: translateX(-4px);
+	}
+
+	75% {
+		transform: translateX(4px);
+	}
+}
+
+/* Checkbox styling */
+.custome-checkbox .form-check-input:checked {
+	background-color: var(--main-green);
+	border-color: var(--main-green);
+}
+
+/* Password Toggle Styling */
+.password-wrapper {
+	position: relative;
+}
+
+.password-toggle {
+	position: absolute;
+	right: 15px;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+	color: #888;
+	z-index: 10;
+	transition: color 0.3s;
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+.password-toggle:hover {
+	color: var(--shwapno-green);
+}
+
+/* Adjust padding so text doesn't go under the icon */
+.login_wrap .form-control[type="password"],
+.login_wrap .form-control[type="text"] {
+	padding-right: 45px;
 }

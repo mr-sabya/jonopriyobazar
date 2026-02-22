@@ -8,16 +8,32 @@ use Livewire\Component;
 
 class Sidecart extends Component
 {
-    // Listens for the event dispatched from your Product component
-    protected $listeners = ['cartUpdated' => '$refresh'];
+    // This property keeps the cart open during Livewire re-renders
+    public $isCartOpen = false;
+
+    protected $listeners = [
+        'cartUpdated' => '$refresh',
+        'openSideCart' => 'openCart'
+    ];
+
+    public function openCart()
+    {
+        $this->isCartOpen = true;
+    }
+
+    public function closeCart()
+    {
+        $this->isCartOpen = false;
+    }
 
     public function increment($id)
     {
         $cart = Cart::where('user_id', Auth::id())->find($id);
         if ($cart && $cart->product->quantity > $cart->quantity) {
             $cart->increment('quantity');
+            $this->dispatch('cartUpdated');
         } else {
-            session()->flash('error', 'Limit reached');
+            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Limit reached']);
         }
     }
 
@@ -26,6 +42,7 @@ class Sidecart extends Component
         $cart = Cart::where('user_id', Auth::id())->find($id);
         if ($cart && $cart->quantity > 1) {
             $cart->decrement('quantity');
+            $this->dispatch('cartUpdated');
         } else {
             $this->removeItem($id);
         }
@@ -34,16 +51,16 @@ class Sidecart extends Component
     public function removeItem($id)
     {
         Cart::where('user_id', Auth::id())->where('id', $id)->delete();
-        $this->dispatch('cartUpdated'); // To refresh counters elsewhere
+        $this->dispatch('cartUpdated');
     }
 
     public function render()
     {
-        $carts = Auth::check() 
-            ? Cart::with('product')->where('user_id', Auth::id())->get() 
+        $carts = Auth::check()
+            ? Cart::with('product')->where('user_id', Auth::id())->get()
             : collect();
 
-        $subtotal = $carts->sum(function($item) {
+        $subtotal = $carts->sum(function ($item) {
             return $item->quantity * $item->price;
         });
 

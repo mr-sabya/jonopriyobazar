@@ -275,18 +275,20 @@
     <script data-navigate-once src="{{ asset('frontend/js/scripts.js') }}"></script>
     <script data-navigate-once src="{{ asset('frontend/js/custom.js') }}"></script>
 
-    @if(Session::has('success'))
+
     <script>
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: '{{ Session::get("success")}}',
-            showConfirmButton: false,
-            timer: 1500
-        })
+        window.addEventListener('swal', event => {
+            let data = event.detail[0];
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: data.icon,
+                title: data.title,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
     </script>
-    @endif
 
 
     <script>
@@ -354,19 +356,6 @@
 
         // Example usage: To scroll to top in 1.5 seconds (1500ms)
         // scrollToElement('body', 1500);
-    </script>
-    <script>
-        // Integration with Swal if needed for toasts
-        window.addEventListener('toast', event => {
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: event.detail[0].type,
-                title: event.detail[0].message,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        });
     </script>
 
     @yield('script')

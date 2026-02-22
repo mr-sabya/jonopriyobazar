@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="flex-grow-1">
-                                        <button wire:click="addToCart" class="btn btn-block bg-success text-white font-weight-bold py-2 shadow-sm mt-3">
+                                        <button wire:click="addToCart" class="btn btn-block bg-success text-white font-weight-bold py-2 shadow-sm mt-3 w-100">
                                             <span wire:loading.remove wire:target="addToCart">
                                                 <i class="icon-basket-loaded mr-1"></i> ADD TO BAG
                                             </span>

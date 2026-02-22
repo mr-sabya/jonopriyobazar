@@ -1,16 +1,19 @@
-<div>
-    <!-- 1. SIDE CART OVERLAY (Background Dim) -->
-    <div class="side-cart-overlay"></div>
+<div x-data="{ cartOpen: @entangle('isCartOpen') }"
+    x-effect="document.body.style.overflow = cartOpen ? 'hidden' : ''"
+    @open-side-cart.window="cartOpen = true">
 
-    <div id="cart" class="shopping_cart side-cart-container" wire:ignore.self>
-        <!-- Header Section -->
+    <!-- 1. SIDE CART OVERLAY -->
+    <div class="side-cart-overlay" :class="cartOpen ? 'active' : ''" @click="cartOpen = false"></div>
+
+    <div id="cart" class="shopping_cart side-cart-container" :class="cartOpen ? 'active' : ''" wire:ignore.self>
+        <!-- Header Section (Restored Purple Gradient) -->
         <div class="cart-header d-flex align-items-center justify-content-between p-3">
             <div class="header-title">
                 <h5 class="m-0 font-weight-bold text-white"><i class="lnr lnr-bag mr-2"></i>My Shopping Bag</h5>
                 <span class="badge badge-light-transparent">{{ Auth::check() ? $carts->sum('quantity') : 0 }} Items</span>
             </div>
             <!-- CLOSE BUTTON -->
-            <a href="javascript:void(0)" class="cart_close_btn_new">
+            <a href="javascript:void(0)" class="cart_close_btn_new" @click="cartOpen = false">
                 <i class="lnr lnr-cross"></i>
             </a>
         </div>
@@ -34,11 +37,12 @@
                     </div>
 
                     <div class="product-thumb">
-                        <img src="{{ url('upload/images', $cart->product->image) }}" alt="{{ $cart->product->name }}">
+                        <img src="{{ $cart->product->image_url }}" alt="{{ $cart->product->name }}">
+                       
                     </div>
 
                     <div class="product-details flex-grow-1">
-                        <h6 class="product-name text-truncate" title="{{ $cart->product->name }}">{{ $cart->product->name }}</h6>
+                        <h6 class="product-name" title="{{ $cart->product->name }}">{{ Str::limit($cart->product->name, 30) }}</h6>
                         <div class="price-box">
                             <span class="current-price">{{ number_format($cart->price, 2) }}৳</span>
                             @if($cart->product->actual_price > $cart->price)
@@ -46,7 +50,7 @@
                             @endif
                         </div>
                         <div class="sub-total font-weight-bold">
-                            Total: {{ number_format($cart->subtotal, 2) }}৳
+                            Total: {{ number_format($cart->quantity * $cart->price, 2) }}৳
                         </div>
                     </div>
 
@@ -69,7 +73,7 @@
                 <span class="text-muted font-weight-bold">Total Amount</span>
                 <span class="total-amount">{{ number_format($subtotal, 2) }}৳</span>
             </div>
-            <a href="{{ route('checkout.index') }}" class="btn-checkout">
+            <a href="{{ route('checkout.index') }}" class="btn-checkout" wire:navigate>
                 <span>Proceed to Checkout</span>
                 <i class="lnr lnr-arrow-right"></i>
             </a>
@@ -79,7 +83,6 @@
     </div>
 
     <style>
-        /* 1. OVERLAY STYLING */
         .side-cart-overlay {
             position: fixed;
             top: 0;
@@ -87,21 +90,17 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            /* Semi-transparent black */
             z-index: 99998;
-            /* Just below the sidecart */
             visibility: hidden;
             opacity: 0;
             transition: all 0.3s ease-in-out;
         }
 
-        /* Show overlay when active */
         .side-cart-overlay.active {
             visibility: visible;
             opacity: 1;
         }
 
-        /* 2. SIDECART CONTAINER */
         .side-cart-container {
             background: #fff;
             width: 350px;
@@ -109,7 +108,6 @@
             position: fixed;
             top: 0;
             right: -350px;
-            /* Hidden off-screen */
             z-index: 99999;
             box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
             display: flex !important;
@@ -120,11 +118,9 @@
 
         .side-cart-container.active {
             right: 0;
-            /* Slide in */
             visibility: visible;
         }
 
-        /* Layout & Internal Spacing */
         .shopping_cart_inner {
             flex: 1;
             display: flex;
@@ -168,21 +164,10 @@
             color: #ffd700;
         }
 
-        .product-details {
-            flex: 1;
-            min-width: 0;
-            padding-right: 10px;
-        }
-
         .product-name {
             font-size: 13px;
             font-weight: 700;
             color: #2d3436;
-            display: block;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .price-box {
@@ -264,9 +249,7 @@
 
         .remove-btn {
             background: #fff5f5;
-            /* Soft light red background */
             color: #ff4d4d;
-            /* Vibrant red icon color */
             border: 1px solid #ffebeb;
             width: 34px;
             height: 34px;
@@ -276,26 +259,13 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
-            padding: 0;
-            margin-left: 10px;
-            flex-shrink: 0;
-            /* Prevents button from squishing */
         }
 
         .remove-btn:hover {
             background: #ff4d4d;
-            /* Solid red background on hover */
             color: #ffffff;
-            /* White icon on hover */
             border-color: #ff4d4d;
             transform: scale(1.1);
-            /* Slight pop effect */
-            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.2);
-        }
-
-        .remove-btn i {
-            font-size: 14px;
-            font-weight: bold;
         }
 
         .icon-circle {
@@ -319,41 +289,17 @@
         }
     </style>
 
-    <!-- 3. JAVASCRIPT FOR TOGGLE -->
+    <!-- JS Listener for external buttons (Sticky cart, Header cart icon, etc) -->
     <script>
         document.addEventListener('livewire:navigated', function() {
-            const cartContainer = document.querySelector('.side-cart-container');
-            const overlay = document.querySelector('.side-cart-overlay');
-            const closeBtn = document.querySelector('.cart_close_btn_new');
-            const openBtns = document.querySelectorAll('.stickyCart, #get_cart'); // Add any other selectors that open the cart
+            const openBtns = document.querySelectorAll('.stickyCart, #get_cart');
 
-            // Function to close cart
-            const closeCart = () => {
-                cartContainer.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scroll
-            };
-
-            // Function to open cart
-            const openCart = () => {
-                cartContainer.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scroll
-            };
-
-            // Close when clicking Close Button
-            closeBtn.addEventListener('click', closeCart);
-
-            // Close when clicking Overlay
-            overlay.addEventListener('click', closeCart);
-
-            // Open when clicking sticky cart button
             openBtns.forEach(btn => {
-                btn.addEventListener('click', openCart);
+                btn.addEventListener('click', () => {
+                    // Dispatch event to Alpine JS
+                    window.dispatchEvent(new CustomEvent('open-side-cart'));
+                });
             });
-
-            // Listen for Livewire events if you want to open it automatically after adding a product
-            window.addEventListener('openSideCart', openCart);
         });
     </script>
 </div>

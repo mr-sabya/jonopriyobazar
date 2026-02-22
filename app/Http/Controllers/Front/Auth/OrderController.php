@@ -29,8 +29,7 @@ class OrderController extends Controller
 
     public function index()
     {
-    	$orders = Order::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->where('type', 'product')->get();
-    	return view('front.profile.pages.order.index', compact('orders'));
+    	return view('front.profile.pages.order.index');
     }
 
     public function show($invoice)

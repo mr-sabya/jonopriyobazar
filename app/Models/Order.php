@@ -31,32 +31,32 @@ class Order extends Model
 
     public function items()
     {
-        return $this->hasMany('App\Models\Orderitem', 'order_id');
+        return $this->hasMany(Orderitem::class, 'order_id');
     }
 
     public function customer()
     {
-        return $this->belongsTo('App\Models\User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function shippingAddress()
     {
-        return $this->belongsTo('App\Models\Address', 'shipping_address_id');
+        return $this->belongsTo(Address::class, 'shipping_address_id');
     }
 
     public function billingAddress()
     {
-        return $this->belongsTo('App\Models\Address', 'billing_address_id');
+        return $this->belongsTo(Address::class, 'billing_address_id');
     }
 
     public function cupon()
     {
-        return $this->belongsTo('App\Models\Cupon', 'cupon_id');
+        return $this->belongsTo(Cupon::class, 'cupon_id');
     }
 
     public function histories()
     {
-        return $this->hasMany('App\Models\OrderHistory', 'order_id');
+        return $this->hasMany(OrderHistory::class, 'order_id');
     }
 
     public function isActiveHistory($id)
@@ -66,6 +66,6 @@ class Order extends Model
 
     public function company()
     {
-        return $this->belongsTo('App\Models\PowerCompany', 'company_id');
+        return $this->belongsTo(PowerCompany::class, 'company_id');
     }
 }

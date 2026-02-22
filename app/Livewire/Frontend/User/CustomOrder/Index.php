@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Frontend\User\Order;
+namespace App\Livewire\Frontend\User\CustomOrder;
 
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +15,13 @@ class Index extends Component
 
     public function render()
     {
+        // Get custom orders for the logged-in user
         $orders = Order::where('user_id', Auth::id())
-            ->where('type', 'product')
-            ->latest()
+            ->where('type', 'custom')
+            ->orderBy('id', 'DESC')
             ->paginate(10);
 
-        return view('livewire.frontend.user.order.index', [
+        return view('livewire.frontend.user.custom-order.index', [
             'orders' => $orders
         ]);
     }

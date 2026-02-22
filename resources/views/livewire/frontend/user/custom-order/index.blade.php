@@ -1,7 +1,7 @@
 <div class="col-lg-8 col-xl-9">
     <!-- Header Section -->
     <div class="d-flex align-items-center justify-content-between mb-4">
-        <h3 class="font-weight-bold mb-0">Product Orders</h3>
+        <h3 class="font-weight-bold mb-0">Custom Orders</h3>
         <span class="badge badge-soft-primary px-3 py-2 br-10">
             Total: {{ $orders->total() }} Orders
         </span>
@@ -35,7 +35,7 @@
                             <p class="small text-muted mb-0">{{ $order->created_at->diffForHumans() }}</p>
                         </td>
                         <td>
-                            <a href="{{ route('user.order.show', $order->invoice)}}" class="font-weight-bold text-primary">
+                            <a href="{{ route('user.order.show', $order->invoice)}}" class="font-weight-bold text-primary" wire:navigate>
                                 #{{ $order->invoice }}
                             </a>
                         </td>
@@ -79,8 +79,8 @@
                     @empty
                     <tr>
                         <td colspan="7" class="text-center py-5">
-                            <i class="fas fa-shopping-basket fa-3x text-muted mb-3 opacity-25"></i>
-                            <p class="text-muted">No orders found.</p>
+                            <i class="fas fa-clipboard-list fa-3x text-muted mb-3 opacity-25"></i>
+                            <p class="text-muted">No custom orders found.</p>
                         </td>
                     </tr>
                     @endforelse

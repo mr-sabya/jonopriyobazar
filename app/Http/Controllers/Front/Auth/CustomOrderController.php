@@ -22,8 +22,7 @@ class CustomOrderController extends Controller
 
     public function index()
     {
-    	$orders = Order::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->where('type', 'custom')->get();
-    	return view('front.profile.pages.customorder.index', compact('orders'));
+    	return view('front.profile.pages.customorder.index');
     }
 
     public function show($invoice)

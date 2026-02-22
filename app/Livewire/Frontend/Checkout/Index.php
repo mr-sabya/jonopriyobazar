@@ -112,11 +112,20 @@ class Index extends Component
             return;
         }
 
+        // 1. Check if cart is actually populated before starting
+        $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+
+        if ($cartItems->isEmpty()) {
+            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Your cart is empty!']);
+            return;
+        }
+
         try {
-            $orderId = DB::transaction(function () {
+            $orderId = DB::transaction(function () use ($cartItems) {
                 $user = User::find(Auth::id());
                 $grandTotal = $this->finalTotal;
 
+                // 2. Handle Balance Deductions
                 if ($this->payment_option === 'wallet') {
                     if ($user->wallet_balance < $grandTotal) throw new \Exception('Insufficient wallet balance.');
                     $user->wallet_balance -= $grandTotal;
@@ -126,10 +135,10 @@ class Index extends Component
                 }
                 $user->save();
 
-                // Create Order matching your SCHEMA
+                // 3. Create Order
                 $order = Order::create([
                     'user_id'             => $user->id,
-                    'invoice'             => 'INV-' . time() . rand(100, 999),
+                    'invoice'             => time() . rand(100, 999),
                     'cupon_id'            => $this->applied_coupon['id'] ?? null,
                     'shipping_address_id' => $this->shipping_address->id,
                     'billing_address_id'  => $this->billing_address->id,
@@ -141,8 +150,11 @@ class Index extends Component
                     'status'              => 0,
                 ]);
 
-                // Create Order Items
-                foreach ($this->carts as $cart) {
+                // 4. Create Order Items using the fresh $cartItems collection
+                foreach ($cartItems as $cart) {
+                    // Ensure the product exists to avoid "trying to get property of non-object"
+                    if (!$cart->product) continue;
+
                     $itemPrice = ($this->payment_option === 'wallet' || $this->payment_option === 'refer')
                         ? $cart->product->actual_price
                         : ($cart->price / $cart->quantity);
@@ -156,13 +168,17 @@ class Index extends Component
                     ]);
                 }
 
+                // 5. Clear Cart
                 Cart::where('user_id', $user->id)->delete();
+
                 return $order->id;
             });
 
+            // Redirect to success page
             return $this->redirect(route('order.success', ['order_id' => $orderId]), navigate: true);
         } catch (\Exception $e) {
-            $this->dispatch('swal', ['icon' => 'error', 'title' => $e->getMessage()]);
+            // This will now catch database errors (like missing columns in orderitems)
+            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Order Failed: ' . $e->getMessage()]);
         }
     }
 

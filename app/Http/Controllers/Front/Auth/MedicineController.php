@@ -10,20 +10,11 @@ use Illuminate\Http\Request;
 
 class MedicineController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
 
     public function index()
     {
-    	$orders = Order::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->where('type', 'medicine')->get();
-    	return view('front.profile.pages.medicine.index', compact('orders'));
+        return view('front.profile.pages.medicine.index');
     }
 
     public function show($invoice)

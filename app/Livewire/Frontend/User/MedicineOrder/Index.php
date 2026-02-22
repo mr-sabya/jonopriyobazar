@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Frontend\User\Order;
+namespace App\Livewire\Frontend\User\MedicineOrder;
 
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +15,13 @@ class Index extends Component
 
     public function render()
     {
+        // Get medicine orders for the logged-in user with pagination
         $orders = Order::where('user_id', Auth::id())
-            ->where('type', 'product')
-            ->latest()
+            ->where('type', 'medicine')
+            ->orderBy('id', 'DESC')
             ->paginate(10);
 
-        return view('livewire.frontend.user.order.index', [
+        return view('livewire.frontend.user.medicine-order.index', [
             'orders' => $orders
         ]);
     }

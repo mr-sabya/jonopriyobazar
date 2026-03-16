@@ -14,14 +14,11 @@
                                 </div>
                             </div>
                             <div class="col-6 text-right">
-                                @php
-                                // Determine cancel route based on type
-                                $cancelRoute = ($order->type == 'product') ? 'user.order.cencel' : 'user.order.cencel';
-                                @endphp
+                                
 
                                 @if($order->status != 4)
                                 <a class="btn btn-warning br-10 {{ $order->status < 2 ? '' : 'disabled' }}"
-                                    href="{{ route($cancelRoute, $order->invoice) }}">
+                                    href="{{ route('user.order.cencel.create', $order->invoice) }}" wire:navigate>
                                     <i class="fas fa-times-circle mr-1"></i> Cancel Order
                                 </a>
                                 @endif

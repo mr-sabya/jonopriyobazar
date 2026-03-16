@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Electricity Orders')
+@section('title', 'Cancel Orders')
 
 @section('content')
 
@@ -13,7 +13,7 @@
             <livewire:frontend.user.sidebar />
 
             <!-- MAIN CONTENT AREA -->
-            <livewire:frontend.user.electricity-order.index />
+            <livewire:frontend.user.cancel-order.index />
         </div>
     </div>
 </div>

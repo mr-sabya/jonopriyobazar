@@ -141,13 +141,10 @@ Route::middleware('auth')->group(function () {
         Route::get('electricity-bill/{id}', [UserElectricitybillController::class, 'show'])->name('electricity.show');
 
         // Cancel Orders
-        Route::get('order/cancel/{invoice}', [UserOrderController::class, 'cancelOrder'])->name('order.cencel');
-        Route::post('order/cancel/submit', [UserOrderController::class, 'cancelOrderSubmit'])->name('order.cencel.submit');
-        Route::get('order-cancel/success', [UserOrderController::class, 'cancelSuccess'])->name('order.cencel.success');
-
-        Route::get('cancel/product-orders', [CancelController::class, 'product'])->name('product.cancel');
-        Route::get('cancel/custom-orders', [CancelController::class, 'custom'])->name('custom.cancel');
-        Route::get('cancel/medicine-orders', [CancelController::class, 'medicine'])->name('medicine.cancel');
-        Route::get('cancel/electricity-bill', [CancelController::class, 'electricity'])->name('electricity.cancel');
+        
+        Route::get('cancel-orders', [CancelController::class, 'index'])->name('order.cancel.index');
+        Route::get('order/cancel/{invoice}', [CancelController::class, 'cancelOrder'])->name('order.cencel.create');
+        Route::get('order-cancel/success', [CancelController::class, 'cancelSuccess'])->name('order.cencel.success');
+        
     });
 });

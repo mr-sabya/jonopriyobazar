@@ -76,7 +76,7 @@
             <ul class="nav-list px-2 pb-2">
                 <!-- Main Cancellations Link -->
                 <li>
-                    <a href="{{ route('user.product.cancel') }}" class="{{ Request::is('user/cancel*') ? 'active' : '' }}">
+                    <a href="{{ route('user.order.cancel.index') }}" class="{{ Request::is('user/cancel*') ? 'active' : '' }}">
                         <i class="fas fa-times-circle text-danger"></i>
                         <span class="text-danger font-weight-bold">My Cancellations</span>
                     </a>

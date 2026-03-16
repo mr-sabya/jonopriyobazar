@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class WalletPurchase extends Model
+class Walletpackage extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,56 +13,51 @@ class WalletPurchase extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'date',
-        'order_id',
         'amount',
+        'validate', // Validity duration (e.g., in days)
+        'status',
     ];
 
     /**
      * The attributes that should be cast.
-     * 
-     * Casting 'date' ensures Carbon methods like ->format() are available.
-     * Casting 'amount' to double ensures precision for financial calculations.
      */
     protected $casts = [
-        'user_id' => 'integer',
-        'order_id' => 'integer',
-        'date' => 'date',
-        'amount' => 'double',
+        'amount' => 'integer',
+        'validate' => 'integer',
+        'status' => 'boolean',
     ];
 
     /**
-     * Get the user who made this purchase using their wallet.
+     * Relationship: Get all products/items included in this wallet package.
      */
-    public function user(): BelongsTo
+    public function items(): HasMany
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(PackageItem::class, 'package_id');
     }
 
     /**
-     * Get the order associated with this wallet transaction.
+     * Relationship: Get all user subscriptions associated with this package.
      */
-    public function order(): BelongsTo
+    public function customerWallets(): HasMany
     {
-        return $this->belongsTo(Order::class, 'order_id');
+        return $this->hasMany(CustomerWallet::class, 'package_id');
     }
 
     /**
-     * Scope a query to only include wallet purchases from the current month.
-     * Usage: WalletPurchase::currentMonth()->sum('amount');
+     * Scope a query to only include active wallet packages.
+     * Usage: Walletpackage::active()->get();
      */
-    public function scopeCurrentMonth($query)
+    public function scopeActive($query)
     {
-        return $query->whereMonth('date', now()->month)
-            ->whereYear('date', now()->year);
+        return $query->where('status', 1);
     }
 
     /**
-     * Scope a query to filter by a specific user.
+     * Accessor: Get a formatted label for validity.
+     * Usage in Blade: {{ $package->validity_label }}
      */
-    public function scopeByUser($query, $userId)
+    public function getValidityLabelAttribute()
     {
-        return $query->where('user_id', $userId);
+        return $this->validate . ' Days';
     }
 }

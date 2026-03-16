@@ -131,7 +131,7 @@ class Index extends Component
             $admin->notify(new OrderRequest($data));
         }
 
-        return redirect()->route('order.complete');
+        return $this->redirect(route('order.complete'), navigate: true);
     }
 
     public function render()

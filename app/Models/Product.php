@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\File;
 
 class Product extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     */
     protected $fillable = [
         'name',
         'slug',
@@ -23,39 +28,91 @@ class Product extends Model
         'added_by'
     ];
 
-    public function categories()
+    /**
+     * The attributes that should be cast.
+     */
+    protected $casts = [
+        'sale_price' => 'double',
+        'actual_price' => 'double',
+        'quantity' => 'integer',
+        'point' => 'integer',
+        'is_stock' => 'boolean',
+        'is_percentage' => 'boolean',
+    ];
+
+    /**
+     * Relationship: Categories associated with this product.
+     */
+    public function categories(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Category');
+        return $this->belongsToMany(Category::class);
     }
 
-    // Accessor for the image URL
+    /**
+     * Relationship: Items in Wishlists.
+     */
+    public function wishlists(): HasMany
+    {
+        return $this->hasMany(Wishlist::class, 'product_id');
+    }
+
+    /**
+     * Relationship: Link to an active Flash Sale Item.
+     */
+    public function flashSaleItem(): HasOne
+    {
+        return $this->hasOne(FlashSaleItem::class, 'product_id');
+    }
+
+    /**
+     * Relationship: Times this product has been ordered.
+     */
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(Orderitem::class, 'product_id');
+    }
+
+    /**
+     * Accessor: Image URL with fallback to demo image.
+     */
     public function getImageUrlAttribute()
     {
-        // Define the relative path to the image
         $path = 'upload/images/' . $this->image;
 
-        // Check if the image field is not empty and the file exists in the public folder
         if (!empty($this->image) && File::exists(public_path($path))) {
             return asset($path);
         }
 
-        // Return a demo image if not found
-        // Ensure you have a 'demo.png' in public/frontend/images/
         return asset('frontend/images/demo-image.png');
     }
 
-
+    /**
+     * Accessor: Sanitized description for clean UI display.
+     */
     public function getCleanDescriptionAttribute()
     {
         $content = $this->description;
-
-        // 1. Replace multiple <br> with one
+        // Replace multiple <br> with one
         $content = preg_replace('/(<br\s*\/?>\s*){2,}/i', '<br>', $content);
-
-        // 2. Remove empty paragraphs
+        // Remove empty paragraphs
         $content = preg_replace('/<p>\s*(<br\s*\/?>|&nbsp;)*\s*<\/p>/i', '', $content);
 
-        // 3. Trim whitespace from start and end
         return trim($content);
+    }
+
+    /**
+     * Scope: Only products that are marked as in stock.
+     */
+    public function scopeInStock($query)
+    {
+        return $query->where('is_stock', true)->where('quantity', '>', 0);
+    }
+
+    /**
+     * Scope: Products added by a specific admin/user.
+     */
+    public function scopeByAddedBy($query, $userId)
+    {
+        return $query->where('added_by', $userId);
     }
 }

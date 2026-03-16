@@ -114,7 +114,7 @@ class Index extends Component
         }
 
         session()->flash('success', 'Order confirmed successfully!');
-        return redirect()->route('order.complete');
+        return $this->redirect(route('order.complete'), navigate: true);
     }
 
     public function render()

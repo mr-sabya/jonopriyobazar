@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use DB;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
@@ -19,7 +19,10 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'password',
+        'name',
+        'email',
+        'phone',
+        'password',
     ];
 
     /**
@@ -28,7 +31,8 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     public static function getpermissionGroups()

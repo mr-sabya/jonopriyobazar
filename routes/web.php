@@ -1,150 +1,110 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Front\HomeController;
-use App\Http\Controllers\Front\CategoryController;
-use App\Http\Controllers\Front\ProductController;
-use App\Http\Controllers\Front\PageController;
-use App\Http\Controllers\Front\Auth\LoginController;
-use App\Http\Controllers\Front\Auth\RegisterController;
-use App\Http\Controllers\Front\Auth\ResetController;
-use App\Http\Controllers\Front\Auth\ProfileController;
-use App\Http\Controllers\Front\Auth\AddressController;
-use App\Http\Controllers\Front\Auth\OrderController as UserOrderController;
-use App\Http\Controllers\Front\Auth\CustomOrderController as UserCustomOrderController;
-use App\Http\Controllers\Front\Auth\MedicineController as UserMedicineController;
-use App\Http\Controllers\Front\Auth\ElectricitybillController as UserElectricitybillController;
-use App\Http\Controllers\Front\Auth\CancelController;
-use App\Http\Controllers\Front\CartController;
-use App\Http\Controllers\Front\CuponController;
-use App\Http\Controllers\Front\CheckoutController;
-use App\Http\Controllers\Front\OrderController;
-use App\Http\Controllers\Front\CustomOrderController;
-use App\Http\Controllers\Front\ElectricitybillController;
-use App\Http\Controllers\Front\MedicineController;
-use App\Http\Controllers\Front\WishlistController;
-use App\Http\Controllers\Front\WalletController;
-use App\Http\Controllers\Front\ReferController;
-use App\Http\Controllers\Front\Auth\PointController;
-use App\Http\Controllers\Front\NotificationController;
 
 // Home & General Shop
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('category', [CategoryController::class, 'index'])->name('category.index');
-Route::get('category/{slug}', [CategoryController::class, 'sub'])->name('category.sub');
+Route::get('/', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
+Route::get('category', [App\Http\Controllers\Front\CategoryController::class, 'index'])->name('category.index');
+Route::get('category/{slug}', [App\Http\Controllers\Front\CategoryController::class, 'sub'])->name('category.sub');
 
-Route::get('shop', [ProductController::class, 'index'])->name('product.index');
+Route::get('shop', [App\Http\Controllers\Front\ProductController::class, 'index'])->name('product.index');
 
 // Static Pages
-Route::get('about', [PageController::class, 'about'])->name('about');
-Route::get('faq', [PageController::class, 'faq'])->name('faq');
-Route::get('refer-policy', [PageController::class, 'refer'])->name('refer');
-Route::get('terms-of-use', [PageController::class, 'terms'])->name('terms');
-Route::get('privacy-policy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('about', [App\Http\Controllers\Front\PageController::class, 'about'])->name('about');
+Route::get('faq', [App\Http\Controllers\Front\PageController::class, 'faq'])->name('faq');
+Route::get('refer-policy', [App\Http\Controllers\Front\PageController::class, 'refer'])->name('refer');
+Route::get('terms-of-use', [App\Http\Controllers\Front\PageController::class, 'terms'])->name('terms');
+Route::get('privacy-policy', [App\Http\Controllers\Front\PageController::class, 'privacy'])->name('privacy');
 
 // Authentication
-Route::get('login', [LoginController::class, 'showForm'])->name('login');
-Route::get('register', [RegisterController::class, 'showForm'])->name('register');
-Route::get('verify', [LoginController::class, 'verifyForm'])->name('otp.verify');
+Route::get('login', [App\Http\Controllers\Front\Auth\LoginController::class, 'showForm'])->name('login');
+Route::get('register', [App\Http\Controllers\Front\Auth\RegisterController::class, 'showForm'])->name('register');
+Route::get('verify', [App\Http\Controllers\Front\Auth\LoginController::class, 'verifyForm'])->name('otp.verify');
 
 // Forgot Password / Reset
-Route::get('forgot-password', [ResetController::class, 'forgot'])->name('forgot.password');
-Route::get('reset-password/{phone}', [ResetController::class, 'resetPasswordForm'])->name('reset.password');
+Route::get('forgot-password', [App\Http\Controllers\Front\Auth\ResetController::class, 'forgot'])->name('forgot.password');
+Route::get('reset-password/{phone}', [App\Http\Controllers\Front\Auth\ResetController::class, 'resetPasswordForm'])->name('reset.password');
 
 
 Route::middleware('auth')->group(function () {
 
 
     // Cart & Checkout
-    Route::get('get-cart', [CartController::class, 'index'])->name('cart.store');
-    Route::get('add-cart/{id}', [CartController::class, 'store'])->name('cart.store');
-    Route::get('add-to-cart', [CartController::class, 'add'])->name('cart.add');
-    Route::get('fetch-cart', [CartController::class, 'fetchCart'])->name('cart.fetch');
-    Route::delete('cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
-    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
-    Route::get('cart/increment/{id}', [CartController::class, 'increment'])->name('cart.increment');
-    Route::get('cart/decrement/{id}', [CartController::class, 'decrement'])->name('cart.increment');
+    Route::get('cart', [App\Http\Controllers\Front\CartController::class, 'index'])->name('cart.index');
 
-    Route::post('cupon/apply', [CuponController::class, 'apply'])->name('cupon.apply');
-    Route::get('cupon/remove/{id}', [CuponController::class, 'remove'])->name('cupon.remove');
+    Route::post('cupon/apply', [App\Http\Controllers\Front\CuponController::class, 'apply'])->name('cupon.apply');
+    Route::get('cupon/remove/{id}', [App\Http\Controllers\Front\CuponController::class, 'remove'])->name('cupon.remove');
 
-    Route::get('add-address', [AddressController::class, 'showForm'])->name('address.showform');
-    Route::post('address/default/store', [AddressController::class, 'addAddress'])->name('address.default.store');
+    Route::get('add-address', [App\Http\Controllers\Front\Auth\AddressController::class, 'showForm'])->name('address.showform');
+    Route::post('address/default/store', [App\Http\Controllers\Front\Auth\AddressController::class, 'addAddress'])->name('address.default.store');
 
-    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::get('checkout', [App\Http\Controllers\Front\CheckoutController::class, 'index'])->name('checkout.index');
 
     // order success
-    Route::get('order-success/{order_id}', [CheckoutController::class, 'orderSuccess'])->name('order.success');
+    Route::get('order-success/{order_id}', [App\Http\Controllers\Front\CheckoutController::class, 'orderSuccess'])->name('order.success');
 
     // Other Orders
     // Custom Order
-    Route::get('custom-order', [CustomOrderController::class, 'index'])->name('custom.order');
+    Route::get('custom-order', [App\Http\Controllers\Front\Auth\CustomOrderController::class, 'index'])->name('custom.order');
 
     // Electricity Bill
-    Route::get('electricity-bill', [ElectricitybillController::class, 'index'])->name('electricity.index');
+    Route::get('electricity-bill', [App\Http\Controllers\Front\Auth\ElectricitybillController::class, 'index'])->name('electricity.index');
 
     // Medicine Order
-    Route::get('medicine-order', [MedicineController::class, 'index'])->name('medicine.index');
+    Route::get('medicine-order', [App\Http\Controllers\Front\Auth\MedicineController::class, 'index'])->name('medicine.index');
 
-    Route::get('order-complete', [OrderController::class, 'complete'])->name('order.complete');
+    Route::get('order-complete', [App\Http\Controllers\Front\Auth\OrderController::class, 'complete'])->name('order.complete');
 
     // Wishlist
-    Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::get('add-wishlist/{id}', [WishlistController::class, 'store'])->name('wishlist.store');
-    Route::get('wishlist/add-cart/{id}', [WishlistController::class, 'addCart'])->name('wishlist.addcart');
-    Route::delete('wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::get('wishlist', [App\Http\Controllers\Front\WishlistController::class, 'index'])->name('wishlist.index');
+    Route::get('add-wishlist/{id}', [App\Http\Controllers\Front\WishlistController::class, 'store'])->name('wishlist.store');
+    Route::get('wishlist/add-cart/{id}', [App\Http\Controllers\Front\WishlistController::class, 'addCart'])->name('wishlist.addcart');
+    Route::delete('wishlist/remove/{id}', [App\Http\Controllers\Front\WishlistController::class, 'remove'])->name('wishlist.remove');
 
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
 
         // user menu redirect to profile
-        Route::get('/', [ProfileController::class, 'dashboard'])->name('dashboard');
+        Route::get('/', [App\Http\Controllers\Front\Auth\ProfileController::class, 'dashboard'])->name('dashboard');
 
         // Profile Management
-        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
-        Route::post('profile/image', [ProfileController::class, 'updateImage'])->name('image.update');
-        Route::post('profile/info/update', [ProfileController::class, 'updateInfo'])->name('info.update');
-        Route::post('profile/password/update', [ProfileController::class, 'updatePassword'])->name('password.update');
+        Route::get('profile', [App\Http\Controllers\Front\Auth\ProfileController::class, 'index'])->name('profile');
 
         // Address Management
-        Route::get('address', [AddressController::class, 'index'])->name('address.index');
+        Route::get('address', [App\Http\Controllers\Front\Auth\AddressController::class, 'index'])->name('address.index');
 
         // Wallet Routes (user.wallet.index, user.wallet.show)
         Route::prefix('wallet')->as('wallet.')->group(function () {
-            Route::get('/', [WalletController::class, 'index'])->name('index');
-            Route::get('/details', [WalletController::class, 'show'])->name('show');
+            Route::get('/', [App\Http\Controllers\Front\WalletController::class, 'index'])->name('index');
+            Route::get('/details', [App\Http\Controllers\Front\WalletController::class, 'show'])->name('show');
         });
 
         // Refer Routes (user.refer.index, user.refer.balance)
         Route::prefix('refer')->as('refer.')->group(function () {
-            Route::get('/', [ReferController::class, 'index'])->name('index');
-            Route::get('/history', [ReferController::class, 'balance'])->name('balance');
+            Route::get('/', [App\Http\Controllers\Front\ReferController::class, 'index'])->name('index');
+            Route::get('/history', [App\Http\Controllers\Front\ReferController::class, 'balance'])->name('balance');
         });
 
 
         // Point Routes (user.point.index, user.point.apply)
         Route::prefix('point')->as('point.')->group(function () {
-            Route::get('/', [PointController::class, 'index'])->name('index');
-            Route::get('/prize/apply/{id}', [PointController::class, 'apply'])->name('prize.apply');
+            Route::get('/', [App\Http\Controllers\Front\Auth\PointController::class, 'index'])->name('index');
+            Route::get('/prize/apply/{id}', [App\Http\Controllers\Front\Auth\PointController::class, 'apply'])->name('prize.apply');
         });
 
-        Route::get('notifications', [NotificationController::class, 'index'])->name('notification.index');
+        Route::get('notifications', [App\Http\Controllers\Front\NotificationController::class, 'index'])->name('notification.index');
 
 
         // User Orders in Profile
-        Route::get('order', [UserOrderController::class, 'index'])->name('order.index');
-        Route::get('order/{invoice}', [UserOrderController::class, 'show'])->name('order.show');
-        Route::get('custom-order', [UserCustomOrderController::class, 'index'])->name('customorder.index');
-        Route::get('custom-order/{invoice}', [UserCustomOrderController::class, 'show'])->name('customorder.show');
-        Route::get('medicine-order', [UserMedicineController::class, 'index'])->name('medicine.index');
-        Route::get('medicine-order/{invoice}', [UserMedicineController::class, 'show'])->name('medicine.show');
-        Route::get('electricity-bill', [UserElectricitybillController::class, 'index'])->name('electricity.index');
-        Route::get('electricity-bill/{id}', [UserElectricitybillController::class, 'show'])->name('electricity.show');
+        Route::get('orders', [App\Http\Controllers\Front\Auth\OrderController::class, 'index'])->name('order.index');
+        Route::get('order/{invoice}', [App\Http\Controllers\Front\Auth\OrderController::class, 'show'])->name('order.show');
+        Route::get('custom-order', [App\Http\Controllers\Front\Auth\CustomOrderController::class, 'index'])->name('customorder.index');
+        Route::get('medicine-order', [App\Http\Controllers\Front\Auth\MedicineController::class, 'index'])->name('medicine.index');
+        Route::get('electricity-bill', [App\Http\Controllers\Front\Auth\ElectricitybillController::class, 'index'])->name('electricity.index');
 
         // Cancel Orders
-        
-        Route::get('cancel-orders', [CancelController::class, 'index'])->name('order.cancel.index');
-        Route::get('order/cancel/{invoice}', [CancelController::class, 'cancelOrder'])->name('order.cencel.create');
-        Route::get('order-cancel/success', [CancelController::class, 'cancelSuccess'])->name('order.cencel.success');
-        
+
+        Route::get('cancel-orders', [App\Http\Controllers\Front\Auth\CancelController::class, 'index'])->name('order.cancel.index');
+        Route::get('order/cancel/{invoice}', [App\Http\Controllers\Front\Auth\CancelController::class, 'cancelOrder'])->name('order.cencel.create');
+        Route::get('order-cancel/success', [App\Http\Controllers\Front\Auth\CancelController::class, 'cancelSuccess'])->name('order.cencel.success');
     });
 });

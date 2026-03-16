@@ -22,9 +22,24 @@
 
             <!-- Quick Actions -->
             <div class="product-hover-actions">
-                <button wire:click="addToWishlist" class="action-btn" title="Add to Wishlist">
-                    <i class="lnr lnr-heart"></i>
-                </button>
+                <!-- Wrap the button or the whole card in x-data -->
+                <div x-data="{ localWishlisted: @entangle('isInWishlist') }">
+                    <button type="button"
+                        @click="localWishlisted = !localWishlisted; $wire.addToWishlist()"
+                        class="action-btn"
+                        :class="localWishlisted ? 'is-wishlisted' : ''"
+                        title="Wishlist">
+
+                        <!-- Icon changes instantly based on Alpine state -->
+                        <template x-if="localWishlisted">
+                            <i class="fas fa-heart"></i>
+                        </template>
+
+                        <template x-if="!localWishlisted">
+                            <i class="lnr lnr-heart"></i>
+                        </template>
+                    </button>
+                </div>
                 <button wire:click="$dispatch('loadQuickView', { productId: {{ $product->id }} })" class="action-btn mt-2">
                     <i class="lnr lnr-eye"></i>
                 </button>
@@ -68,5 +83,44 @@
         <!-- --- QUICK VIEW MODAL --- -->
 
     </div>
+
+    <style>
+        /* Normal state */
+        .action-btn {
+            background: #ffffff;
+            border: 1px solid #e1e1e1;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        /* Wishlisted state (Change color here) */
+        .action-btn.is-wishlisted {
+            background-color: #ffeded !important;
+            /* Soft red background */
+            border-color: #ff0000 !important;
+            /* Red border */
+            color: #ff0000 !important;
+            /* Red heart icon */
+        }
+
+        /* Optional: Pop animation when clicked */
+        .is-wishlisted i {
+            animation: heartPop 0.3s ease-out;
+        }
+
+        @keyframes heartPop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 
 </div>

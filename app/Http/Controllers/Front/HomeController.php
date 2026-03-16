@@ -12,8 +12,6 @@ class HomeController extends Controller
 {
 	public function index()
 	{
-		
-		
 		$products = Product::inRandomOrder()->where('is_stock', 1)->limit(10)->get();
 		$flash_products = Product::with('categories')->whereHas(
 			'categories', function($q){

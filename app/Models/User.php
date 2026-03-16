@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-use DB;
-use Auth;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\File;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected $fillable = [
         'name',
@@ -48,76 +47,157 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for arrays.
-     *
-     * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
-    public function cartItems()
+    /**
+     * The attributes that should be cast.
+     */
+    protected $casts = [
+        'is_varified' => 'boolean',
+        'is_percentage' => 'boolean',
+        'is_wallet' => 'boolean',
+        'is_hold' => 'boolean',
+        'is_expired' => 'boolean',
+        'status' => 'integer',
+        'wallet_balance' => 'double',
+        'ref_balance' => 'double',
+        'point' => 'integer',
+        'request_date' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
+    public function cartItems(): HasMany
     {
-        return $this->hasMany('App\Models\Cart', 'user_id');
+        return $this->hasMany(Cart::class, 'user_id');
     }
 
-    public function addresses()
+    public function addresses(): HasMany
     {
-        return $this->hasMany('App\Models\Address', 'user_id');
+        return $this->hasMany(Address::class, 'user_id');
     }
 
-    public function refers()
+    /**
+     * Self-referencing relationship: Users referred by this user.
+     */
+    public function refers(): HasMany
     {
-        return $this->hasMany('App\Models\User', 'referral_id');
+        return $this->hasMany(User::class, 'referral_id');
     }
 
-    public function orders()
+    /**
+     * The user who referred this user.
+     */
+    public function referrer(): BelongsTo
     {
-        return $this->hasMany('App\Models\Order', 'user_id');
+        return $this->belongsTo(User::class, 'referral_id');
     }
 
-    public function wishlist()
+    public function orders(): HasMany
     {
-        return $this->hasMany('App\Models\Wishlist', 'user_id');
+        return $this->hasMany(Order::class, 'user_id');
     }
 
-    public function applywallets()
+    public function wishlist(): HasMany
     {
-        return $this->hasMany('App\Models\CustomerWallet', 'user_id');
+        return $this->hasMany(Wishlist::class, 'user_id');
     }
 
-    
-
-    public function applyWallet($id)
+    public function applywallets(): HasMany
     {
-        $packages = $this->applywallets->where('package_id', $id)->count();
+        return $this->hasMany(CustomerWallet::class, 'user_id');
+    }
 
-        if($packages == 1){
-            return true;
-        }else{
-            return false;
+    public function activePackage(): BelongsTo
+    {
+        return $this->belongsTo(Walletpackage::class, 'wallet_package_id');
+    }
+
+    public function walletPurchase(): HasMany
+    {
+        return $this->hasMany(WalletPurchase::class, 'user_id');
+    }
+
+    public function walletPay(): HasMany
+    {
+        return $this->hasMany(Payments::class, 'user_id');
+    }
+
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(Agent::class, 'agent_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Accessor for Profile Image URL.
+     */
+    public function getImageUrlAttribute()
+    {
+        $path = 'upload/images/user/' . $this->image;
+        if (!empty($this->image) && File::exists(public_path($path))) {
+            return asset($path);
         }
+        return asset('frontend/images/demo-user.png');
     }
 
-    public function activePackage()
+    /**
+     * Accessor for NID Front Image.
+     */
+    public function getNidFrontUrlAttribute()
     {
-        return $this->belongsTo('App\Models\Walletpackage', 'wallet_package_id');
+        return $this->n_id_front ? asset('upload/images/user/nid/' . $this->n_id_front) : null;
     }
 
-    public function userPackages()
+    /**
+     * Accessor for NID Back Image.
+     */
+    public function getNidBackUrlAttribute()
     {
-        return $this->hasMany('App\Models\CustomerWallet', 'user_id');
+        return $this->n_id_back ? asset('upload/images/user/nid/' . $this->n_id_back) : null;
     }
 
-    public function walletPurchase()
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers & Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Check if user has already applied for a specific wallet package.
+     */
+    public function applyWallet($packageId)
     {
-        return $this->hasMany('App\Models\WalletPurchase', 'user_id');
+        return $this->applywallets()->where('package_id', $packageId)->exists();
     }
 
-    public function walletPay()
+    /**
+     * Scope: Only active users.
+     */
+    public function scopeActive($query)
     {
-        return $this->hasMany('App\Models\Payments', 'user_id');
+        return $query->where('status', 1)->where('is_hold', false);
     }
 
-    
-    
+    /**
+     * Scope: Only verified users.
+     */
+    public function scopeVerified($query)
+    {
+        return $query->where('is_varified', true);
+    }
 }

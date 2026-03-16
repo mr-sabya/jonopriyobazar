@@ -61,25 +61,9 @@
                             </span>
                         </td>
                         <td class="text-right px-4">
-                            @php
-                            // Dynamic route selection based on type
-                            $viewRoute = match($order->type) {
-                            'medicine' => route('profile.medicine.show', $order->invoice),
-                            'custom' => route('profile.customorder.show', $order->invoice),
-                            'electricity' => '#', // Usually a modal or specific electricity route
-                            default => route('profile.order.show', $order->invoice),
-                            };
-                            @endphp
-
-                            @if($order->type == 'electricity')
-                            <button class="btn btn-sm btn-outline-secondary br-10 details" data-id="{{ $order->id }}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            @else
-                            <a href="{{ $viewRoute }}" class="btn btn-sm btn-outline-secondary br-10">
+                            <a href="{{ route('user.order.show', $order->invoice) }}" wire:navigate class="btn btn-sm btn-outline-secondary br-10">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            @endif
                         </td>
                     </tr>
                     @empty

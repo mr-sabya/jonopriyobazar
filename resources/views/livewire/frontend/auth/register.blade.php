@@ -7,7 +7,7 @@
                 <div class="login_wrap animate-up">
                     <div class="padding_eight_all p-4 p-md-5">
                         <div class="heading_s1 text-center mb-5">
-                            <h2 class="mb-2" style="font-weight: 800; color: #1a1a1a; letter-spacing: -1px;">Join Us</h2>
+                            <h2 class="mb-2" style="font-weight: 800; color: #1a1a1a; letter-spacing: -1px;">Create Account</h2>
                             <p class="text-muted">Create your account and start shopping</p>
                             @error('otp_error')
                             <div class="alert alert-danger py-2 border-0 small">{{ $message }}</div>

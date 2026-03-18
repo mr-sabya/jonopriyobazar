@@ -102,7 +102,7 @@
                                                 @if($payment_option === 'wallet' || $payment_option === 'refer')
                                                 Rate: {{ $cart->product->actual_price }}৳
                                                 @else
-                                                Rate: {{ $cart->price / $cart->quantity }}৳
+                                                Rate: {{ ($cart->price * $cart->quantity) / $cart->quantity }}৳
                                                 @endif
                                             </small>
                                         </td>
@@ -110,7 +110,7 @@
                                             @if($payment_option === 'wallet' || $payment_option === 'refer')
                                             {{ $cart->product->actual_price * $cart->quantity }}৳
                                             @else
-                                            {{ $cart->price }}৳
+                                            {{ $cart->price * $cart->quantity }}৳
                                             @endif
                                         </td>
                                     </tr>

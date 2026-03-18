@@ -45,15 +45,15 @@ Route::middleware('auth')->group(function () {
 
     // Other Orders
     // Custom Order
-    Route::get('custom-order', [App\Http\Controllers\Front\Auth\CustomOrderController::class, 'index'])->name('custom.order');
+    Route::get('custom-order', [App\Http\Controllers\Front\CustomOrderController::class, 'index'])->name('custom.order');
 
     // Electricity Bill
-    Route::get('electricity-bill', [App\Http\Controllers\Front\Auth\ElectricitybillController::class, 'index'])->name('electricity.index');
+    Route::get('electricity-bill', [App\Http\Controllers\Front\ElectricitybillController::class, 'index'])->name('electricity.index');
 
     // Medicine Order
-    Route::get('medicine-order', [App\Http\Controllers\Front\Auth\MedicineController::class, 'index'])->name('medicine.index');
+    Route::get('medicine-order', [App\Http\Controllers\Front\MedicineController::class, 'index'])->name('medicine.index');
 
-    Route::get('order-complete', [App\Http\Controllers\Front\Auth\OrderController::class, 'complete'])->name('order.complete');
+    Route::get('order-complete', [App\Http\Controllers\Front\OrderController::class, 'complete'])->name('order.complete');
 
     // Wishlist
     Route::get('wishlist', [App\Http\Controllers\Front\WishlistController::class, 'index'])->name('wishlist.index');

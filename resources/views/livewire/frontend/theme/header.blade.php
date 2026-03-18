@@ -89,7 +89,7 @@
                     <livewire:frontend.theme.category-wrap />
                 </div>
                 <div class="col-lg-9">
-                    <nav class="navbar navbar-expand-lg p-0" id="navCatContent">
+                    <nav class="navbar navbar-expand-lg p-0">
                         <ul class="navbar-nav">
                             <li><a class="nav-link nav_item {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home')}}" wire:navigate>Home</a></li>
                             <li><a class="nav-link nav_item {{ Route::is('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}" wire:navigate>Category</a></li>

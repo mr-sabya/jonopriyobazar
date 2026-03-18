@@ -70,7 +70,7 @@ class Index extends Component
             if ($this->payment_option === 'wallet' || $this->payment_option === 'refer') {
                 $tempSubtotal += ($cart->product->actual_price * $cart->quantity);
             } else {
-                $tempSubtotal += $cart->price;
+                $tempSubtotal += $cart->price * $cart->quantity;
             }
         }
         $this->subtotal = $tempSubtotal;

@@ -101,6 +101,10 @@
             opacity: 1;
         }
 
+        .shopping_cart{
+            position: relative;
+        }
+
         .side-cart-container {
             background: #fff;
             width: 350px;
@@ -126,7 +130,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding-bottom: 130px;
+            padding-bottom: 200px;
         }
 
         .cart_product_list {

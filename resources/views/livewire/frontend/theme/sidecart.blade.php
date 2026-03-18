@@ -126,6 +126,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            padding-bottom: 130px;
         }
 
         .cart_product_list {

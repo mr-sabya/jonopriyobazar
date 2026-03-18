@@ -91,14 +91,14 @@ class Product extends Component
     public function addToCart()
     {
         if (!Auth::check()) {
-            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Please login to add items to cart']);
-            return;
+            return $this->redirect(route('login'), navigate: true);
         }
 
         $result = Cart::add($this->product->id, $this->quantity);
 
         if ($result === 'out_of_stock') {
             session()->flash('error', 'Not enough stock available!');
+            $this->dispatch('swal', ['icon' => 'error', 'title' => 'Failed to add product to bag!']);
         } elseif ($result) {
             $this->closeModal();
             $this->dispatch('cartUpdated');

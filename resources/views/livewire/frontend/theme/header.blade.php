@@ -6,7 +6,7 @@
 
                 <!-- Mobile Hamburger & Logo -->
                 <div class="d-flex align-items-center">
-                    <button class="navbar-toggler d-lg-none text-white mr-2" type="button" data-toggle="collapse" data-target="#navbarSidetoggle">
+                    <button class="navbar-toggler d-lg-none text-white mr-2" type="button" data-toggle="collapse" data-target="#navbarSidetoggle" aria-controls="navbarSidetoggle" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-bars"></i>
                     </button>
                     <a class="navbar-brand m-0" href="{{ route('home')}}" wire:navigate>
@@ -31,7 +31,7 @@
                 <!-- Right Side Actions -->
                 <div class="d-flex align-items-center">
                     <!-- App Download (Desktop) -->
-                    
+
 
                     <!-- Language Switcher -->
                     <div class="lang-switch d-none d-md-block mr-3">
@@ -67,6 +67,20 @@
         </div>
     </div>
 
+    <!-- MOBILE MENU (Shown when clicking hamburger) -->
+    <div class="collapse navbar-collapse d-lg-none bg-white mobile-side-menu" id="navbarSidetoggle">
+        <ul class="navbar-nav p-3">
+            <li class="nav-item border-bottom"><a class="nav-link text-dark" href="{{ route('home')}}" wire:navigate>Home</a></li>
+            <li class="nav-item border-bottom"><a class="nav-link text-dark" href="{{ route('category.index') }}" wire:navigate>Category</a></li>
+            <li class="nav-item border-bottom"><a class="nav-link text-dark" href="{{ route('product.index') }}" wire:navigate>Shop</a></li>
+            <li class="nav-item border-bottom"><a class="nav-link text-dark" href="{{ route('custom.order') }}" wire:navigate>Custom Order</a></li>
+            <li class="nav-item border-bottom"><a class="nav-link text-dark" href="{{ route('electricity.index') }}" wire:navigate>Electricity Bill</a></li>
+            <li class="nav-item border-bottom"><a class="nav-link text-dark" href="{{ route('medicine.index')}}" wire:navigate>Medicine</a></li>
+            <li class="nav-item"><a class="nav-link text-success font-weight-bold" href="{{ route('user.wallet.index') }}" wire:navigate>My Wallet</a></li>
+        </ul>
+    </div>
+
+
     <!-- Bottom Navigation (Categories) -->
     <div class="bottom_header bg-white border-bottom d-none d-lg-block">
         <div class="container-fluid custom-container">
@@ -75,7 +89,7 @@
                     <livewire:frontend.theme.category-wrap />
                 </div>
                 <div class="col-lg-9">
-                    <nav class="navbar navbar-expand-lg p-0">
+                    <nav class="navbar navbar-expand-lg p-0" id="navCatContent">
                         <ul class="navbar-nav">
                             <li><a class="nav-link nav_item {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home')}}" wire:navigate>Home</a></li>
                             <li><a class="nav-link nav_item {{ Route::is('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}" wire:navigate>Category</a></li>
@@ -93,4 +107,26 @@
             </div>
         </div>
     </div>
+
+    <style>
+        /* Mobile Menu Styling */
+        #navbarSidetoggle {
+            position: absolute;
+            width: 100%;
+            z-index: 9999;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-side-menu .nav-link {
+            padding: 12px 15px;
+            font-weight: 500;
+            color: #333 !important;
+        }
+
+        /* Optional: Animation for smooth slide down */
+        .collapse {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </header>

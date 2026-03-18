@@ -136,12 +136,14 @@
         }
 
         .cart_footer_new {
-            flex-shrink: 0;
             padding: 20px;
             background: #fff;
             border-top: 1px solid #f0f0f0;
-            margin-top: auto;
+  
             box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
 
         .cart-header {

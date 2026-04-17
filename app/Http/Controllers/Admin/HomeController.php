@@ -24,17 +24,6 @@ class HomeController extends Controller
 
     public function index()
     {
-        $today_order = Order::whereDate('created_at', Carbon::today())->get();
-        
-        $month_order = Order::whereMonth('created_at', date('m'))->get();
-
-        $orders = Order::get();
-
-    	return view('backend.home.index', compact(
-            'today_order', 
-            'month_order',
-            'orders',
-
-        ));
+    	return view('backend.home.index');
     }
 }

@@ -23,7 +23,7 @@
     <link href="{{ asset('assets/backend/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{ asset('assets/backend/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/frontend/css/vendor/fontawesome.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/backend/libs/fontawesome/css/all.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Include Bubble Theme -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">

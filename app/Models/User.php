@@ -152,7 +152,7 @@ class User extends Authenticatable
         if (!empty($this->image) && File::exists(public_path($path))) {
             return asset($path);
         }
-        return asset('frontend/images/demo-user.png');
+        return asset('assets/backend/images/demo-user.png');
     }
 
     /**

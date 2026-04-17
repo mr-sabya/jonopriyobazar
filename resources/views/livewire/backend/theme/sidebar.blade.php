@@ -46,27 +46,15 @@
                 </li>
                 @endcan
 
-                @if(Auth::user()->can('admin.roles.index') || Auth::user()->can('admin.roles.create'))
+
+                @can('admin.roles.index')
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('admin.roles.*') ? 'active' : '' }}" href="#sidebarRoles" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarRoles">
-                        <i class="ri-account-circle-line"></i> <span data-key="t-roles">Roles</span>
+                    <a href="{{ route('admin.roles.index') }}" class="nav-link menu-link {{ Route::is('admin.roles.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="ri-account-circle-line"></i> <span data-key="t-roles">All Roles</span>
                     </a>
-                    <div class="collapse menu-dropdown {{ Route::is('admin.roles.*') ? 'show' : '' }}" id="sidebarRoles">
-                        <ul class="nav nav-sm flex-column">
-                            @can('admin.roles.index')
-                            <li class="nav-item">
-                                <a href="{{ route('admin.roles.index') }}" class="nav-link {{ Route::is('admin.roles.index') ? 'active' : '' }}" wire:navigate>All Roles</a>
-                            </li>
-                            @endcan
-                            @can('admin.roles.create')
-                            <li class="nav-item">
-                                <a href="{{ route('admin.roles.create') }}" class="nav-link {{ Route::is('admin.roles.create') ? 'active' : '' }}" wire:navigate>Add New</a>
-                            </li>
-                            @endcan
-                        </ul>
-                    </div>
                 </li>
-                @endif
+                @endcan
+
 
                 @if(Auth::user()->can('admin.admins.index') || Auth::user()->can('admin.admins.create'))
                 <li class="nav-item">

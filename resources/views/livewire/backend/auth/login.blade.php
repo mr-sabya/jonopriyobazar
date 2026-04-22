@@ -1,59 +1,43 @@
-<div class="authentication">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-4 col-sm-12">
-                <form class="card auth_form" wire:submit.prevent="login">
-                    <div class="header">
-                        <img class="logo" src="{{ url('backend/images/logo.png') }}" alt="">
-                        <h5>Log in</h5>
-                    </div>
+ <div class="p-2 mt-5">
 
-                    <div class="body">
-                        <!-- Session Flash Messages -->
-                        @if (session()->has('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                        @endif
+     <form wire:submit.prevent="login">
 
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Email" wire:model="email">
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="zmdi zmdi-account-circle"></i></span>
-                                </div>
-                            </div>
-                            @error('email')
-                            <span style="color: red">{{ $message }}</span>
-                            @enderror
-                        </div>
+         <div class="mb-3">
+             <label for="email" class="form-label">Email</label>
+             <div class="input-group">
+                 <span class="input-group-text"><i class="ri-user-3-line"></i></span>
+                 <input type="text" wire:model.defer="email" class="form-control" id="email" placeholder="Enter email">
+             </div>
+             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
+         </div>
 
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="Password" wire:model="password">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <a href="#" class="forgot" title="Forgot Password"><i class="zmdi zmdi-lock"></i></a>
-                                    </span>
-                                </div>
-                            </div>
-                            @error('password')
-                            <span style="color: red">{{ $message }}</span>
-                            @enderror
-                        </div>
+         <div class="mb-3">
+             <div class="float-end">
+                 <a href="auth-pass-reset-basic.html" class="text-muted">Forgot password?</a>
+             </div>
+             <label class="form-label" for="password-input">Password</label>
 
-                        <div class="checkbox">
-                            <input id="remember_me" type="checkbox" wire:model="remember">
-                            <label for="remember_me">Remember Me</label>
-                        </div>
+             <div class="position-relative">
+                 <div class="input-group">
+                     <span class="input-group-text"><i class="ri-lock-2-line"></i></span>
+                     <input type="password" wire:model.defer="password" class="form-control" placeholder="Enter password" id="password-input">
+                 </div>
+             </div>
 
-                        <button type="submit" class="btn btn-primary btn-block waves-effect waves-light">
-                            <span wire:loading.remove wire:target="login">SIGN IN</span>
-                            <span wire:loading wire:target="login">Processing...</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+             @error('password') <small class="text-danger">{{ $message }}</small> @enderror
+         </div>
+
+         <div class="form-check">
+             <input class="form-check-input" wire:model="remember" type="checkbox" id="auth-remember-check">
+             <label class="form-check-label" for="auth-remember-check">Remember me</label>
+         </div>
+
+         <div class="mt-4">
+             <button class="btn btn-primary w-100" type="submit">
+                 Sign In
+             </button>
+         </div>
+
+     </form>
+
+ </div>

@@ -37,6 +37,7 @@
             position: fixed !important;
         }
     </style>
+    @stack('css')
     @livewireStyles
 </head>
 
@@ -142,6 +143,8 @@
     </div>
 
     <!-- JAVASCRIPT -->
+    <script data-navigate-once="" src="https://code.jquery.com/jquery-4.0.0.js"
+        integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
     <script data-navigate-once src="{{ asset('assets/backend/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script data-navigate-once src="{{ asset('assets/backend/libs/simplebar/simplebar.min.js') }}"></script>
     <script data-navigate-once src="{{ asset('assets/backend/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>

@@ -81,7 +81,7 @@
                 <!-- SHOP & CATALOG SECTION -->
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-shop">Shop Catalog</span></li>
 
-                @can('category')
+                @can('category.index')
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.category.*') ? 'active' : '' }}" href="#sidebarCategory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCategory">
                         <i class="ri-stack-line"></i> <span data-key="t-category">Category</span>
@@ -89,7 +89,7 @@
                     <div class="collapse menu-dropdown {{ Route::is('admin.category.*') ? 'show' : '' }}" id="sidebarCategory">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item"><a href="{{ route('admin.category.index') }}" class="nav-link {{ Route::is('admin.category.index') ? 'active' : '' }}" wire:navigate>All Categories</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.category.create') }}" class="nav-link {{ Route::is('admin.category.create') ? 'active' : '' }}" wire:navigate>Add New</a></li>
+                            
                         </ul>
                     </div>
                 </li>

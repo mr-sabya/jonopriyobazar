@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ErrorController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -62,17 +61,18 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
     // Permissions
-    Route::resource('permissions', PermissionController::class, ['names' => 'permissions', 'except' => ['update']]);
-    Route::post('permissions/update', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::get('permissions', [App\Http\Controllers\Admin\PermissionController::class, 'index'])->name('permissions.index');
 
     // Roles
-    Route::resource('roles', RoleController::class, ['names' => 'roles']);
+    Route::get('roles', [App\Http\Controllers\Admin\RoleController::class, 'index'])->name('roles.index');
 
     // Admins
-    Route::resource('admins', AdminController::class, ['names' => 'admins']);
+    Route::get('admins', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admins.index');
+    Route::get('admins/create', [App\Http\Controllers\Admin\AdminController::class, 'create'])->name('admins.create');
+    Route::get('admins/{id}/edit', [App\Http\Controllers\Admin\AdminController::class, 'edit'])->name('admins.edit');
 
     // Category
-    Route::resource('category', CategoryController::class, ['names' => 'category']);
+    Route::get('category', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('category.index');
 
     // Products
     Route::resource('products', ProductController::class, ['names' => 'products']);

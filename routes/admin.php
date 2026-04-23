@@ -75,7 +75,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('category', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('category.index');
 
     // Products
-    Route::resource('products', ProductController::class, ['names' => 'products']);
+    Route::get('products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
 
     // District
     Route::resource('district', DistrictController::class, ['names' => 'district', 'except' => ['update', 'destroy']]);

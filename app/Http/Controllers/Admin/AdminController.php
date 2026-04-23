@@ -18,11 +18,6 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-
-        // Map permissions to specific methods
-        $this->middleware('permission:admin.admins.index')->only('index');
-        $this->middleware('permission:admin.admins.create')->only(['create', 'store']);
-        $this->middleware('permission:admin.admins.edit')->only(['edit', 'update']);
     }
 
 
@@ -33,6 +28,11 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $authUser = Admin::find(Auth::user()->id);
+        // Permission check using standard Laravel Auth
+        if (!$authUser->can('admin.admins.index')) {
+            abort(403, 'Unauthorized action.');
+        }
         return view('backend.user.index');
     }
 
@@ -43,6 +43,10 @@ class AdminController extends Controller
      */
     public function create()
     {
+        $authuser = Admin::find(Auth::user()->id);
+        if (!$authuser->can('admin.admins.create')) {
+            abort(403, 'Unauthorized action.');
+        }
         return view('backend.user.create');
     }
 
@@ -54,6 +58,10 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
+        $authuser = Admin::find(Auth::user()->id);
+        if (!$authuser->can('admin.admins.edit')) {
+            abort(403, 'Unauthorized action.');
+        }
         $user = Admin::findOrFail(intval($id));
         return view('backend.user.edit', compact('user'));
     }

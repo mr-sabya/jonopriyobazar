@@ -95,19 +95,23 @@
                 </li>
                 @endcan
 
-                @can('products')
+                @if(Auth::user()->can('admin.products.index') || Auth::user()->can('admin.products.create'))
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.products.*') ? 'active' : '' }}" href="#sidebarProducts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarProducts">
                         <i class="ri-shopping-bag-3-line"></i> <span data-key="t-products">Products</span>
                     </a>
                     <div class="collapse menu-dropdown {{ Route::is('admin.products.*') ? 'show' : '' }}" id="sidebarProducts">
                         <ul class="nav nav-sm flex-column">
+                            @can('admin.products.index')
                             <li class="nav-item"><a href="{{ route('admin.products.index') }}" class="nav-link {{ Route::is('admin.products.index') ? 'active' : '' }}" wire:navigate>All Products</a></li>
+                            @endcan
+                            @can('admin.products.create')
                             <li class="nav-item"><a href="{{ route('admin.products.create') }}" class="nav-link {{ Route::is('admin.products.create') ? 'active' : '' }}" wire:navigate>Add New</a></li>
+                            @endcan
                         </ul>
                     </div>
                 </li>
-                @endcan
+                @endif
 
                 @can('cupon')
                 <li class="nav-item">

@@ -113,10 +113,10 @@
                 </li>
                 @endif
 
-                @can('cupon')
+                @can('admin.coupon.index')
                 <li class="nav-item">
-                    <a href="{{ route('admin.cupon.index') }}" class="nav-link menu-link {{ Route::is('admin.cupon.index') ? 'active' : '' }}" wire:navigate>
-                        <i class="ri-coupon-2-line"></i> <span data-key="t-cupon">Cupon</span>
+                    <a href="{{ route('admin.coupon.index') }}" class="nav-link menu-link {{ Route::is('admin.coupon.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="ri-coupon-2-line"></i> <span data-key="t-coupon">Coupon</span>
                     </a>
                 </li>
                 @endcan

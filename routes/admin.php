@@ -120,8 +120,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('customer/status/refer/{id}', [CustomerController::class, 'referStatus'])->name('referpercentage.status');
 
     // Coupon
-    Route::resource('cupon', CuponController::class, ['names' => 'cupon', 'except' => ['update']]);
-    Route::post('cupon/update', [CuponController::class, 'update'])->name('cupon.update');
+    Route::get('coupon', [App\Http\Controllers\Admin\CouponController::class, 'index'])->name('coupon.index');
 
     // Orders
     Route::get('orders', [OrderController::class, 'index'])->name('order.index');

@@ -131,7 +131,7 @@
                     </a>
                     <div class="collapse menu-dropdown {{ Route::is('admin.order.*') || Route::is('admin.customorder.*') || Route::is('admin.medicine.*') ? 'show' : '' }}" id="sidebarOrders">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('admin.order.index') }}" class="nav-link {{ Route::is('admin.order.index') ? 'active' : '' }}" wire:navigate>Product Order</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.order.index') }}" class="nav-link {{ Route::is('admin.order.*') ? 'active' : '' }}" wire:navigate>Product Order</a></li>
                             <li class="nav-item"><a href="{{ route('admin.customorder.index') }}" class="nav-link {{ Route::is('admin.customorder.index') ? 'active' : '' }}" wire:navigate>Custom Order</a></li>
                             <li class="nav-item"><a href="{{ route('admin.medicine.index') }}" class="nav-link {{ Route::is('admin.medicine.index') ? 'active' : '' }}" wire:navigate>Medicine Order</a></li>
                             <li class="nav-item"><a href="{{ route('admin.electricity.index') }}" class="nav-link {{ Route::is('admin.electricity.index') ? 'active' : '' }}" wire:navigate>Electricity Bill</a></li>

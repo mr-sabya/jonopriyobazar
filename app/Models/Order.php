@@ -62,13 +62,33 @@ class Order extends Model
         return $this->hasMany(OrderHistory::class, 'order_id');
     }
 
-    public function isActiveHistory($id)
-    {
-        return $this->histories->where('status_id', $id)->count() > 0;
-    }
-
     public function company()
     {
         return $this->belongsTo(PowerCompany::class, 'company_id');
+    }
+
+    /**
+     * Relationship: An order has many history logs
+     */
+    public function history()
+    {
+        return $this->hasMany(OrderHistory::class, 'order_id')->latest('date_time');
+    }
+
+    /**
+     * Helper to check if a specific status has been reached in history
+     */
+    public function isActiveHistory($statusId)
+    {
+        return $this->history()->where('status_id', $statusId)->exists();
+    }
+
+    /*
+        * Check if the order is in a final state (Delivered or Canceled)
+    */
+    public function isFinalized()
+    {
+        // status 3 = Delivered, 4 = Canceled
+        return in_array($this->status, [3, 4]);
     }
 }

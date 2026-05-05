@@ -89,7 +89,7 @@
                     <div class="collapse menu-dropdown {{ Route::is('admin.category.*') ? 'show' : '' }}" id="sidebarCategory">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item"><a href="{{ route('admin.category.index') }}" class="nav-link {{ Route::is('admin.category.index') ? 'active' : '' }}" wire:navigate>All Categories</a></li>
-                            
+
                         </ul>
                     </div>
                 </li>
@@ -174,6 +174,7 @@
                 </li>
                 @endcan
 
+
                 <li class="nav-item">
                     <a href="{{ route('admin.withdraw.index') }}" class="nav-link menu-link {{ Route::is('admin.withdraw.index') ? 'active' : '' }}" wire:navigate>
                         <i class="ri-hand-coin-line"></i> <span data-key="t-withdraw">Withdrawals</span>
@@ -182,6 +183,50 @@
 
                 <!-- SETTINGS & OTHERS -->
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-settings">Configuration</span></li>
+
+                <li class="nav-item">
+                    <!-- Main Parent Link -->
+                    <a class="nav-link menu-link {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*') ? 'active' : '' }}"
+                        href="#sidebarSetup" data-bs-toggle="collapse" role="button"
+                        aria-expanded="{{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*') ? 'true' : 'false' }}"
+                        aria-controls="sidebarSetup">
+                        <i class="ri-settings-4-line"></i> <span data-key="t-setup">Setup Management</span>
+                    </a>
+
+                    <!-- Dropdown Content -->
+                    <div class="collapse menu-dropdown {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*') ? 'show' : '' }}" id="sidebarSetup">
+                        <ul class="nav nav-sm flex-column">
+
+                            <!-- Cancel Reason Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.reason.index') }}"
+                                    class="nav-link {{ Route::is('admin.reason.*') ? 'active' : '' }}"
+                                    wire:navigate>
+                                    Cancel Reasons
+                                </a>
+                            </li>
+
+                            <!-- Power Company Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.power.index') }}"
+                                    class="nav-link {{ Route::is('admin.power.*') ? 'active' : '' }}"
+                                    wire:navigate>
+                                    Power Companies
+                                </a>
+                            </li>
+
+                            <!-- Prize Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.prize.index') }}"
+                                    class="nav-link {{ Route::is('admin.prize.*') ? 'active' : '' }}"
+                                    wire:navigate>
+                                    Prizes
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
 
                 @can('banner')
                 <li class="nav-item">

@@ -13,10 +13,6 @@ use App\Http\Controllers\Admin\DeliverStatusController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CancelReasonController;
 use App\Http\Controllers\Admin\PowerCompanyController;
-use App\Http\Controllers\Admin\Wallet\UserController as WalletUserController;
-use App\Http\Controllers\Admin\Customer\PaymentController;
-use App\Http\Controllers\Admin\Customer\WalletController;
-use App\Http\Controllers\Admin\Wallet\RequestController;
 use App\Http\Controllers\Admin\Wallet\PackageController;
 use App\Http\Controllers\Admin\DeveloperController;
 use App\Http\Controllers\Admin\MarketerController;
@@ -79,14 +75,11 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('setting/update', [SettingController::class, 'update'])->name('setting.update');
 
     // Cancel reason
-    Route::resource('cancel-reason', CancelReasonController::class, ['names' => 'reason', 'except' => ['update']]);
-    Route::post('cancel-reason/update', [CancelReasonController::class, 'update'])->name('reason.update');
-
+    Route::get('cancel-reason', [App\Http\Controllers\Admin\CancelReasonController::class, 'index'])->name('reason.index');
     // Power company
-    Route::resource('power-company', PowerCompanyController::class, ['names' => 'power', 'except' => ['update']]);
-    Route::post('power-company/update', [PowerCompanyController::class, 'update'])->name('power.update');
-
-
+    Route::get('power-company', [App\Http\Controllers\Admin\PowerCompanyController::class, 'index'])->name('power.index');
+    // prize
+    Route::get('prize', [App\Http\Controllers\Admin\PrizeController::class, 'index'])->name('prize.index');
 
 
     // Notification
@@ -177,7 +170,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('sale-report/search', [SaleReportController::class, 'search'])->name('sale.report.search');
 
     // Prize / FAQ / Team
-    Route::resource('prize', PrizeController::class, ['names' => 'prize']);
+
     Route::resource('faq', FaqController::class, ['names' => 'faq']);
     Route::resource('team', TeamController::class, ['names' => 'team']);
 

@@ -171,19 +171,67 @@
     @livewireScripts
     <script>
         document.addEventListener('livewire:init', () => {
-            // Global listener for toast events from Livewire
+
+            // 1. GLOBAL TOASTIFY HANDLER
             window.addEventListener('show-toast', event => {
+                // Livewire 3 data is stored in event.detail
+                const data = event.detail[0];
+
                 Toastify({
-                    text: event.detail[0].message,
+                    text: data.message,
                     duration: 3000,
                     close: true,
-                    gravity: "top", // top or bottom
-                    position: "right", // left, center or right
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
                     style: {
-                        background: event.detail[0].type === 'success' ? "#4CAF50" : event.detail[0].type === 'error' ? "#F44336" : "#333"
+                        background: data.type === 'success' ? "#4CAF50" : "#F44336",
+                        borderRadius: "8px",
                     },
                 }).showToast();
             });
+
+            // 2. GLOBAL MODAL CLOSER
+            window.addEventListener('close-modal', () => {
+                // Find the currently open modal
+                const modalEl = document.querySelector('.modal.show');
+
+                if (modalEl) {
+                    // FIX: "aria-hidden" error - Move focus to body before hiding
+                    if (document.activeElement) {
+                        document.activeElement.blur();
+                    }
+
+                    // Hide using Bootstrap 5 Instance
+                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                    modal.hide();
+
+                    // SAFETY CLEANUP: Removes stuck grey backdrops and restores scroll
+                    setTimeout(() => {
+                        const backdrops = document.querySelectorAll('.modal-backdrop');
+                        backdrops.forEach(el => el.remove());
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                        document.body.style.paddingRight = '';
+                    }, 400);
+                }
+            });
+
+            document.addEventListener('hide.bs.modal', function(event) {
+                // 1. Immediately move focus away from the button that was clicked
+                // This stops the "aria-hidden" error because the button is no longer focused
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
+
+                // 2. Move focus to the body to be safe
+                document.body.focus();
+
+                // 3. For Livewire safety: manually remove the attribute that causes the error
+                // as the modal begins to close
+                event.target.removeAttribute('aria-hidden');
+            });
+
         });
     </script>
 </body>

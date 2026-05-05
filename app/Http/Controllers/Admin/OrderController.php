@@ -33,19 +33,6 @@ class OrderController extends Controller
 		return view('backend.order.show', compact('order'));
 	}
 
-	public function getStatus()
-	{
-		$statuses = DeliveryStatus::orderBy('id', 'ASC')->get();
-
-		$status = '';
-
-		foreach ($statuses as $data) {
-			$status .= '<option value="'.$data->id.'">'.$data->name.'</option>';
-		}
-
-		return response()->json(['status' => $status]);
-	}
-
 	public function download($id)
 	{
 		$setting = Setting::where('id', 1)->first();

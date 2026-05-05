@@ -72,22 +72,11 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
     });
 
-    // District
-    Route::resource('district', DistrictController::class, ['names' => 'district', 'except' => ['update', 'destroy']]);
-    Route::post('district/update', [DistrictController::class, 'update'])->name('district.update');
-    Route::get('district/delete/{id}', [DistrictController::class, 'destroy'])->name('district.destroy');
-    Route::get('get-district', [DistrictController::class, 'getDistrict'])->name('district.get');
-
-    // Thana
-    Route::resource('thana', ThanaController::class, ['names' => 'thana', 'except' => ['update', 'destroy']]);
-    Route::post('thana/update', [ThanaController::class, 'update'])->name('thana.update');
-    Route::get('thana/delete/{id}', [ThanaController::class, 'destroy'])->name('thana.destroy');
-    Route::get('get-thana/{id}', [CityController::class, 'getThana']);
-
-    // City
-    Route::resource('city', CityController::class, ['names' => 'city', 'except' => ['update', 'destroy']]);
-    Route::post('city/update', [CityController::class, 'update'])->name('city.update');
-    Route::get('city/delete/{id}', [CityController::class, 'destroy'])->name('city.destroy');
+    // Address
+    Route::get('district', [App\Http\Controllers\Admin\Address\AddressController::class, 'district'])->name('district.index');
+    Route::get('thana', [App\Http\Controllers\Admin\Address\AddressController::class, 'thana'])->name('thana.index');
+    Route::get('city', [App\Http\Controllers\Admin\Address\AddressController::class, 'city'])->name('city.index');
+    
 
     // Banner
     Route::resource('banner', BannerController::class, ['names' => 'banner']);
@@ -137,11 +126,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('medicine-order/{id}', [App\Http\Controllers\Admin\MedicineOrderController::class, 'show'])->name('medicine.show');
 
     // Electricity bill
-    Route::get('electricity-bill', [ElectricitybillController::class, 'index'])->name('electricity.index');
-    Route::get('electricity-bill/{id}', [ElectricitybillController::class, 'show'])->name('electricity.show');
+    Route::get('electricity-bill', [App\Http\Controllers\Admin\ElectricitybillController::class, 'index'])->name('electricity.index');
+    Route::get('electricity-bill/{id}', [App\Http\Controllers\Admin\ElectricitybillController::class, 'show'])->name('electricity.show');
 
-    // Get delivery status
-    Route::get('get-delivery-status', [OrderController::class, 'getStatus'])->name('get.deliverstatus');
 
     // Settings
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');

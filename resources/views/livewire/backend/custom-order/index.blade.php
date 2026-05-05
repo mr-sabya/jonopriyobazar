@@ -10,10 +10,10 @@
                     </button>
                 </li>
 
-                {{-- Dynamic Tabs from Enum --}}
+                {{-- Dynamic Tabs from OrderStatus Enum --}}
                 @foreach(\App\Enums\OrderStatus::cases() as $status)
                 @php
-                $slug = strtolower($status->name);
+                $slug = strtolower($status->name); // maps to 'pending', 'received', etc. in the counts object
                 $countValue = $counts->$slug ?? 0;
                 $isActive = (string)$statusFilter === (string)$status->value;
                 @endphp
@@ -33,7 +33,7 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-white py-3">
-            <h5 class="m-0 fw-bold text-primary">Order Management</h5>
+            <h5 class="m-0 fw-bold text-primary">Custom Order Management</h5>
         </div>
         <div class="card-body">
             <!-- Table Controls -->
@@ -62,7 +62,7 @@
                             <th width="5%">#</th>
                             <th style="cursor:pointer" wire:click="sortBy('created_at')">
                                 Time + Area
-                                @if($sortField === 'created_at') <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i> @endif
+                                @if($sortField === 'created_at') <i class="fas fa-sort-{{ $sortDirection === 'asc' ? 'up' : 'down' }} ms-1"></i> @endif
                             </th>
                             <th>Invoice</th>
                             <th>Customer</th>
@@ -88,18 +88,18 @@
                                 <div class="fw-bold text-primary">{{ $order->customer['name'] ?? 'Guest' }}</div>
                                 <div class="small text-muted">{{ $order->customer['phone'] ?? 'N/A' }}</div>
                             </td>
-                            <td class="fw-bold text-dark">{{ number_format($order->grand_total, 2) }} ৳</td>
+                            <td class="fw-bold">{{ number_format($order->grand_total, 2) }} ৳</td>
                             <td>
                                 <small class="text-muted fw-bold text-uppercase">
                                     {{ $order->payment_option->shortLabel() }}
                                 </small>
                             </td>
                             <td>
-                                {{-- ENUM POWER: Replaced switch statement with a single method call --}}
+                                {{-- ENUM POWER: Centralized badge logic --}}
                                 {!! $order->status->badge() !!}
                             </td>
                             <td class="text-end">
-                                <a href="{{ route('admin.order.show', $order->id) }}" class="btn btn-sm btn-outline-primary shadow-none rounded-circle">
+                                <a href="{{ route('admin.customorder.show', $order->id) }}" wire:navigate class="btn btn-sm btn-outline-primary shadow-none rounded-circle">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>
@@ -122,7 +122,7 @@
 
 @push('css')
 <style>
-    /* Professional Soft Badges from Enum logic */
+    /* Professional Soft UI Badges */
     .bg-warning-soft {
         background-color: rgba(255, 193, 7, 0.1);
     }
@@ -159,7 +159,18 @@
     }
 
     .nav-pills .nav-link.active {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .table th {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #6c757d;
+    }
+
+    .table td {
+        font-size: 0.9rem;
     }
 </style>
 @endpush

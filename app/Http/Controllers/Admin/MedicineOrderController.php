@@ -10,7 +10,7 @@ use App\Models\DeliveryStatus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CustomOrderController extends Controller
+class MedicineOrderController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,12 +24,12 @@ class CustomOrderController extends Controller
 
 	public function index()
 	{
-		return view('backend.customorder.index');
+		return view('backend.medicine-order.index');
 	}
 
 	public function show($id)
 	{
 		$order = Order::with('items', 'customer', 'shippingAddress', 'billingAddress')->findOrFail(intval($id));
-		return view('backend.customorder.show', compact('order'));
+		return view('backend.medicine-order.show', compact('order'));
 	}
 }

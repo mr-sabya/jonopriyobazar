@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-Custom Order#{{ $order->invoice }}
+Medicine Order#{{ $order->invoice }}
 @endsection
 
 @section('button')
@@ -10,5 +10,6 @@ Custom Order#{{ $order->invoice }}
 
 @section('content')
 
-<livewire:backend.custom-order.show id="{{ $order->id }}" />
+<livewire:backend.medicine-order.show id="{{ $order->id }}" />
+
 @endsection

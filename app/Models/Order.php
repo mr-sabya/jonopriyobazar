@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentOption;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -27,6 +29,11 @@ class Order extends Model
         'total',      // Matches your schema
         'grand_total', // Matches your schema
         'status'
+    ];
+
+    protected $casts = [
+        'payment_option' => PaymentOption::class,
+        'status' => OrderStatus::class,
     ];
 
     public function items()
@@ -90,5 +97,12 @@ class Order extends Model
     {
         // status 3 = Delivered, 4 = Canceled
         return in_array($this->status, [3, 4]);
+    }
+
+
+    // Helper to check if order can still be edited
+    public function isEditable(): bool
+    {
+        return $this->status !== OrderStatus::DELIVERED && $this->status !== OrderStatus::CANCELED;
     }
 }

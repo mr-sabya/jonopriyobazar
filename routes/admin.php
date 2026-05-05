@@ -138,14 +138,10 @@ Route::middleware(['auth:admin'])->group(function () {
     // Custom order
     Route::get('custom-order', [CustomOrderController::class, 'index'])->name('customorder.index');
     Route::get('custom-order/{id}', [CustomOrderController::class, 'show'])->name('customorder.show');
-    Route::post('custom-order/update', [CustomOrderController::class, 'update'])->name('customorder.update');
-    Route::post('custom-order/payment/update', [CustomOrderController::class, 'changePayment'])->name('customorder.updatepayment');
 
     // Medicine order
-    Route::get('medicine-order', [MedicineController::class, 'index'])->name('medicine.index');
-    Route::get('medicine-order/{id}', [MedicineController::class, 'show'])->name('medicine.show');
-    Route::post('medicine-order/update', [MedicineController::class, 'update'])->name('medicine.update');
-    Route::post('medicine-order/payment/update', [MedicineController::class, 'changePayment'])->name('medicine.updatepayment');
+    Route::get('medicine-order', [App\Http\Controllers\Admin\MedicineOrderController::class, 'index'])->name('medicine.index');
+    Route::get('medicine-order/{id}', [App\Http\Controllers\Admin\MedicineOrderController::class, 'show'])->name('medicine.show');
 
     // Electricity bill
     Route::get('electricity-bill', [ElectricitybillController::class, 'index'])->name('electricity.index');

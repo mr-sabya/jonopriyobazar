@@ -163,28 +163,34 @@
                                 <h4>Payment</h4>
                             </div>
                             <div class="payment_option">
-                                <div class="custome-radio mb-2">
-                                    <input class="form-check-input" type="radio" wire:model.live="payment_option" id="cash_on_delivery" value="cash">
-                                    <label class="form-check-label" for="cash_on_delivery">Cash On Delivery</label>
-                                </div>
+                                @php
+                                $user = auth()->user();
+                                $total = $this->finalTotal;
+                                @endphp
 
-                                @php $total = $this->finalTotal; @endphp
-
-                                @if(Auth::user()->is_wallet == 1)
+                                @foreach(\App\Enums\PaymentOption::cases() as $option)
+                                {{-- 1. Check if the feature (Wallet/Refer) is enabled for this user --}}
+                                @if($option->isEnabled($user))
                                 <div class="custome-radio mb-2">
-                                    <input class="form-check-input" type="radio" wire:model.live="payment_option" id="wallet_radio" value="wallet"
-                                        {{ (Auth::user()->wallet_balance < $total || Auth::user()->is_hold) ? 'disabled' : '' }}>
-                                    <label class="form-check-label" for="wallet_radio">Credit Wallet (Balance: {{ Auth::user()->wallet_balance }}৳)</label>
+                                    <input class="form-check-input"
+                                        type="radio"
+                                        wire:model.live="payment_option"
+                                        id="pay_{{ $option->value }}"
+                                        value="{{ $option->value }}"
+                                        {{-- 2. Check if they have enough money or are on hold --}}
+                                        @disabled(!$option->canPay($user, $total))>
+
+                                    <label class="form-check-label" for="pay_{{ $option->value }}">
+                                        {{ $option->label() }}
+
+                                        {{-- 3. Show balance if it's a wallet type --}}
+                                        @if($option !== \App\Enums\PaymentOption::CASH)
+                                        (Balance: {{ number_format($option->getBalance($user), 2) }}৳)
+                                        @endif
+                                    </label>
                                 </div>
                                 @endif
-
-                                @if(Auth::user()->is_percentage == 1)
-                                <div class="custome-radio mb-2">
-                                    <input class="form-check-input" type="radio" wire:model.live="payment_option" id="refer_radio" value="refer"
-                                        {{ Auth::user()->ref_balance < $total ? 'disabled' : '' }}>
-                                    <label class="form-check-label" for="refer_radio">Refer Wallet (Balance: {{ Auth::user()->ref_balance }}৳)</label>
-                                </div>
-                                @endif
+                                @endforeach
                             </div>
                         </div>
 

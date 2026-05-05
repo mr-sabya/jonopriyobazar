@@ -2,12 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\ErrorController;
-use App\Http\Controllers\Admin\Auth\LoginController;
-use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\Address\DistrictController;
 use App\Http\Controllers\Admin\Address\ThanaController;
@@ -19,12 +13,10 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\Customer\ReferbalanceController;
 use App\Http\Controllers\Admin\Customer\PointController;
 use App\Http\Controllers\Admin\Customer\ReferController;
-use App\Http\Controllers\Admin\CuponController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\OrderHistoryController;
 use App\Http\Controllers\Admin\DeliverStatusController;
 use App\Http\Controllers\Admin\CustomOrderController;
-use App\Http\Controllers\Admin\MedicineController;
 use App\Http\Controllers\Admin\ElectricitybillController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CancelReasonController;
@@ -45,20 +37,16 @@ use App\Http\Controllers\Admin\WithdrawController;
 
 
 // Login
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login/submit', [LoginController::class, 'login'])->name('login.submit');
+Route::get('login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
 
 
 Route::middleware(['auth:admin'])->group(function () {
 
     // Error page
-    Route::get('404', [ErrorController::class, 'error404'])->name('error.404');
-
-    // Logout
-    Route::post('logout/submit', [LoginController::class, 'logout'])->name('logout.submit');
+    Route::get('404', [App\Http\Controllers\Admin\ErrorController::class, 'error404'])->name('error.404');
 
     // Dashboard
-    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('dashboard');
 
     // Permissions
     Route::get('permissions', [App\Http\Controllers\Admin\PermissionController::class, 'index'])->name('permissions.index');
@@ -67,17 +55,22 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('roles', [App\Http\Controllers\Admin\RoleController::class, 'index'])->name('roles.index');
 
     // Admins
-    Route::get('admins', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admins.index');
-    Route::get('admins/create', [App\Http\Controllers\Admin\AdminController::class, 'create'])->name('admins.create');
-    Route::get('admins/{id}/edit', [App\Http\Controllers\Admin\AdminController::class, 'edit'])->name('admins.edit');
+    Route::prefix('admins')->name('admins.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\AdminController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\AdminController::class, 'edit'])->name('edit');
+    });
+
 
     // Category
     Route::get('category', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('category.index');
 
     // Products
-    Route::get('products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
+    });
 
     // District
     Route::resource('district', DistrictController::class, ['names' => 'district', 'except' => ['update', 'destroy']]);
@@ -123,9 +116,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('coupon', [App\Http\Controllers\Admin\CouponController::class, 'index'])->name('coupon.index');
 
     // Orders
-    Route::get('orders', [OrderController::class, 'index'])->name('order.index');
-    Route::get('orders/{id}', [OrderController::class, 'show'])->name('order.show');
-    Route::get('order/download/{id}', [OrderController::class, 'download'])->name('order.download');
+    Route::get('orders', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('order.index');
+    Route::get('orders/{id}', [App\Http\Controllers\Admin\OrderController::class, 'show'])->name('order.show');
+    Route::get('order/download/{id}', [App\Http\Controllers\Admin\OrderController::class, 'download'])->name('order.download');
 
     // Order history
     Route::get('order/history/{id}', [OrderHistoryController::class, 'index'])->name('orderhistory.index');

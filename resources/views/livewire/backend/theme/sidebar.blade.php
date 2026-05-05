@@ -126,10 +126,10 @@
 
                 @can('orders')
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('admin.order.*') || Route::is('admin.customorder.*') || Route::is('admin.medicine.*') ? 'active' : '' }}" href="#sidebarOrders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarOrders">
+                    <a class="nav-link menu-link {{ Route::is('admin.order.*') || Route::is('admin.customorder.*') || Route::is('admin.medicine.*') || Route::is('admin.electricity.*') ? 'active' : '' }}" href="#sidebarOrders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarOrders">
                         <i class="ri-shopping-cart-2-line"></i> <span data-key="t-orders">Orders</span>
                     </a>
-                    <div class="collapse menu-dropdown {{ Route::is('admin.order.*') || Route::is('admin.customorder.*') || Route::is('admin.medicine.*') ? 'show' : '' }}" id="sidebarOrders">
+                    <div class="collapse menu-dropdown {{ Route::is('admin.order.*') || Route::is('admin.customorder.*') || Route::is('admin.medicine.*') || Route::is('admin.electricity.*') ? 'show' : '' }}" id="sidebarOrders">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item"><a href="{{ route('admin.order.index') }}" class="nav-link {{ Route::is('admin.order.*') ? 'active' : '' }}" wire:navigate>Product Order</a></li>
                             <li class="nav-item"><a href="{{ route('admin.customorder.index') }}" class="nav-link {{ Route::is('admin.customorder.*') ? 'active' : '' }}" wire:navigate>Custom Order</a></li>

@@ -37,10 +37,15 @@ class Index extends Component
         $yearly = Order::select(DB::raw('YEAR(created_at) as year'), DB::raw('count(*) as count'))
             ->groupBy('year')->orderBy('year')->get();
 
-        // Status Pie
-        $statusNames = [1 => 'Pending', 2 => 'Processing', 3 => 'Delivered', 4 => 'Canceled'];
         $pie = Order::select('status', DB::raw('count(*) as count'))
-            ->groupBy('status')->get()->map(fn($item) => [$statusNames[$item->status] ?? 'Other', $item->count])->toArray();
+            ->groupBy('status')
+            ->get()
+            ->map(function ($item) {
+                // Use the label if the status exists, otherwise fallback to 'Unknown'
+                $name = $item->status ? $item->status->label() : 'Unknown';
+                return [$name, $item->count];
+            })
+            ->toArray();
 
         $this->chartData = [
             'daily' => ['labels' => $daily->pluck('date')->map(fn($d) => Carbon::parse($d)->format('D'))->toArray(), 'data' => $daily->pluck('count')->toArray()],

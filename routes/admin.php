@@ -2,10 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\Address\DistrictController;
-use App\Http\Controllers\Admin\Address\ThanaController;
-use App\Http\Controllers\Admin\Address\CityController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\WalletpackageController;
 use App\Http\Controllers\Admin\NotificationController;
@@ -13,11 +9,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\Customer\ReferbalanceController;
 use App\Http\Controllers\Admin\Customer\PointController;
 use App\Http\Controllers\Admin\Customer\ReferController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\OrderHistoryController;
 use App\Http\Controllers\Admin\DeliverStatusController;
-use App\Http\Controllers\Admin\CustomOrderController;
-use App\Http\Controllers\Admin\ElectricitybillController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CancelReasonController;
 use App\Http\Controllers\Admin\PowerCompanyController;
@@ -67,23 +59,35 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // Products
     Route::prefix('products')->name('products.')->group(function () {
-        Route::get('/', [ProductController::class, 'index'])->name('index');
-        Route::get('/create', [ProductController::class, 'create'])->name('create');
-        Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
+        Route::get('/', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\ProductController::class, 'create'])->name('create');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\ProductController::class, 'edit'])->name('edit');
     });
 
     // Address
     Route::get('district', [App\Http\Controllers\Admin\Address\AddressController::class, 'district'])->name('district.index');
     Route::get('thana', [App\Http\Controllers\Admin\Address\AddressController::class, 'thana'])->name('thana.index');
     Route::get('city', [App\Http\Controllers\Admin\Address\AddressController::class, 'city'])->name('city.index');
-    
+
 
     // Banner
     Route::resource('banner', BannerController::class, ['names' => 'banner']);
 
-    // Wallet Package
-    Route::resource('wallet-package', WalletpackageController::class, ['names' => 'walletpackage', 'except' => ['update']]);
-    Route::post('wallet-package/update', [WalletpackageController::class, 'update'])->name('walletpackage.update');
+
+    // Settings
+    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+    Route::post('setting/update', [SettingController::class, 'update'])->name('setting.update');
+
+    // Cancel reason
+    Route::resource('cancel-reason', CancelReasonController::class, ['names' => 'reason', 'except' => ['update']]);
+    Route::post('cancel-reason/update', [CancelReasonController::class, 'update'])->name('reason.update');
+
+    // Power company
+    Route::resource('power-company', PowerCompanyController::class, ['names' => 'power', 'except' => ['update']]);
+    Route::post('power-company/update', [PowerCompanyController::class, 'update'])->name('power.update');
+
+
+
 
     // Notification
     Route::get('notifications/{id}', [NotificationController::class, 'show'])->name('notification.show');
@@ -104,62 +108,48 @@ Route::middleware(['auth:admin'])->group(function () {
     // Coupon
     Route::get('coupon', [App\Http\Controllers\Admin\CouponController::class, 'index'])->name('coupon.index');
 
-    // Orders
-    Route::get('orders', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('order.index');
-    Route::get('orders/{id}', [App\Http\Controllers\Admin\OrderController::class, 'show'])->name('order.show');
-    Route::get('order/download/{id}', [App\Http\Controllers\Admin\OrderController::class, 'download'])->name('order.download');
-
-    // Order history
-    Route::get('order/history/{id}', [OrderHistoryController::class, 'index'])->name('orderhistory.index');
-    Route::post('order/history/create', [OrderHistoryController::class, 'store'])->name('orderhistory.store');
-
     // Delivery status
     Route::resource('delivery-status', DeliverStatusController::class, ['names' => 'deliverystatus', 'except' => ['update']]);
     Route::post('delivery-status/update', [DeliverStatusController::class, 'update'])->name('deliverystatus.update');
 
-    // Custom order
-    Route::get('custom-order', [CustomOrderController::class, 'index'])->name('customorder.index');
-    Route::get('custom-order/{id}', [CustomOrderController::class, 'show'])->name('customorder.show');
-
-    // Medicine order
-    Route::get('medicine-order', [App\Http\Controllers\Admin\MedicineOrderController::class, 'index'])->name('medicine.index');
-    Route::get('medicine-order/{id}', [App\Http\Controllers\Admin\MedicineOrderController::class, 'show'])->name('medicine.show');
-
-    // Electricity bill
-    Route::get('electricity-bill', [App\Http\Controllers\Admin\ElectricitybillController::class, 'index'])->name('electricity.index');
-    Route::get('electricity-bill/{id}', [App\Http\Controllers\Admin\ElectricitybillController::class, 'show'])->name('electricity.show');
 
 
-    // Settings
-    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-    Route::post('setting/update', [SettingController::class, 'update'])->name('setting.update');
+    Route::prefix('orders')->name('order.')->group(function () {
+        // Orders
+        Route::get('product', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('product.index');
+        Route::get('product/{id}', [App\Http\Controllers\Admin\OrderController::class, 'show'])->name('product.show');
+        Route::get('product/download/{id}', [App\Http\Controllers\Admin\OrderController::class, 'download'])->name('product.download');
 
-    // Cancel reason
-    Route::resource('cancel-reason', CancelReasonController::class, ['names' => 'reason', 'except' => ['update']]);
-    Route::post('cancel-reason/update', [CancelReasonController::class, 'update'])->name('reason.update');
 
-    // Power company
-    Route::resource('power-company', PowerCompanyController::class, ['names' => 'power', 'except' => ['update']]);
-    Route::post('power-company/update', [PowerCompanyController::class, 'update'])->name('power.update');
+        // Custom order
+        Route::get('custom', [App\Http\Controllers\Admin\CustomOrderController::class, 'index'])->name('customorder.index');
+        Route::get('custom/{id}', [App\Http\Controllers\Admin\CustomOrderController::class, 'show'])->name('customorder.show');
 
-    // Wallet users
-    Route::get('wallet/users', [WalletUserController::class, 'index'])->name('walletuser.index');
-    Route::get('wallet/users/{id}', [WalletUserController::class, 'show'])->name('walletuser.show');
-    Route::get('user/purchase/history/{id}', [WalletUserController::class, 'getPurachase']);
-    Route::get('user/pay/history/{id}', [WalletUserController::class, 'getPay']);
+        // Medicine order
+        Route::get('medicine', [App\Http\Controllers\Admin\MedicineOrderController::class, 'index'])->name('medicine.index');
+        Route::get('medicine/{id}', [App\Http\Controllers\Admin\MedicineOrderController::class, 'show'])->name('medicine.show');
 
-    // Payments
-    Route::post('user/payments/store', [PaymentController::class, 'store'])->name('payment.store');
+        // Electricity bill
+        Route::get('electricity-bill', [App\Http\Controllers\Admin\ElectricitybillController::class, 'index'])->name('electricity.index');
+        Route::get('electricity-bill/{id}', [App\Http\Controllers\Admin\ElectricitybillController::class, 'show'])->name('electricity.show');
+    });
 
-    // Wallet extend / approve / hold
-    Route::post('wallet/package/extend', [WalletController::class, 'extendPackage'])->name('walletpackage.extend');
-    Route::get('wallet/approve/{id}', [WalletController::class, 'approve'])->name('wallet.approve');
-    Route::get('wallet/hold/{id}', [WalletController::class, 'hold'])->name('wallet.hold');
-    Route::get('wallet/re-active/{id}', [WalletController::class, 'reactive'])->name('wallet.reactive');
 
-    // Wallet requests
-    Route::get('wallet-request', [RequestController::class, 'index'])->name('walletrequest.index');
-    Route::get('wallet-request/{id}', [RequestController::class, 'show'])->name('walletrequest.show');
+    Route::prefix('wallet')->name('wallet.')->group(function () {
+        // Wallet Package
+        Route::get('package', [App\Http\Controllers\Admin\WalletpackageController::class, 'index'])->name('package.index');
+
+        // Wallet users
+        Route::get('users', [App\Http\Controllers\Admin\Wallet\UserController::class, 'index'])->name('user.index');
+        Route::get('users/{id}', [App\Http\Controllers\Admin\Wallet\UserController::class, 'show'])->name('user.show');
+
+        // Wallet requests
+        Route::get('request', [App\Http\Controllers\Admin\Wallet\RequestController::class, 'index'])->name('request.index');
+        Route::get('request/{id}', [App\Http\Controllers\Admin\Wallet\RequestController::class, 'show'])->name('request.show');
+    });
+
+
+
 
     // Wallet package applications
     Route::get('wallet/package/application', [PackageController::class, 'index'])->name('packageapplication.index');

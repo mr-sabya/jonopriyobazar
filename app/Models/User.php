@@ -117,6 +117,14 @@ class User extends Authenticatable
         return $this->hasMany(CustomerWallet::class, 'user_id');
     }
 
+    /**
+     * Relationship to the history of packages assigned to the user
+     */
+    public function userPackages()
+    {
+        return $this->hasMany(CustomerWallet::class, 'user_id');
+    }
+
     public function activePackage(): BelongsTo
     {
         return $this->belongsTo(Walletpackage::class, 'wallet_package_id');

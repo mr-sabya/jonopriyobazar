@@ -1,4 +1,4 @@
-@extends('layouts.back')
+@extends('backend.layouts.app')
 
 @section('title', 'Credit Wallet Package Applicationss')
 

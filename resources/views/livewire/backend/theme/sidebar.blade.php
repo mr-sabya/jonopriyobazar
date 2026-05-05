@@ -126,15 +126,15 @@
 
                 @can('orders')
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('admin.order.*') || Route::is('admin.customorder.*') || Route::is('admin.medicine.*') || Route::is('admin.electricity.*') ? 'active' : '' }}" href="#sidebarOrders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarOrders">
+                    <a class="nav-link menu-link {{ Route::is('admin.order.*') ? 'active' : '' }}" href="#sidebarOrders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarOrders">
                         <i class="ri-shopping-cart-2-line"></i> <span data-key="t-orders">Orders</span>
                     </a>
-                    <div class="collapse menu-dropdown {{ Route::is('admin.order.*') || Route::is('admin.customorder.*') || Route::is('admin.medicine.*') || Route::is('admin.electricity.*') ? 'show' : '' }}" id="sidebarOrders">
+                    <div class="collapse menu-dropdown {{ Route::is('admin.order.*') ? 'show' : '' }}" id="sidebarOrders">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('admin.order.index') }}" class="nav-link {{ Route::is('admin.order.*') ? 'active' : '' }}" wire:navigate>Product Order</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.customorder.index') }}" class="nav-link {{ Route::is('admin.customorder.*') ? 'active' : '' }}" wire:navigate>Custom Order</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.medicine.index') }}" class="nav-link {{ Route::is('admin.medicine.*') ? 'active' : '' }}" wire:navigate>Medicine Order</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.electricity.index') }}" class="nav-link {{ Route::is('admin.electricity.*') ? 'active' : '' }}" wire:navigate>Electricity Bill</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.order.product.index') }}" class="nav-link {{ Route::is('admin.order.product.*') ? 'active' : '' }}" wire:navigate>Product Order</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.order.customorder.index') }}" class="nav-link {{ Route::is('admin.order.customorder.*') ? 'active' : '' }}" wire:navigate>Custom Order</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.order.medicine.index') }}" class="nav-link {{ Route::is('admin.order.medicine.*') ? 'active' : '' }}" wire:navigate>Medicine Order</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.order.electricity.index') }}" class="nav-link {{ Route::is('admin.order.electricity.*') ? 'active' : '' }}" wire:navigate>Electricity Bill</a></li>
                         </ul>
                     </div>
                 </li>
@@ -160,14 +160,14 @@
 
                 @can('wallet')
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('admin.walletpackage.*') || Route::is('admin.walletuser.*') ? 'active' : '' }}" href="#sidebarWallet" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarWallet">
+                    <a class="nav-link menu-link {{ Route::is('admin.wallet.*') ? 'active' : '' }}" href="#sidebarWallet" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarWallet">
                         <i class="ri-wallet-line"></i> <span data-key="t-wallet">Wallet Management</span>
                     </a>
-                    <div class="collapse menu-dropdown {{ Route::is('admin.walletpackage.*') || Route::is('admin.walletuser.*') ? 'show' : '' }}" id="sidebarWallet">
+                    <div class="collapse menu-dropdown {{ Route::is('admin.wallet.*') ? 'show' : '' }}" id="sidebarWallet">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('admin.walletpackage.index') }}" class="nav-link {{ Route::is('admin.walletpackage.index') ? 'active' : '' }}" wire:navigate>Package</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.walletuser.index') }}" class="nav-link {{ Route::is('admin.walletuser.index') ? 'active' : '' }}" wire:navigate>User</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.walletrequest.index') }}" class="nav-link {{ Route::is('admin.walletrequest.index') ? 'active' : '' }}" wire:navigate>Requests</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.wallet.package.index') }}" class="nav-link {{ Route::is('admin.wallet.package.index') ? 'active' : '' }}" wire:navigate>Package</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.wallet.user.index') }}" class="nav-link {{ Route::is('admin.wallet.user.*') ? 'active' : '' }}" wire:navigate>User</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.wallet.request.index') }}" class="nav-link {{ Route::is('admin.wallet.request.index') ? 'active' : '' }}" wire:navigate>Requests</a></li>
                             <li class="nav-item"><a href="{{ route('admin.packageapplication.index') }}" class="nav-link {{ Route::is('admin.packageapplication.index') ? 'active' : '' }}" wire:navigate>Package Applications</a></li>
                         </ul>
                     </div>

@@ -9,8 +9,8 @@
             <span class="badge bg-light text-muted border">Placed: {{ $order->created_at->format('d M, Y h:i A') }}</span>
         </div>
         <div class="btn-group shadow-sm">
-            <a href="{{ route('admin.order.download', $order->id) }}" class="btn btn-white border"><i class="fas fa-download me-2"></i>PDF</a>
-            <a href="{{ route('admin.order.index') }}" wire:navigate class="btn btn-primary ms-2 rounded"><i class="fas fa-list me-2"></i>Orders</a>
+            <a href="{{ route('admin.order.product.download', $order->id) }}" class="btn btn-white border"><i class="fas fa-download me-2"></i>PDF</a>
+            <a href="{{ route('admin.order.product.index') }}" wire:navigate class="btn btn-primary ms-2 rounded"><i class="fas fa-list me-2"></i>Orders</a>
         </div>
     </div>
 

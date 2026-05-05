@@ -180,7 +180,7 @@ class PackageController extends Controller
 
 		$user->notify(new ApproveWalletPackage($data));
 
-		return redirect()->route('admin.walletuser.show', $request->user_id)->with('success', 'Credit Wallet Package has been changed');
+		return redirect()->route('admin.wallet.user.show', $request->user_id)->with('success', 'Credit Wallet Package has been changed');
 	}
 
 	public function delete($id)

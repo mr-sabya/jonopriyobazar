@@ -54,7 +54,7 @@
                     <div class="row">
                         <div class="col-4 border-right">
                             <h4 class="p-0 m-0">Credit Wallet Balance <br><strong><span id="wallet_balance">{{ $user->wallet_balance }}</span></strong> ৳</h4>
-                            <a href="{{ route('admin.walletuser.show', $user->id) }}" class="btn btn-primary">Credit Wallet</a>
+                            <a href="{{ route('admin.wallet.user.show', $user->id) }}" class="btn btn-primary">Credit Wallet</a>
                         </div>
                         <div class="col-4 border-right">
                             <h4 class="p-0 m-0">Refer Balance <br><strong><span id="total_purchase">{{ $user->ref_balance }}</span></strong> ৳</h4>

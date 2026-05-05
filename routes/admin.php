@@ -145,7 +145,6 @@ Route::middleware(['auth:admin'])->group(function () {
 
         // Wallet requests
         Route::get('request', [App\Http\Controllers\Admin\Wallet\RequestController::class, 'index'])->name('request.index');
-        Route::get('request/{id}', [App\Http\Controllers\Admin\Wallet\RequestController::class, 'show'])->name('request.show');
     });
 
 

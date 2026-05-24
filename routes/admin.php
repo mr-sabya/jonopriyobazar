@@ -76,23 +76,16 @@ Route::middleware(['auth:admin'])->group(function () {
     // Notification
     Route::get('notifications/{id}', [App\Http\Controllers\Admin\NotificationController::class, 'show'])->name('notification.show');
 
-    // Customer
-    Route::get('customer', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('customer.index');
-    Route::get('customer/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('customer.show');
 
-    // Refer / point history
-    Route::get('user/refer/history/{id}', [App\Http\Controllers\Admin\Customer\ReferbalanceController::class, 'index'])->name('referhistory.index');
-    Route::get('user/point/history/{id}', [App\Http\Controllers\Admin\Customer\PointController::class, 'index'])->name('pointhistory.index');
+    Route::prefix('customer')->name('customer.')->group(function () {
+        // Customer
+        Route::get('/', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('index');
+        Route::get('/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('show');
+    });
 
-    // Refer customer
-    Route::get('customer/refer/{id}', [ReferController::class, 'index'])->name('customerrefer.index');
-    Route::get('customer/status/refer/{id}', [CustomerController::class, 'referStatus'])->name('referpercentage.status');
 
     // Coupon
     Route::get('coupon', [App\Http\Controllers\Admin\CouponController::class, 'index'])->name('coupon.index');
-
-    
-
 
 
     Route::prefix('orders')->name('order.')->group(function () {

@@ -1,6 +1,6 @@
-<div class="container-fluid py-4">
+<div>
     @if (session()->has('success'))
-        <div class="alert alert-success border-0 shadow-sm mb-4">{{ session('success') }}</div>
+    <div class="alert alert-success border-0 shadow-sm mb-4">{{ session('success') }}</div>
     @endif
 
     <div class="row g-4">
@@ -11,14 +11,14 @@
                     <div class="text-center">
                         <div class="avatar position-relative d-inline-block">
                             @if($user->image == null)
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" class="rounded-circle border" width="100" alt="{{ $user->name }}">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" class="rounded-circle border" width="100" alt="{{ $user->name }}">
                             @else
-                                <img src="{{ url('upload/profile_pic', $user->image)}}" class="rounded-circle border" width="100" height="100" alt="{{ $user->name }}">
+                            <img src="{{ url('upload/profile_pic', $user->image)}}" class="rounded-circle border" width="100" height="100" alt="{{ $user->name }}">
                             @endif
                             @if($user->is_varified == 1)
-                                <span class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1 border border-2 border-white"><i class="ri-check-line text-white"></i></span>
+                            <span class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1 border border-2 border-white"><i class="ri-check-line text-white"></i></span>
                             @else
-                                <span class="position-absolute bottom-0 end-0 bg-danger rounded-circle p-1 border border-2 border-white"><i class="ri-close-line text-white"></i></span>
+                            <span class="position-absolute bottom-0 end-0 bg-danger rounded-circle p-1 border border-2 border-white"><i class="ri-close-line text-white"></i></span>
                             @endif
                         </div>
                         <div class="mt-2">
@@ -46,12 +46,21 @@
                         <div class="col-md-4 border-end">
                             <h4 class="p-0 m-0 text-muted small fw-bold">Refer Balance</h4>
                             <h3 class="fw-bold">৳ {{ number_format($user->ref_balance, 2) }}</h3>
-                            <a href="{{ route('admin.referhistory.index', $user->id)}}" wire:navigate class="btn btn-primary btn-sm">Refer Balance List</a>
+
+                            <!-- button to open modal -->
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#referModal">
+                                Refer History
+                            </button>
+                            <!-- Modal -->
                         </div>
                         <div class="col-md-4">
                             <h4 class="p-0 m-0 text-muted small fw-bold">Total Point</h4>
                             <h3 class="fw-bold">{{ $user->point }}</h3>
-                            <a href="{{ route('admin.pointhistory.index', $user->id)}}" wire:navigate class="btn btn-primary btn-sm">Point Table</a>
+                            <!-- button to open modal -->
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#pointModal">
+                                Point History
+                            </button>
+                            <!-- Modal -->
                         </div>
                     </div>
                 </div>
@@ -109,7 +118,9 @@
         <!-- Address List -->
         <div class="col-md-12">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-white py-3"><h5><strong>Address</strong> List</h5></div>
+                <div class="card-header bg-white py-3">
+                    <h5><strong>Address</strong> List</h5>
+                </div>
                 <div class="card-body p-0">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
@@ -182,7 +193,9 @@
         <!-- Order History Table -->
         <div class="col-md-12">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-white py-3"><h5><strong>Order</strong> List</h5></div>
+                <div class="card-header bg-white py-3">
+                    <h5><strong>Order</strong> List</h5>
+                </div>
                 <div class="card-body p-0">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
@@ -213,19 +226,19 @@
                                 <td><span class="badge bg-secondary">{{ $order->type }}</span></td>
                                 <td>
                                     @php
-                                        $stMap = [0=>['Pending','warning'], 1=>['Received','primary'], 2=>['Packed','info'], 3=>['Delivered','success'], 4=>['Canceled','danger']];
-                                        $curr = $stMap[$order->status] ?? ['Unknown','secondary'];
+                                    $stMap = [0=>['Pending','warning'], 1=>['Received','primary'], 2=>['Packed','info'], 3=>['Delivered','success'], 4=>['Canceled','danger']];
+                                    $curr = $stMap[$order->status] ?? ['Unknown','secondary'];
                                     @endphp
                                     <span class="badge bg-{{ $curr[1] }}">{{ $curr[0] }}</span>
                                 </td>
                                 <td class="text-end pe-3">
                                     @php
-                                        $route = match($order->type) {
-                                            'custom' => 'admin.customorder.show',
-                                            'electricity' => 'admin.electricity.show',
-                                            'medicine' => 'admin.medicine.show',
-                                            default => 'admin.order.show'
-                                        };
+                                    $route = match($order->type) {
+                                    'custom' => 'admin.customorder.show',
+                                    'electricity' => 'admin.electricity.show',
+                                    'medicine' => 'admin.medicine.show',
+                                    default => 'admin.order.show'
+                                    };
                                     @endphp
                                     <a href="{{ route($route, $order->id) }}" class="btn btn-sm btn-outline-success"><i class="ri-eye-line"></i></a>
                                 </td>
@@ -235,6 +248,43 @@
                     </table>
                 </div>
                 <div class="card-footer bg-white">{{ $paginatedOrders->links() }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- refer history model -->
+    <div class="modal fade" id="referModal" tabindex="-1" aria-labelledby="referModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="referModalLabel">Refer History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <livewire:backend.customer.referbalance.manage id="{{ $user->id }}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- point history model -->
+    <div class="modal fade" id="pointModal" tabindex="-1" aria-labelledby="pointModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pointModalLabel">Point History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <livewire:backend.customer.point.manage id="{{ $user->id }}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>

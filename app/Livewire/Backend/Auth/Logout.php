@@ -10,4 +10,11 @@ class Logout extends Component
     {
         return view('livewire.backend.auth.logout');
     }
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return redirect()->route('admin.login');
+    }
 }

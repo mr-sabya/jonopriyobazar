@@ -2,16 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\Customer\ReferbalanceController;
-use App\Http\Controllers\Admin\Customer\PointController;
-use App\Http\Controllers\Admin\Customer\ReferController;
-use App\Http\Controllers\Admin\DeliverStatusController;
-use App\Http\Controllers\Admin\Wallet\PackageController;
-use App\Http\Controllers\Admin\FaqController;
-use App\Http\Controllers\Admin\TeamController;
-
-
 // Login
 Route::get('login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
 
@@ -52,13 +42,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('district', [App\Http\Controllers\Admin\Address\AddressController::class, 'district'])->name('district.index');
     Route::get('thana', [App\Http\Controllers\Admin\Address\AddressController::class, 'thana'])->name('thana.index');
     Route::get('city', [App\Http\Controllers\Admin\Address\AddressController::class, 'city'])->name('city.index');
-
-
-    // Banner
-    Route::get('banner', [App\Http\Controllers\Admin\BannerController::class, 'index'])->name('banner.index');
-
-    // Settings
-    Route::get('setting', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('setting.index');
 
 
 
@@ -121,8 +104,8 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('request', [App\Http\Controllers\Admin\Wallet\RequestController::class, 'index'])->name('request.index');
 
         // package application
-        Route::get('package/application', [PackageController::class, 'index'])->name('application.index');
-        Route::get('package/application/{id}', [PackageController::class, 'show'])->name('application.show');
+        Route::get('package/application', [App\Http\Controllers\Admin\Wallet\PackageController::class, 'index'])->name('application.index');
+        Route::get('package/application/{id}', [App\Http\Controllers\Admin\Wallet\PackageController::class, 'show'])->name('application.show');
     });
 
 
@@ -139,14 +122,22 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('sale-report', [App\Http\Controllers\Admin\Report\SaleReportController::class, 'index'])->name('sale.report.index');
     Route::get('sale-report/search', [App\Http\Controllers\Admin\Report\SaleReportController::class, 'search'])->name('sale.report.search');
 
-    // Prize / FAQ / Team
-
-    Route::resource('faq', FaqController::class, ['names' => 'faq']);
-    Route::resource('team', TeamController::class, ['names' => 'team']);
-
     // User prize
     Route::get('user-prize', [App\Http\Controllers\Admin\UserPrizeController::class, 'index'])->name('userprize.index');
 
     // Withdraw
     Route::get('user-withdraw', [App\Http\Controllers\Admin\WithdrawController::class, 'index'])->name('withdraw.index');
+
+
+    // website
+    Route::prefix('website')->name('website.')->group(function () {
+        // Banner
+        Route::get('banner', [App\Http\Controllers\Admin\BannerController::class, 'index'])->name('banner.index');
+
+        // Settings
+        Route::get('setting', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('setting.index');
+
+        Route::get('faq', [App\Http\Controllers\Admin\FaqController::class, 'index'])->name('faq.index');
+        Route::get('team', [App\Http\Controllers\Admin\TeamController::class, 'index'])->name('team.index');
+    });
 });

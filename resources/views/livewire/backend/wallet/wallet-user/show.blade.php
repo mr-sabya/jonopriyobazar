@@ -1,4 +1,4 @@
-<div class="container-fluid customer py-4">
+<div class="customer">
     <!-- Top Stats -->
     <div class="row mb-4">
         <div class="col-md-12">

@@ -297,32 +297,32 @@
                     </div>
                 </li>
 
-                @can('banner')
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::is('admin.banner.*') ? 'active' : '' }}" href="#sidebarBanner" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarBanner">
-                        <i class="ri-image-line"></i> <span data-key="t-banner">Banners</span>
+                    <a class="nav-link menu-link {{ Route::is('admin.website.*') ? 'active' : '' }}" href="#sidebarWebsite" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarWebsite">
+                        <i class="ri-image-line"></i> <span data-key="t-banner">Website</span>
                     </a>
-                    <div class="collapse menu-dropdown {{ Route::is('admin.banner.*') ? 'show' : '' }}" id="sidebarBanner">
+                    <div class="collapse menu-dropdown {{ Route::is('admin.website.*') ? 'show' : '' }}" id="sidebarWebsite">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('admin.banner.index') }}" class="nav-link" wire:navigate>List</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.website.banner.index') }}" class="nav-link {{ Route::is('admin.website.banner.index') ? 'active' : '' }}" wire:navigate>Banners</a></li>
+
+                            <!-- settings -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.website.setting.index') }}" class="nav-link {{ Route::is('admin.website.setting.index') ? 'active' : '' }}" wire:navigate>General Settings </a>
+                            </li>
+
+                            <!-- faq -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.website.faq.index') }}" class="nav-link {{ Route::is('admin.website.faq.index') ? 'active' : '' }}" wire:navigate>FAQs</a>
+                            </li>
+
+                            <!-- team -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.website.team.index') }}" class="nav-link {{ Route::is('admin.website.team.index') ? 'active' : '' }}" wire:navigate>Team</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
-                @endcan
-
-                @can('setting')
-                <li class="nav-item">
-                    <a href="{{ route('admin.setting.index') }}" class="nav-link menu-link {{ Route::is('admin.setting.index') ? 'active' : '' }}" wire:navigate>
-                        <i class="ri-settings-4-line"></i> <span data-key="t-setting">General Settings</span>
-                    </a>
-                </li>
-                @endcan
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.faq.index') }}" class="nav-link menu-link {{ Route::is('admin.faq.index') ? 'active' : '' }}" wire:navigate>
-                        <i class="ri-questionnaire-line"></i> <span data-key="t-faq">FAQs</span>
-                    </a>
-                </li>
+            
 
             </ul>
         </div>

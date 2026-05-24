@@ -41,7 +41,12 @@
                         <div class="col-md-4 border-end">
                             <h4 class="p-0 m-0 text-muted small fw-bold">Credit Wallet Balance</h4>
                             <h3 class="fw-bold">৳ {{ number_format($user->wallet_balance, 2) }}</h3>
-                            <a href="{{ route('admin.wallet.user.show', $user->id) }}" target="_blank" class="btn btn-primary btn-sm">Credit Wallet</a>
+
+                            <!-- button to open modal -->
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#walletModal">
+                                Credit Wallet
+                            </button>
+                            <!-- Modal -->
                         </div>
                         <div class="col-md-4 border-end">
                             <h4 class="p-0 m-0 text-muted small fw-bold">Refer Balance</h4>
@@ -281,6 +286,24 @@
                 </div>
                 <div class="modal-body">
                     <livewire:backend.customer.point.manage id="{{ $user->id }}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- credit wallet model -->
+    <div class="modal fade" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="walletModalLabel">Credit Wallet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <livewire:backend.wallet.wallet-user.show id="{{ $user->id }}" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

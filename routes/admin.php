@@ -81,8 +81,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('customer/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('customer.show');
 
     // Refer / point history
-    Route::get('user/refer/history/{id}', [ReferbalanceController::class, 'index'])->name('referhistory.index');
-    Route::get('user/point/history/{id}', [PointController::class, 'index'])->name('pointhistory.index');
+    Route::get('user/refer/history/{id}', [App\Http\Controllers\Admin\Customer\ReferbalanceController::class, 'index'])->name('referhistory.index');
+    Route::get('user/point/history/{id}', [App\Http\Controllers\Admin\Customer\PointController::class, 'index'])->name('pointhistory.index');
 
     // Refer customer
     Route::get('customer/refer/{id}', [ReferController::class, 'index'])->name('customerrefer.index');

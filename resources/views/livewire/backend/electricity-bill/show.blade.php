@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="fw-bold mb-0 text-dark">Invoice #{{ $order->invoice }} {!! $order->status->badge() !!}</h4>
-        <a href="{{ route('admin.electricity.index') }}" wire:navigate class="btn btn-primary rounded shadow-sm">
+        <a href="{{ route('admin.order.electricity.index') }}" wire:navigate class="btn btn-primary rounded shadow-sm">
             <i class="fas fa-arrow-left me-2"></i>Back to List
         </a>
     </div>

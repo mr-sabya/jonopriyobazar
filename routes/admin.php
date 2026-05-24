@@ -2,26 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\WalletpackageController;
-use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\Customer\ReferbalanceController;
 use App\Http\Controllers\Admin\Customer\PointController;
 use App\Http\Controllers\Admin\Customer\ReferController;
 use App\Http\Controllers\Admin\DeliverStatusController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\CancelReasonController;
-use App\Http\Controllers\Admin\PowerCompanyController;
 use App\Http\Controllers\Admin\Wallet\PackageController;
-use App\Http\Controllers\Admin\DeveloperController;
-use App\Http\Controllers\Admin\MarketerController;
-use App\Http\Controllers\Admin\Report\SaleReportController;
-use App\Http\Controllers\Admin\PrizeController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\TeamController;
-use App\Http\Controllers\Admin\UserPrizeController;
-use App\Http\Controllers\Admin\WithdrawController;
 
 
 // Login
@@ -67,12 +55,12 @@ Route::middleware(['auth:admin'])->group(function () {
 
 
     // Banner
-    Route::resource('banner', BannerController::class, ['names' => 'banner']);
-
+    Route::get('banner', [App\Http\Controllers\Admin\BannerController::class, 'index'])->name('banner.index');
 
     // Settings
-    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-    Route::post('setting/update', [SettingController::class, 'update'])->name('setting.update');
+    Route::get('setting', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('setting.index');
+
+
 
     // Cancel reason
     Route::get('cancel-reason', [App\Http\Controllers\Admin\CancelReasonController::class, 'index'])->name('reason.index');
@@ -81,14 +69,16 @@ Route::middleware(['auth:admin'])->group(function () {
     // prize
     Route::get('prize', [App\Http\Controllers\Admin\PrizeController::class, 'index'])->name('prize.index');
 
+    // Delivery status
+    Route::get('delivery-status', [App\Http\Controllers\Admin\DeliverStatusController::class, 'index'])->name('deliverystatus.index');
+
 
     // Notification
-    Route::get('notifications/{id}', [NotificationController::class, 'show'])->name('notification.show');
+    Route::get('notifications/{id}', [App\Http\Controllers\Admin\NotificationController::class, 'show'])->name('notification.show');
 
     // Customer
-    Route::get('customer', [CustomerController::class, 'index'])->name('customer.index');
-    Route::get('customer/{id}', [CustomerController::class, 'show'])->name('customer.show');
-    Route::get('fetch-order/{id}', [CustomerController::class, 'fetchOrder']);
+    Route::get('customer', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('customer.index');
+    Route::get('customer/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('customer.show');
 
     // Refer / point history
     Route::get('user/refer/history/{id}', [ReferbalanceController::class, 'index'])->name('referhistory.index');
@@ -101,9 +91,7 @@ Route::middleware(['auth:admin'])->group(function () {
     // Coupon
     Route::get('coupon', [App\Http\Controllers\Admin\CouponController::class, 'index'])->name('coupon.index');
 
-    // Delivery status
-    Route::resource('delivery-status', DeliverStatusController::class, ['names' => 'deliverystatus', 'except' => ['update']]);
-    Route::post('delivery-status/update', [DeliverStatusController::class, 'update'])->name('deliverystatus.update');
+    
 
 
 
@@ -138,36 +126,25 @@ Route::middleware(['auth:admin'])->group(function () {
 
         // Wallet requests
         Route::get('request', [App\Http\Controllers\Admin\Wallet\RequestController::class, 'index'])->name('request.index');
+
+        // package application
+        Route::get('package/application', [PackageController::class, 'index'])->name('application.index');
+        Route::get('package/application/{id}', [PackageController::class, 'show'])->name('application.show');
     });
 
 
 
+    Route::group(['prefix' => 'percentage', 'as' => 'percentage.'], function () {
+        // Developer Management
+        Route::get('developer', [App\Http\Controllers\Admin\DeveloperController::class, 'index'])->name('developer.index');
 
-    // Wallet package applications
-    Route::get('wallet/package/application', [PackageController::class, 'index'])->name('packageapplication.index');
-    Route::get('wallet/package/application/{id}', [PackageController::class, 'show'])->name('packageapplication.show');
-    Route::get('wallet/package/approve/{id}', [PackageController::class, 'approveWallet'])->name('packageapplication.approve');
-    Route::delete('wallet/package/application/{id}', [PackageController::class, 'delete'])->name('packageapplication.delete');
-    Route::post('wallet/package/assign', [PackageController::class, 'assign'])->name('walletpackage.assign');
-    Route::post('wallet/package/change', [PackageController::class, 'changePackage'])->name('walletpackage.change');
-
-    // Developer
-    Route::get('developer/percentage', [DeveloperController::class, 'index'])->name('developer.index');
-    Route::get('developer/fetch-percentage', [DeveloperController::class, 'fetchPercentage'])->name('developer.fetch');
-    Route::get('developer/fetch-withdraw', [DeveloperController::class, 'fetchWithdraw'])->name('developerwithdraw.fetch');
-    Route::post('developer/withdraw/store', [DeveloperController::class, 'store'])->name('developerwithdraw.store');
-    Route::delete('developer/withdraw/{id}', [DeveloperController::class, 'destroy'])->name('developerwithdraw.destroy');
-
-    // Marketer
-    Route::get('marketer/percentage', [MarketerController::class, 'index'])->name('marketer.index');
-    Route::get('marketer/fetch-percentage', [MarketerController::class, 'fetchPercentage'])->name('marketer.fetch');
-    Route::get('marketer/fetch-withdraw', [MarketerController::class, 'fetchWithdraw'])->name('marketerwithdraw.fetch');
-    Route::post('marketer/withdraw/store', [MarketerController::class, 'store'])->name('marketerwithdraw.store');
-    Route::delete('marketer/withdraw/{id}', [MarketerController::class, 'destroy'])->name('marketerwithdraw.destroy');
+        // Marketer Management
+        Route::get('marketer', [App\Http\Controllers\Admin\MarketerController::class, 'index'])->name('marketer.index');
+    });
 
     // Reports
-    Route::get('sale-report', [SaleReportController::class, 'index'])->name('sale.report.index');
-    Route::get('sale-report/search', [SaleReportController::class, 'search'])->name('sale.report.search');
+    Route::get('sale-report', [App\Http\Controllers\Admin\Report\SaleReportController::class, 'index'])->name('sale.report.index');
+    Route::get('sale-report/search', [App\Http\Controllers\Admin\Report\SaleReportController::class, 'search'])->name('sale.report.search');
 
     // Prize / FAQ / Team
 
@@ -175,10 +152,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::resource('team', TeamController::class, ['names' => 'team']);
 
     // User prize
-    Route::get('user-prize', [UserPrizeController::class, 'index'])->name('userprize.index');
-    Route::get('user-prize/update/{id}', [UserPrizeController::class, 'update'])->name('userprize.update');
+    Route::get('user-prize', [App\Http\Controllers\Admin\UserPrizeController::class, 'index'])->name('userprize.index');
 
     // Withdraw
-    Route::get('user-withdraw', [WithdrawController::class, 'index'])->name('withdraw.index');
-    Route::get('user-withdraw/update/{id}', [WithdrawController::class, 'update'])->name('withdraw.update');
+    Route::get('user-withdraw', [App\Http\Controllers\Admin\WithdrawController::class, 'index'])->name('withdraw.index');
 });

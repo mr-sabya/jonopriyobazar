@@ -10,7 +10,7 @@
         </div>
         <div class="btn-group shadow-sm">
             <button class="btn btn-white border"><i class="fas fa-print me-2"></i>Print</button>
-            <a href="{{ route('admin.customorder.index') }}" wire:navigate class="btn btn-primary ms-2 rounded"><i class="fas fa-arrow-left me-2"></i>Back to List</a>
+            <a href="{{ route('admin.order.customorder.index') }}" wire:navigate class="btn btn-primary ms-2 rounded"><i class="fas fa-arrow-left me-2"></i>Back to List</a>
         </div>
     </div>
 

@@ -58,7 +58,7 @@
                             <td class="fw-bold">{{ number_format($order->grand_total, 2) }} ৳</td>
                             <td>{!! $order->status->badge() !!}</td>
                             <td class="text-end pe-4">
-                                <a href="{{ route('admin.electricity.show', $order->id) }}" wire:navigate class="btn btn-sm btn-outline-primary rounded-circle"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('admin.order.electricity.show', $order->id) }}" wire:navigate class="btn btn-sm btn-outline-primary rounded-circle"><i class="fas fa-eye"></i></a>
                             </td>
                         </tr>
                         @endforeach

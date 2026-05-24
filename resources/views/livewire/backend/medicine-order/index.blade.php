@@ -57,7 +57,7 @@
                             <td><small class="text-uppercase fw-bold">{{ $order->payment_option->shortLabel() }}</small></td>
                             <td>{!! $order->status->badge() !!}</td>
                             <td class="text-end">
-                                <a href="{{ route('admin.medicine.show', $order->id) }}" wire:navigate class="btn btn-sm btn-outline-primary rounded-circle"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('admin.order.medicine.show', $order->id) }}" wire:navigate class="btn btn-sm btn-outline-primary rounded-circle"><i class="fas fa-eye"></i></a>
                             </td>
                         </tr>
                         @endforeach

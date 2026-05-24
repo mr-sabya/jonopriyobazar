@@ -21,23 +21,7 @@ class ReferbalanceController extends Controller
 
 	public function index($id)
 	{
-		if (request()->ajax()) {
-			return datatables()->of(RefPercentage::where('user_id', $id)->get())
-
-			->addColumn('order_date', function ($refer) {
-				$date = date('d-m-Y', strtotime($refer->date));
-				return $date;
-			})
-			->addColumn('order', function ($refer) {
-				$order = '<a href="#">#'.$refer->order['invoice'].'</a>';
-				return $order;
-			})
-
-
-			->rawColumns(['order_date', 'order'])
-			->addIndexColumn()
-			->make(true);
-		}
+		
 		$user = User::where('id', $id)->first();
 		return view('backend.customer.referbalance.index', compact('user'));
 	}

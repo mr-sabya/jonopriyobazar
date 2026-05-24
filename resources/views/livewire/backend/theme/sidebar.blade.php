@@ -140,6 +140,16 @@
                 </li>
                 @endcan
 
+                <!-- CUSTOMER -->
+                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-customer">Customer Management</span></li>
+                @can('customer')
+                <li class="nav-item">
+                    <a href="{{ route('admin.customer.index') }}" class="nav-link menu-link {{ Route::is('admin.customer.index') ? 'active' : '' }}" wire:navigate>
+                        <i class="ri-user-line"></i> <span data-key="t-customers">Customers</span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('address')
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.district.index') || Route::is('admin.thana.index') || Route::is('admin.city.index') ? 'active' : '' }}" href="#sidebarAddress" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAddress">
@@ -168,17 +178,41 @@
                             <li class="nav-item"><a href="{{ route('admin.wallet.package.index') }}" class="nav-link {{ Route::is('admin.wallet.package.index') ? 'active' : '' }}" wire:navigate>Package</a></li>
                             <li class="nav-item"><a href="{{ route('admin.wallet.user.index') }}" class="nav-link {{ Route::is('admin.wallet.user.*') ? 'active' : '' }}" wire:navigate>User</a></li>
                             <li class="nav-item"><a href="{{ route('admin.wallet.request.index') }}" class="nav-link {{ Route::is('admin.wallet.request.index') ? 'active' : '' }}" wire:navigate>Requests</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.packageapplication.index') }}" class="nav-link {{ Route::is('admin.packageapplication.index') ? 'active' : '' }}" wire:navigate>Package Applications</a></li>
+                            <li class="nav-item"><a href="{{ route('admin.wallet.application.index') }}" class="nav-link {{ Route::is('admin.wallet.application.index') ? 'active' : '' }}" wire:navigate>Package Applications</a></li>
                         </ul>
                     </div>
                 </li>
                 @endcan
 
 
+
                 <li class="nav-item">
-                    <a href="{{ route('admin.withdraw.index') }}" class="nav-link menu-link {{ Route::is('admin.withdraw.index') ? 'active' : '' }}" wire:navigate>
-                        <i class="ri-hand-coin-line"></i> <span data-key="t-withdraw">Withdrawals</span>
+                    <a class="nav-link menu-link {{ Route::is('admin.withdraw.*') || Route::is('admin.userprize.*') ? 'active' : '' }}"
+                        href="#sidebarPayouts"
+                        data-bs-toggle="collapse"
+                        role="button"
+                        aria-expanded="{{ Route::is('admin.withdraw.*') || Route::is('admin.userprize.*') ? 'true' : 'false' }}"
+                        aria-controls="sidebarPayouts">
+                        <i class="ri-hand-coin-line"></i> <span data-key="t-payouts">Payouts & Prizes</span>
                     </a>
+                    <div class="collapse menu-dropdown {{ Route::is('admin.withdraw.*') || Route::is('admin.userprize.*') ? 'show' : '' }}" id="sidebarPayouts">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.withdraw.index') }}"
+                                    class="nav-link {{ Route::is('admin.withdraw.index') ? 'active' : '' }}"
+                                    wire:navigate>
+                                    Withdrawals
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.userprize.index') }}"
+                                    class="nav-link {{ Route::is('admin.userprize.index') ? 'active' : '' }}"
+                                    wire:navigate>
+                                    User Prizes
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <!-- SETTINGS & OTHERS -->
@@ -186,15 +220,15 @@
 
                 <li class="nav-item">
                     <!-- Main Parent Link -->
-                    <a class="nav-link menu-link {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*') ? 'active' : '' }}"
+                    <a class="nav-link menu-link {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*', 'admin.deliverystatus.*') ? 'active' : '' }}"
                         href="#sidebarSetup" data-bs-toggle="collapse" role="button"
-                        aria-expanded="{{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*') ? 'true' : 'false' }}"
+                        aria-expanded="{{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*', 'admin.deliverystatus.*') ? 'true' : 'false' }}"
                         aria-controls="sidebarSetup">
                         <i class="ri-settings-4-line"></i> <span data-key="t-setup">Setup Management</span>
                     </a>
 
                     <!-- Dropdown Content -->
-                    <div class="collapse menu-dropdown {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*') ? 'show' : '' }}" id="sidebarSetup">
+                    <div class="collapse menu-dropdown {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*', 'admin.deliverystatus.*') ? 'show' : '' }}" id="sidebarSetup">
                         <ul class="nav nav-sm flex-column">
 
                             <!-- Cancel Reason Link -->
@@ -224,6 +258,41 @@
                                 </a>
                             </li>
 
+                            <!-- Prize Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.deliverystatus.index') }}"
+                                    class="nav-link {{ Route::is('admin.deliverystatus.*') ? 'active' : '' }}"
+                                    wire:navigate>
+                                    Delivery Status
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <!-- developer and marketer percentage -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('admin.percentage.*') ? 'active' : '' }}"
+                        href="#sidebarPercentage"
+                        data-bs-toggle="collapse"
+                        role="button"
+                        aria-expanded="{{ Route::is('admin.percentage.*') ? 'true' : 'false' }}"
+                        aria-controls="sidebarPercentage">
+                        <i class="ri-wallet-line"></i> <span data-key="t-wallet">Percentages</span>
+                    </a>
+                    <div class="collapse menu-dropdown {{ Route::is('admin.percentage.*') ? 'show' : '' }}" id="sidebarPercentage">
+                        <ul class="nav nav-sm flex-column">
+
+
+                            <!-- New Developer Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.percentage.developer.index') }}" class="nav-link {{ Route::is('admin.percentage.developer.*') ? 'active' : '' }}" wire:navigate>Developer Profits</a>
+                            </li>
+
+                            <!-- New Marketer Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('admin.percentage.marketer.index') }}" class="nav-link {{ Route::is('admin.percentage.marketer.*') ? 'active' : '' }}" wire:navigate>Marketer Profits</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -236,7 +305,6 @@
                     <div class="collapse menu-dropdown {{ Route::is('admin.banner.*') ? 'show' : '' }}" id="sidebarBanner">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item"><a href="{{ route('admin.banner.index') }}" class="nav-link" wire:navigate>List</a></li>
-                            <li class="nav-item"><a href="{{ route('admin.banner.create') }}" class="nav-link" wire:navigate>Create</a></li>
                         </ul>
                     </div>
                 </li>

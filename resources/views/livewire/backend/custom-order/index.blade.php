@@ -99,7 +99,7 @@
                                 {!! $order->status->badge() !!}
                             </td>
                             <td class="text-end">
-                                <a href="{{ route('admin.customorder.show', $order->id) }}" wire:navigate class="btn btn-sm btn-outline-primary shadow-none rounded-circle">
+                                <a href="{{ route('admin.order.customorder.show', $order->id) }}" wire:navigate class="btn btn-sm btn-outline-primary shadow-none rounded-circle">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>

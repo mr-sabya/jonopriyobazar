@@ -23,14 +23,18 @@ class PointController extends Controller
 
     public function apply($id)
     {
-        $prize = Prize::find(intval($id));
+        $prize = Prize::findOrFail(intval($id));
+        $user = User::where('id', Auth::user()->id)->first();
+
+        if ($user->point < $prize->point) {
+            return redirect()->route('user.point.index')->with('error', 'You do not have enough points to claim this prize.');
+        }
 
         $user_prize = new UserPrize;
-        $user_prize->user_id = Auth::user()->id;
+        $user_prize->user_id = $user->id;
         $user_prize->prize_id = $prize->id;
         $user_prize->save();
 
-        $user = User::where('id', Auth::user()->id)->first();
         $user->point = $user->point - $prize->point;
 
         $user->save();

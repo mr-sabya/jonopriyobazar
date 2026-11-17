@@ -81,7 +81,7 @@
                 <!-- SHOP & CATALOG SECTION -->
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-shop">Shop Catalog</span></li>
 
-                @can('category.index')
+                @can('category')
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.category.*') ? 'active' : '' }}" href="#sidebarCategory" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCategory">
                         <i class="ri-stack-line"></i> <span data-key="t-category">Category</span>
@@ -95,25 +95,21 @@
                 </li>
                 @endcan
 
-                @if(Auth::user()->can('admin.products.index') || Auth::user()->can('admin.products.create'))
+                @can('products')
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.products.*') ? 'active' : '' }}" href="#sidebarProducts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarProducts">
                         <i class="ri-shopping-bag-3-line"></i> <span data-key="t-products">Products</span>
                     </a>
                     <div class="collapse menu-dropdown {{ Route::is('admin.products.*') ? 'show' : '' }}" id="sidebarProducts">
                         <ul class="nav nav-sm flex-column">
-                            @can('admin.products.index')
                             <li class="nav-item"><a href="{{ route('admin.products.index') }}" class="nav-link {{ Route::is('admin.products.index') ? 'active' : '' }}" wire:navigate>All Products</a></li>
-                            @endcan
-                            @can('admin.products.create')
                             <li class="nav-item"><a href="{{ route('admin.products.create') }}" class="nav-link {{ Route::is('admin.products.create') ? 'active' : '' }}" wire:navigate>Add New</a></li>
-                            @endcan
                         </ul>
                     </div>
                 </li>
-                @endif
+                @endcan
 
-                @can('admin.coupon.index')
+                @can('cupon')
                 <li class="nav-item">
                     <a href="{{ route('admin.coupon.index') }}" class="nav-link menu-link {{ Route::is('admin.coupon.index') ? 'active' : '' }}" wire:navigate>
                         <i class="ri-coupon-2-line"></i> <span data-key="t-coupon">Coupon</span>
@@ -186,6 +182,7 @@
 
 
 
+                @if(Auth::user()->can('wallet') || Auth::user()->can('prize'))
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.withdraw.*') || Route::is('admin.userprize.*') ? 'active' : '' }}"
                         href="#sidebarPayouts"
@@ -197,6 +194,7 @@
                     </a>
                     <div class="collapse menu-dropdown {{ Route::is('admin.withdraw.*') || Route::is('admin.userprize.*') ? 'show' : '' }}" id="sidebarPayouts">
                         <ul class="nav nav-sm flex-column">
+                            @can('wallet')
                             <li class="nav-item">
                                 <a href="{{ route('admin.withdraw.index') }}"
                                     class="nav-link {{ Route::is('admin.withdraw.index') ? 'active' : '' }}"
@@ -204,6 +202,8 @@
                                     Withdrawals
                                 </a>
                             </li>
+                            @endcan
+                            @can('prize')
                             <li class="nav-item">
                                 <a href="{{ route('admin.userprize.index') }}"
                                     class="nav-link {{ Route::is('admin.userprize.index') ? 'active' : '' }}"
@@ -211,13 +211,16 @@
                                     User Prizes
                                 </a>
                             </li>
+                            @endcan
                         </ul>
                     </div>
                 </li>
+                @endif
 
                 <!-- SETTINGS & OTHERS -->
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-settings">Configuration</span></li>
 
+                @if(Auth::user()->can('others') || Auth::user()->can('prize'))
                 <li class="nav-item">
                     <!-- Main Parent Link -->
                     <a class="nav-link menu-link {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*', 'admin.deliverystatus.*') ? 'active' : '' }}"
@@ -231,6 +234,7 @@
                     <div class="collapse menu-dropdown {{ Route::is('admin.reason.*', 'admin.power.*', 'admin.prize.*', 'admin.deliverystatus.*') ? 'show' : '' }}" id="sidebarSetup">
                         <ul class="nav nav-sm flex-column">
 
+                            @can('others')
                             <!-- Cancel Reason Link -->
                             <li class="nav-item">
                                 <a href="{{ route('admin.reason.index') }}"
@@ -248,7 +252,9 @@
                                     Power Companies
                                 </a>
                             </li>
+                            @endcan
 
+                            @can('prize')
                             <!-- Prize Link -->
                             <li class="nav-item">
                                 <a href="{{ route('admin.prize.index') }}"
@@ -257,8 +263,10 @@
                                     Prizes
                                 </a>
                             </li>
+                            @endcan
 
-                            <!-- Prize Link -->
+                            @can('others')
+                            <!-- Delivery Status Link -->
                             <li class="nav-item">
                                 <a href="{{ route('admin.deliverystatus.index') }}"
                                     class="nav-link {{ Route::is('admin.deliverystatus.*') ? 'active' : '' }}"
@@ -266,11 +274,14 @@
                                     Delivery Status
                                 </a>
                             </li>
+                            @endcan
 
                         </ul>
                     </div>
                 </li>
+                @endif
                 <!-- developer and marketer percentage -->
+                @can('percentage')
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.percentage.*') ? 'active' : '' }}"
                         href="#sidebarPercentage"
@@ -296,15 +307,20 @@
                         </ul>
                     </div>
                 </li>
+                @endcan
 
+                @if(Auth::user()->can('banner') || Auth::user()->can('setting'))
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::is('admin.website.*') ? 'active' : '' }}" href="#sidebarWebsite" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarWebsite">
                         <i class="ri-image-line"></i> <span data-key="t-banner">Website</span>
                     </a>
                     <div class="collapse menu-dropdown {{ Route::is('admin.website.*') ? 'show' : '' }}" id="sidebarWebsite">
                         <ul class="nav nav-sm flex-column">
+                            @can('banner')
                             <li class="nav-item"><a href="{{ route('admin.website.banner.index') }}" class="nav-link {{ Route::is('admin.website.banner.index') ? 'active' : '' }}" wire:navigate>Banners</a></li>
+                            @endcan
 
+                            @can('setting')
                             <!-- settings -->
                             <li class="nav-item">
                                 <a href="{{ route('admin.website.setting.index') }}" class="nav-link {{ Route::is('admin.website.setting.index') ? 'active' : '' }}" wire:navigate>General Settings </a>
@@ -319,10 +335,12 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.website.team.index') }}" class="nav-link {{ Route::is('admin.website.team.index') ? 'active' : '' }}" wire:navigate>Team</a>
                             </li>
+                            @endcan
                         </ul>
                     </div>
                 </li>
-            
+                @endif
+
 
             </ul>
         </div>

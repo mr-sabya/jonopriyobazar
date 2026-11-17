@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Front;
 
-use Carbon\Carbon;
 use App\Models\Cupon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,15 +23,11 @@ class CuponController extends Controller
 		$cupon = Cupon::where('code', $request->code)->first();
 
 		if($cupon){
-			if($cupon->expire_date < Carbon::now()){
+			if($cupon->isExpired()){
 				return response()->json(['error' => 'This cupon has been expired']);
 			}else{
-				if($cupon->limit != 0){
-					if($cupon->limit > $request->total){
-						return response()->json(['error' => 'You can not use this cupon']);
-					}else{
-						return response()->json(['cupon' => $cupon]);
-					}
+				if($cupon->isLimitReached()){
+					return response()->json(['error' => 'You can not use this cupon']);
 				}else{
 					return response()->json(['cupon' => $cupon]);
 				}

@@ -86,6 +86,11 @@ class Index extends Component
             return;
         }
 
+        if (!$coupon->isValid()) {
+            $this->addError('coupon_error', $coupon->isExpired() ? 'This coupon has expired.' : 'This coupon has reached its usage limit.');
+            return;
+        }
+
         $this->applied_coupon = $coupon->toArray();
         $this->calculateTotals(); // Recalculate after coupon
         $this->dispatch('swal', ['icon' => 'success', 'title' => 'Coupon applied!']);
@@ -102,7 +107,7 @@ class Index extends Component
     public function finalTotal()
     {
         $discount = $this->applied_coupon ? $this->applied_coupon['amount'] : 0;
-        return ($this->subtotal + $this->delivery_charge) - $discount;
+        return max(0, ($this->subtotal + $this->delivery_charge) - $discount);
     }
 
     public function placeOrder()

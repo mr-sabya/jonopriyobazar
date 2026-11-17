@@ -26,7 +26,7 @@ class CategoryController extends Controller
     {
         $authUser = Admin::find(Auth::user()->id);
         // Permission check using standard Laravel Auth
-        if (!$authUser->can('category.index')) {
+        if (!$authUser->can('category')) {
             abort(403, 'Unauthorized action.');
         }
 

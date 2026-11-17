@@ -2,18 +2,25 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
-    public function test_the_application_returns_a_successful_response(): void
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    public function test_the_public_pages_open_on_an_empty_shop(): void
+    {
+        \App\Models\Setting::forceCreate(['website_name' => 'Jonopriyo Bazar']);
+
+        foreach (['/', '/login', '/register', '/faq'] as $url) {
+            $this->get($url)->assertOk();
+        }
+    }
+
+    public function test_customer_pages_need_a_login(): void
+    {
+        $this->get(route('user.point.index'))->assertRedirect();
+        $this->get(route('user.wallet.index'))->assertRedirect();
     }
 }

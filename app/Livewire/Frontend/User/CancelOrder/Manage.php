@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Frontend\User\CancelOrder;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentOption;
 use App\Models\Order;
 use App\Models\CancelReason;
 use App\Models\User;
@@ -31,7 +33,7 @@ class Manage extends Component
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        if ($this->order->status >= 2) {
+        if ($this->order->status->value >= OrderStatus::PACKED->value) {
             session()->flash('error', 'Orders already in processing cannot be canceled.');
             return redirect()->route('profile.order.show', $this->order->invoice);
         }
@@ -58,11 +60,11 @@ class Manage extends Component
                 'reason_id' => $this->reason_id,
                 'remark' => $this->remark,
                 'is_agree_cancel' => $this->is_agree_cancel,
-                'status' => 4, // Canceled
+                'status' => OrderStatus::CANCELED->value,
             ]);
 
             // 2. Handle Wallet Refund
-            if ($order->payment_option == 'wallet') {
+            if ($order->payment_option === PaymentOption::WALLET) {
                 $purchase = WalletPurchase::where('order_id', $order->id)->first();
                 if ($purchase) {
                     $user->increment('wallet_balance', $purchase->amount);
@@ -71,7 +73,7 @@ class Manage extends Component
             }
 
             // 3. Handle Refer Balance Refund
-            if ($order->payment_option == 'refer') {
+            if ($order->payment_option === PaymentOption::REFER) {
                 $purchase = ReferPurchase::where('order_id', $order->id)->first();
                 if ($purchase) {
                     $user->increment('ref_balance', $purchase->amount);

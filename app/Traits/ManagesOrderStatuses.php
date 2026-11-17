@@ -22,7 +22,10 @@ trait ManagesOrderStatuses
             $user = User::find($order->user_id);
 
             if (!$user) throw new \Exception("User not found.");
-            if ($order->status === $targetStatus) return;
+            if ($order->status === $targetStatus) {
+                DB::rollBack(); // nothing to change; do not leave the transaction open
+                return;
+            }
 
             // 1. Log History
             OrderHistory::create([

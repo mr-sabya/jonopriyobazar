@@ -9,6 +9,8 @@ use App\Models\Cupon;
 use App\Models\Order;
 use App\Models\Orderitem;
 use App\Models\User;
+use App\Models\WalletPurchase;
+use App\Models\ReferPurchase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -154,6 +156,14 @@ class Index extends Component
                     'grand_total'         => $grandTotal,
                     'status'              => 0,
                 ]);
+
+                // Record the wallet / refer payment now, so delivery does not charge again
+                // and a cancellation can give the money back.
+                if ($this->payment_option === 'wallet') {
+                    WalletPurchase::create(['user_id' => $user->id, 'date' => now()->toDateString(), 'order_id' => $order->id, 'amount' => $grandTotal]);
+                } elseif ($this->payment_option === 'refer') {
+                    ReferPurchase::create(['user_id' => $user->id, 'date' => now()->toDateString(), 'order_id' => $order->id, 'amount' => $grandTotal]);
+                }
 
                 // 4. Create Order Items using the fresh $cartItems collection
                 foreach ($cartItems as $cart) {
